@@ -78,6 +78,9 @@ import { parse } from "path";
 import { N } from "ethers";
 
 
+import { useQRCode } from 'next-qrcode';
+
+
 
 
 
@@ -127,6 +130,7 @@ export default function Index({ params }: any) {
 
   //console.log(wallet);
 
+  const { Canvas } = useQRCode();
 
 
   const { connect, isConnecting } = useConnectModal();
@@ -1539,6 +1543,36 @@ export default function Index({ params }: any) {
                 </button>
               </div>
               */}
+
+              {/* wallet address is 0x2423...5334
+              and QR code */}
+              {address && (
+
+                <div className="mt-4 flex flex-col gap-2 justify-center items-center">
+                  <p className="text-xs xl:text-sm text-zinc-300">
+                    {address}
+                  </p>
+                  {/* qr code image */}
+                  <Canvas
+                    text={address}
+                    options={{
+                      //level: 'M',
+                      margin: 2,
+                      scale: 4,
+                      width: 200,
+                      color: {
+                          dark: '#000000FF',
+                          light: '#FFFFFFFF',
+                      },
+                    }}
+                  />
+
+                </div>
+
+
+              )}
+
+
 
               {/* NOVART balance */}
               <div className="mt-4 flex flex-row gap-2 justify-between items-center p-2
