@@ -291,7 +291,7 @@ export default function SendUsdt({ params }: any) {
     }
   } , [address, contract]);
 
-  
+
 
   /*
   useEffect(() => {
@@ -1290,142 +1290,64 @@ export default function SendUsdt({ params }: any) {
                   )}
                 />
            
+                <div className="flex flex-col gap-2 items-start justify-center">
 
-            
-            
-                {!wantToReceiveWalletAddress ? (
-                  <>
-                  <div className='w-full flex flex-row gap-5 items-center justify-between'>
-                    <select
-                      disabled={sending}
-
-                      className="
-                        
-                        w-56 p-2 border border-gray-300 rounded text-black text-2xl font-semibold "
-                        
-                      value={
-                        recipient?.nickname
-                      }
-
-
-                      onChange={(e) => {
-
-                        const selectedUser = users.find((user) => user.nickname === e.target.value) as any;
-
-                        console.log("selectedUser", selectedUser);
-
-                        setRecipient(selectedUser);
-
-                      } } 
-
-                    >
-                      <option value="">{Select_a_user}</option>
-                      
-
-                      {users.map((user) => (
-                        <option key={user.id} value={user.nickname}>{user.nickname}</option>
-                      ))}
-                    </select>
-
-                    {/* select user profile image */}
-
-                    <div className=" w-full flex flex-row gap-2 items-center justify-center">
-                      <Image
-                        src={recipient?.avatar || '/profile-default.png'}
-                        alt="profile"
-                        width={38}
-                        height={38}
-                        className="rounded-full"
-                        style={{
-                          objectFit: 'cover',
-                          width: '38px',
-                          height: '38px',
-                        }}
-                      />
-
-                      {recipient?.walletAddress && (
-                        <Image
-                          src="/verified.png"
-                          alt="check"
-                          width={28}
-                          height={28}
-                        />
-                      )}
-
+                  <div className="flex flex-row gap-2 items-center justify-center">
+                    <input
+                      type="checkbox"
+                      className="w-6 h-6"
+                      checked={wantToReceiveWalletAddress}
+                      onChange={(e) => setWantToReceiveWalletAddress(e.target.checked)}
+                    />
+                    <div className="text-white">
+                      {Enter_Wallet_Address}
                     </div>
-
-                    
-
-
                   </div>
-              
 
-                    {/* input wallet address */}
-                    
-                    <input
-                      disabled={true}
-                      type="text"
-                      placeholder={User_wallet_address}
-                      className=" w-80  xl:w-full p-2 border border-gray-300 rounded text-white text-xs xl:text-lg font-semibold"
-                      value={recipient?.tronWalletAddress}
-                      onChange={(e) => {
-      
+            
+            
+                  {!wantToReceiveWalletAddress ? (
+                    <>
+                    <div className='w-full flex flex-row gap-5 items-center justify-between'>
+                      <select
+                        disabled={sending}
+
+                        className="
+                          
+                          w-56 p-2 border border-gray-300 rounded text-black text-2xl font-semibold "
+                          
+                        value={
+                          recipient?.nickname
+                        }
+
+
+                        onChange={(e) => {
+
+                          const selectedUser = users.find((user) => user.nickname === e.target.value) as any;
+
+                          console.log("selectedUser", selectedUser);
+
+                          setRecipient(selectedUser);
+
+                        } } 
+
+                      >
+                        <option value="">{Select_a_user}</option>
                         
-                        
-                          getUserByWalletAddress(e.target.value)
 
-                          .then((data) => {
+                        {users.map((user) => (
+                          <option key={user.id} value={user.nickname}>{user.nickname}</option>
+                        ))}
+                      </select>
 
-                            //console.log("data", data);
+                      {/* select user profile image */}
 
-                            const checkUser = data;
-
-                            if (checkUser) {
-                              setRecipient(checkUser as any);
-                            } else {
-                              
-                              setRecipient({
-                                ...recipient,
-                                tronWalletAddress: e.target.value,
-                              });
-                              
-                            }
-
-                          });
-
-                      } }
-                    />
-
-
-          
-
-
-                </>
-
-                ) : (
-
-                  <div className='flex flex-col gap-5 items-center justify-between'>
-                    <input
-                      disabled={sending}
-                      type="text"
-                      placeholder={User_wallet_address}
-                      className=" w-80 xl:w-96 p-2 border border-gray-300 rounded text-white bg-black text-sm xl:text-sm font-semibold"
-                      value={recipient.walletAddress}
-                      onChange={(e) => setRecipient({
-                        ...recipient,
-                        tronWalletAddress: e.target.value,
-                      })}
-                    />
-
-                    {isWhateListedUser ? (
-                      <div className="flex flex-row gap-2 items-center justify-center">
-
-
+                      <div className=" w-full flex flex-row gap-2 items-center justify-center">
                         <Image
-                          src={recipient.avatar || '/profile-default.png'}
+                          src={recipient?.avatar || '/profile-default.png'}
                           alt="profile"
-                          width={30}
-                          height={30}
+                          width={38}
+                          height={38}
                           className="rounded-full"
                           style={{
                             objectFit: 'cover',
@@ -1433,39 +1355,128 @@ export default function SendUsdt({ params }: any) {
                             height: '38px',
                           }}
                         />
-                        <div className="text-white">{recipient?.nickname}</div>
-                        <Image
-                          src="/verified.png"
-                          alt="check"
-                          width={30}
-                          height={30}
-                        />
-                        
+
+                        {recipient?.walletAddress && (
+                          <Image
+                            src="/verified.png"
+                            alt="check"
+                            width={28}
+                            height={28}
+                          />
+                        )}
+
                       </div>
-                    ) : (
-                      <>
 
-                      {recipient?.tronWalletAddress && (
-                        <div className='flex flex-row gap-2 items-center justify-center'>
-                          {/* dot icon */}
-                          <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                      
 
-                          <div className="text-red-500">
-                            {This_address_is_not_white_listed}<br />
-                            {If_you_are_sure_please_click_the_send_button}
-                          </div>
+
+                    </div>
+                
+
+                      {/* input wallet address */}
+                      
+                      <input
+                        disabled={true}
+                        type="text"
+                        placeholder={User_wallet_address}
+                        className=" w-80  xl:w-full p-2 border border-gray-300 rounded text-white text-xs xl:text-lg font-semibold"
+                        value={recipient?.tronWalletAddress}
+                        onChange={(e) => {
+        
+                          
+                          
+                            getUserByWalletAddress(e.target.value)
+
+                            .then((data) => {
+
+                              //console.log("data", data);
+
+                              const checkUser = data;
+
+                              if (checkUser) {
+                                setRecipient(checkUser as any);
+                              } else {
+                                
+                                setRecipient({
+                                  ...recipient,
+                                  tronWalletAddress: e.target.value,
+                                });
+                                
+                              }
+
+                            });
+
+                        } }
+                      />
+
+                  </>
+
+                  ) : (
+
+                    <div className='flex flex-col gap-5 items-center justify-between'>
+                      <input
+                        disabled={sending}
+                        type="text"
+                        placeholder={User_wallet_address}
+                        className=" w-80 xl:w-96 p-2 border border-gray-300 rounded text-white bg-black text-sm xl:text-sm font-semibold"
+                        value={recipient.walletAddress}
+                        onChange={(e) => setRecipient({
+                          ...recipient,
+                          tronWalletAddress: e.target.value,
+                        })}
+                      />
+
+                      {isWhateListedUser ? (
+                        <div className="flex flex-row gap-2 items-center justify-center">
+
+
+                          <Image
+                            src={recipient.avatar || '/profile-default.png'}
+                            alt="profile"
+                            width={30}
+                            height={30}
+                            className="rounded-full"
+                            style={{
+                              objectFit: 'cover',
+                              width: '38px',
+                              height: '38px',
+                            }}
+                          />
+                          <div className="text-white">{recipient?.nickname}</div>
+                          <Image
+                            src="/verified.png"
+                            alt="check"
+                            width={30}
+                            height={30}
+                          />
+                          
                         </div>
+                      ) : (
+                        <>
 
+                        {recipient?.tronWalletAddress && (
+                          <div className='flex flex-row gap-2 items-center justify-center'>
+                            {/* dot icon */}
+                            <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+
+                            <div className="text-red-500">
+                              {This_address_is_not_white_listed}<br />
+                              {If_you_are_sure_please_click_the_send_button}
+                            </div>
+                          </div>
+
+                        )}
+
+                        </>
                       )}
 
-                      </>
-                    )}
 
 
+                    </div>
 
-                  </div>
+                  )} 
 
-                )} 
+                </div>
 
               </div>
 
