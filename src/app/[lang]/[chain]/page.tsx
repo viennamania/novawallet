@@ -1543,15 +1543,37 @@ export default function Index({ params }: any) {
                 </button>
               </div>
               */}
+              {/* address copy button */}
+              {address && (
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(address);
+                    toast.success('주소가 복사되었습니다');
+                  }}
+                  className="p-2 bg-zinc-200 text-zinc-800 rounded-lg mt-4"
+                >
+                  <div className="flex flex-row justify-between items-center gap-2">
+                    <Image
+                      src="/icon-copy.png"
+                      alt="Copy"
+                      width={20}
+                      height={20}
+                    />
+                    <span>주소복사</span>
+                  </div>
+                </button>
+              )}
 
               {/* wallet address is 0x2423...5334
               and QR code */}
               {address && (
 
                 <div className="mt-4 flex flex-col gap-2 justify-center items-center">
+
                   <p className="text-xs xl:text-sm text-zinc-300">
                     {address}
                   </p>
+
                   {/* qr code image */}
                   <Canvas
                     text={address}
