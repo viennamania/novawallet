@@ -435,7 +435,7 @@ export default function Index({ params }: any) {
       
           //console.log(result);
       
-          setNovartBalance( Number(result) / 10 ** 6 );
+          setNovartBalance( Number(result) / 10 ** 18 );
   
         } catch (error) {
           console.error("Error getting balance", error);
