@@ -275,7 +275,8 @@ export default function SendUsdt({ params }: any) {
 
 
 
-  const [nativeBalance, setNativeBalance] = useState(0);
+  //const [nativeBalance, setNativeBalance] = useState(0);
+
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
@@ -285,13 +286,20 @@ export default function SendUsdt({ params }: any) {
           contract,
           address: address,
         });
-        setBalance(Number(result) / 10 ** 6);
+        if (!result) return;
+        if (token === "USDT") {
+          setBalance(Number(result) / 10 ** 6);
+        } else if (token === "NOVART") {
+          setBalance(Number(result) / 10 ** 18);
+        }
+
       };
       getBalance();
     }
-  } , [address, contract]);
+  } , [address, contract, token]);
 
 
+  console.log("balance", balance);
 
   /*
   useEffect(() => {
@@ -403,7 +411,7 @@ export default function SendUsdt({ params }: any) {
   }, [address]);
 
 
-
+  
   const [tronWalletAddress, setTronWalletAddress] = useState('');
   useEffect(() => {
       
@@ -441,7 +449,7 @@ export default function SendUsdt({ params }: any) {
 
   console.log("tronWalletAddress", tronWalletAddress);
 
-
+  
 
 
 
@@ -618,7 +626,7 @@ export default function SendUsdt({ params }: any) {
   const [sending, setSending] = useState(false);
 
 
-
+  
   const sendUsdt = async () => {
     if (sending) {
       return;
@@ -832,6 +840,67 @@ export default function SendUsdt({ params }: any) {
 
     setSending(false);
   };
+
+
+
+  const sendToken = async () => {
+    if (sending) {
+      return;
+    }
+
+    if (!recipient.walletAddress) {
+      toast.error('Please enter a valid address');
+      return;
+    }
+
+    if (!amount) {
+      toast.error('Please enter a valid amount');
+      return;
+    }
+
+    if (Number(amount) > balance) {
+      toast.error('Insufficient balance');
+      return;
+    }
+
+    setSending(true);
+
+    try {
+      // Call the extension function to prepare the transaction
+      const transaction = transfer({
+        contract,
+        to: recipient.walletAddress,
+        amount: amount,
+      });
+
+      const { transactionHash } = await sendTransaction({
+        account: activeAccount as any,
+        transaction,
+      });
+
+      if (transactionHash) {
+        toast.success('Token sent successfully');
+        setAmount(0); // reset amount
+
+        // refresh balance
+        const result = await balanceOf({
+          contract,
+          address: address || "",
+        });
+        setBalance(Number(result) / 10 ** 6);
+      } else {
+        toast.error('Failed to send token');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to send token');
+    }
+
+    setSending(false);
+  };
+
+
+
 
 
 
@@ -1090,12 +1159,9 @@ export default function SendUsdt({ params }: any) {
                     <div className="flex flex-row items-end justify-center  gap-2">
                       <span className="text-4xl font-semibold text-gray-800">
                         
-                        {/*
+                        
                         {Number(balance).toFixed(2)}
-                        */}
-                       
-                        {Number(usdtBalance).toFixed(2)}
-
+                        
 
                       </span>
                       <span className="text-lg">{token}</span>
@@ -1552,8 +1618,15 @@ export default function SendUsdt({ params }: any) {
 
 
               <button
-                disabled={!address || !recipient?.tronWalletAddress || !amount || sending || !verifiedOtp}
-                onClick={sendUsdt}
+                
+                //disabled={!address || !recipient?.tronWalletAddress || !amount || sending || !verifiedOtp}
+
+                disabled={!address || !recipient?.walletAddress || !amount || sending || !verifiedOtp}
+
+                
+                //onClick={sendUsdt}
+                onClick={sendToken}
+
                 className={`mt-10 w-full p-2 rounded-lg text-xl font-semibold
 
                     ${
