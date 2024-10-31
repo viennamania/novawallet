@@ -963,7 +963,7 @@ export default function SendUsdt({ params }: any) {
             avatar: '',
             mobile: '',
             walletAddress: recipient?.walletAddress,
-            tronWalletAddress: recipient?.tronWalletAddress,
+            tronWalletAddress: recipient?.walletAddress,
             createdAt: '',
             settlementAmountOfFee: '',
 
@@ -974,7 +974,7 @@ export default function SendUsdt({ params }: any) {
 
     });
 
-  } , [recipient?.walletAddress, recipient?.tronWalletAddress]);
+  } , [recipient?.walletAddress, recipient?.walletAddress]);
 
   
 
@@ -1446,7 +1446,7 @@ export default function SendUsdt({ params }: any) {
                         type="text"
                         placeholder={User_wallet_address}
                         className=" w-80  xl:w-full p-2 border border-gray-300 rounded text-white text-xs xl:text-lg font-semibold"
-                        value={recipient?.tronWalletAddress}
+                        value={recipient?.walletAddress}
                         onChange={(e) => {
         
                           
@@ -1465,7 +1465,7 @@ export default function SendUsdt({ params }: any) {
                                 
                                 setRecipient({
                                   ...recipient,
-                                  tronWalletAddress: e.target.value,
+                                  walletAddress: e.target.value,
                                 });
                                 
                               }
@@ -1488,7 +1488,7 @@ export default function SendUsdt({ params }: any) {
                         value={recipient.walletAddress}
                         onChange={(e) => setRecipient({
                           ...recipient,
-                          tronWalletAddress: e.target.value,
+                          walletAddress: e.target.value,
                         })}
                       />
 
@@ -1520,7 +1520,7 @@ export default function SendUsdt({ params }: any) {
                       ) : (
                         <>
 
-                        {recipient?.tronWalletAddress && (
+                        {recipient?.walletAddress && (
                           <div className='flex flex-row gap-2 items-center justify-center'>
                             {/* dot icon */}
                             <div className="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
@@ -1564,7 +1564,7 @@ export default function SendUsdt({ params }: any) {
                 <div className="w-full flex flex-row gap-2 items-start">
 
                   <button
-                    disabled={!address || !recipient?.tronWalletAddress || !amount || isSendingOtp}
+                    disabled={!address || !recipient?.walletAddress || !amount || isSendingOtp}
                     onClick={sendOtp}
                     className={`
                       
@@ -1573,7 +1573,7 @@ export default function SendUsdt({ params }: any) {
                       w-32 p-2 rounded-lg text-sm font-semibold
 
                         ${
-                        !address || !recipient?.tronWalletAddress || !amount || isSendingOtp
+                        !address || !recipient?.walletAddress || !amount || isSendingOtp
                         ?'bg-gray-300 text-gray-400'
                         : 'bg-green-500 text-white'
                         }
@@ -1619,7 +1619,7 @@ export default function SendUsdt({ params }: any) {
 
               <button
                 
-                //disabled={!address || !recipient?.tronWalletAddress || !amount || sending || !verifiedOtp}
+                //disabled={!address || !recipient?.walletAddress || !amount || sending || !verifiedOtp}
 
                 disabled={!address || !recipient?.walletAddress || !amount || sending || !verifiedOtp}
 
