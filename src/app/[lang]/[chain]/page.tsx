@@ -1069,7 +1069,7 @@ export default function Index({ params }: any) {
                 height={20}
                 className="rounded-lg w-10 h-10"
               />
-              <span>Sign in with NOVA Wallet</span>
+              <span>Sign in with Wallet</span>
             </div>
           </button>
 
