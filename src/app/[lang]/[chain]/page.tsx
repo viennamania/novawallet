@@ -99,6 +99,11 @@ const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on
 const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // USDT on Arbitrum
 
 
+
+// NOVART contract address
+const contractAddressNovart = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Polygon
+
+
 /*
 const client = createThirdwebClient({
   clientId: "dfb94ef692c2f754a60d35aeb8604f3d",
@@ -190,6 +195,13 @@ export default function Index({ params }: any) {
   });
 
 
+
+  // NOVART contract
+  const contractNovart = getContract({
+    client,
+    chain: polygon,
+    address: contractAddressNovart,
+  });
 
 
 
@@ -398,6 +410,49 @@ export default function Index({ params }: any) {
   } , [address, contract]);
 
 
+  // NOVART balance
+  const [novartBalance, setNovartBalance] = useState(0);
+  useEffect(() => {
+      
+      if (!address) return;
+      // get the balance
+
+      if (!contractNovart) {
+        return;
+      }
+
+      const getNovartBalance = async () => {
+
+        try {
+          const result = await balanceOf({
+            contract: contractNovart,
+            address: address,
+          });
+      
+          //console.log(result);
+      
+          setNovartBalance( Number(result) / 10 ** 6 );
+  
+        } catch (error) {
+          console.error("Error getting balance", error);
+        }
+
+      };
+
+      if (address) getNovartBalance();
+
+      // get the balance in the interval
+
+      const interval = setInterval(() => {
+        if (address) getNovartBalance();
+      }, 1000);
+
+
+      return () => clearInterval(interval);
+
+  } , [address, contractNovart]);
+
+  
 
 
 
@@ -1485,9 +1540,48 @@ export default function Index({ params }: any) {
               </div>
               */}
 
+              {/* NOVART balance */}
+              <div className="mt-4 flex flex-row gap-2 justify-between items-center p-2
+                bg-yellow-500 text-white rounded-lg text-center
+                hover:shadow-lg
+                transition duration-300 ease-in-out
+                transform hover:-translate-y-1
+              ">
+                <Image
+                  src="/logo-novart.png"
+                  alt="NOVART"
+                  width={35}
+                  height={35}
+                  className="rounded-lg w-8 h-8 xl:w-10 xl:h-10"
+                />
+
+                <div className="text-4xl font-semibold text-zinc-100">
+                  {Number(novartBalance).toFixed(2)}
+                </div>
+                <p className="w-12 text-sm text-zinc-100">
+                  NOVART
+                </p>
+
+                <button
+                  onClick={() => {
+                    router.push(
+                      "/" + params.lang + "/" + params.chain + "/send-token/?wallet=" + wallet + "&token=NOVART"
+                    );
+
+                  }}
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  <Image
+                    src="/goto-icon.webp"
+                    alt="Send"
+                    width={20}
+                    height={20}
+                  />
+                </button>
+              </div>
 
 
-
+              {/* USDT balance */}
               <div className="mt-4 flex flex-row gap-2 justify-between items-center p-2
                 bg-yellow-500 text-white rounded-lg text-center
                 hover:shadow-lg
@@ -1892,19 +1986,28 @@ function Header() {
         transform hover:-translate-y-1
         
       ">
-        {/* logo */}
-        <div className="flex flex-row gap-2 items-center">
-          <Image
-            src="/logo-nova.png"
-            alt="Circle Logo"
-            width={35}
-            height={35}
-            className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
-          />
-          <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
-            NOVA Wallet
-          </span>
-        </div>
+        <button
+          onClick={() => {
+            router.push(
+              "/"
+            );
+          }}
+        >
+          <div className="flex flex-row gap-2 items-center">
+            <Image
+              src="/logo-nova.png"
+              alt="Circle Logo"
+              width={35}
+              height={35}
+              className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
+            />
+            <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
+              NOVA Wallet
+            </span>
+          </div>
+        </button>
+
+        {/* menu */}
         
       </div>
       

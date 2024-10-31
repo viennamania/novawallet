@@ -65,10 +65,15 @@ const wallets = [
 
 
 
-const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on Polygon
-const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // USDT on Arbitrum
+//const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on Polygon
+//const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // USDT on Arbitrum
+
+
+
 
 const contractAddressTron = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // USDT on Tron
+
+
 
 
 
@@ -112,6 +117,22 @@ export default function SendUsdt({ params }: any) {
   //console.log("token", token);
 
   const tokenImage = "/token-" + String(token).toLowerCase() + "-icon.png";
+
+
+
+  const [contractAddress, setContractAddress] = useState('');
+  const [contractAddressArbitrum, setContractAddressArbitrum] = useState('');
+  useEffect(() => {
+    if (token === "USDT") {
+      setContractAddress("0xc2132D05D31c914a87C6611C10748AEb04B58e8F"); // USDT on Polygon
+      setContractAddressArbitrum("0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"); // USDT on Arbitrum
+    } else if (token === "NOVART") {
+      setContractAddress("0x03cF969581AEdEA742506631188130d84e147806"); // NOVART on Polygon
+      setContractAddressArbitrum("0x03cF969581AEdEA742506631188130d84e147806"); // NOVART on Arbitrum
+    }
+  } , [token]);
+
+
   
   
   const contract = getContract({
@@ -256,6 +277,23 @@ export default function SendUsdt({ params }: any) {
 
   const [nativeBalance, setNativeBalance] = useState(0);
   const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    if (address) {
+      const getBalance = async () => {
+        const result = await balanceOf({
+          contract,
+          address: address,
+        });
+        setBalance(Number(result) / 10 ** 6);
+      };
+      getBalance();
+    }
+  } , [address, contract]);
+
+  
+
+  /*
   useEffect(() => {
 
     // get the balance
@@ -307,6 +345,7 @@ export default function SendUsdt({ params }: any) {
     return () => clearInterval(interval);
 
   } , [address, contract, params.chain]);
+  */
 
 
 
@@ -1615,12 +1654,17 @@ function Header() {
 
       {/* header menu */}
       <div className="w-full flex flex-row justify-between items-center gap-2
-        bg-green-500 p-4 rounded-lg mb-5
+        bg-zinc-800 p-5 rounded-lg text-center
+        hover:shadow-lg
+        transition duration-300 ease-in-out
+        transform hover:-translate-y-1
+        
       ">
-        {/* logo */}
         <button
           onClick={() => {
-            router.push("/");
+            router.push(
+              "/"
+            );
           }}
         >
           <div className="flex flex-row gap-2 items-center">
@@ -1631,57 +1675,28 @@ function Header() {
               height={35}
               className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
             />
-            <span className="text-lg xl:text-3xl text-gray-800 font-semibold">
-              NOVA
+            <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
+              NOVA Wallet
             </span>
           </div>
         </button>
+
         {/* menu */}
-        {/* COIN, NFT, DEFI */}
-        <div className="flex flex-row gap-2 items-center">
-          <button
-              onClick={() => {
-
-                /*
-                router.push(
-                  "/" + params.lang + "/" + params.chain + "/send-token/?wallet=" + wallet + "&token=CAMT"
-                );
-                */
-
-              }}
-            className="text-gray-600 hover:underline text-xs xl:text-lg"
-          >
-            WALLET
-          </button>
-          <button
-            onClick={() => {
-              //console.log("chat");
-            }}
-            className="text-gray-600 hover:underline text-xs xl:text-lg"
-          >
-            TRADE
-          </button>
-          <button
-            onClick={() => {
-              router.push(
-                "/kr/polygon/tbot"
-              );
-            }}
-            className="text-gray-600 hover:underline text-xs xl:text-lg"
-          >
-            TBOT
-          </button>
-          <button
-            onClick={() => {
-              //console.log("settings");
-            }}
-            className="text-gray-600 hover:underline text-xs xl:text-lg"
-          >
-            SETTINGS
-          </button>
-        </div>
+        
       </div>
       
+      {/*
+      <Image
+        src={thirdwebIcon}
+        alt=""
+        className="size-[150px] md:size-[150px]"
+        style={{
+          filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+        }}
+      />
+      */}
+
+
       
     </header>
   );
