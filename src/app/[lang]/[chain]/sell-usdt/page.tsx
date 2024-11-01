@@ -1773,12 +1773,11 @@ export default function Index({ params }: any) {
                   ) : (
                     <>
 
-                    
+                      {/*
                       {user && (
                         
-                        <div className="text-xl font-semibold text-white">
-                          {/* Get Escrow Wallet Address */}
-                          {/*
+                        <div className="flex flex-col gap-2 items-start">
+                          
                           <button
                             onClick={() => {
                               makeEscrowWallet();
@@ -1794,16 +1793,24 @@ export default function Index({ params }: any) {
                                 <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-zinc-100"></div>
                               ) : (
                                 <div className="text-sm">
-                                  Make Escrow Wallet
+                                  에스크로 지갑 생성하기
                                 </div>
                               )}
                             </div>
                           </button>
-                          */}
+
+                          <div className="flex flex-row items-center gap-2">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <p className="text-sm text-zinc-400">
+                              에스크로 지갑이 있어야 판매 가능합니다.
+                            </p>
+                          </div>
+                          
                           
                         </div>
                         
                       )}
+                      */}
                     
 
                     </>
