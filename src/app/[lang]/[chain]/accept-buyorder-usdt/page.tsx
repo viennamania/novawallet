@@ -1843,18 +1843,6 @@ export default function Index({ params }: any) {
           </div>
           */}
 
-  
-          <div className="mt-4 flex justify-start space-x-4 mb-10">
-              <button
-                onClick={() => router.push(
-                  '/' + params.lang + '/' + params.chain + '?wallet=' + wallet
-                )}
-                className="text-gray-500 font-semibold underline"
-              >
-                {Go_Home}
-              </button>
-          </div>
-
 
           <div className="flex flex-col items-start justify-center space-y-4">
 
@@ -1964,11 +1952,11 @@ export default function Index({ params }: any) {
                       />
                     )}
 
+                    {/*
                     {address && (
 
                       <div className="flex flex-col gap-2 items-center
                         border border-zinc-400 rounded-md p-2">
-                        {/* wallet address */}
                         <div className="flex flex-row items-center gap-2">
                           <button
                             className="text-sm text-zinc-400 underline"
@@ -2002,7 +1990,6 @@ export default function Index({ params }: any) {
                               }
                             </div>
 
-                            {/* go to profile */}
                             {address && !user && (
                               <button
                                 onClick={() => {
@@ -2016,22 +2003,12 @@ export default function Index({ params }: any) {
 
                           </div>
 
-
-
-
                         </div>
-
-                        {/*
-                        {activeWallet === inAppConnectWallet && (
-                          <div className="flex flex-row items-center gap-2 text-xs ">
-                            {nativeBalance && Number(nativeBalance).toFixed(4)}{' '}POL
-                          </div>
-                        )}
-                        */}
 
                       </div>
 
                     )}
+                    */}
 
                   </div>
 
@@ -3947,68 +3924,51 @@ const TradeDetail = (
   
         {/* header menu */}
         <div className="w-full flex flex-row justify-between items-center gap-2
-          bg-green-500 p-4 rounded-lg mb-5
+          bg-zinc-800 p-5 rounded-lg text-center
+          hover:shadow-lg
+          transition duration-300 ease-in-out
+          transform hover:-translate-y-1
+          
         ">
-          {/* logo */}
-          <div className="flex flex-row gap-2 items-center">
-            <Image
-              src="/logo-nova.png"
-              alt="Circle Logo"
-              width={35}
-              height={35}
-              className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
-            />
-            <span className="text-lg xl:text-3xl text-gray-800 font-semibold">
-              NOVA
-            </span>
-          </div>
+          <button
+            onClick={() => {
+              router.push(
+                "/"
+              );
+            }}
+          >
+            <div className="flex flex-row gap-2 items-center">
+              <Image
+                src="/logo-nova.png"
+                alt="Circle Logo"
+                width={35}
+                height={35}
+                className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
+              />
+              <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
+                NOVA Wallet
+              </span>
+            </div>
+          </button>
+  
           {/* menu */}
-          {/* COIN, NFT, DEFI */}
-          <div className="flex flex-row gap-2 items-center">
-            <button
-                onClick={() => {
-  
-                  /*
-                  router.push(
-                    "/" + params.lang + "/" + params.chain + "/send-token/?wallet=" + wallet + "&token=CAMT"
-                  );
-                  */
-  
-                }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              WALLET
-            </button>
-            <button
-              onClick={() => {
-                //console.log("chat");
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              TRADE
-            </button>
-            <button
-              onClick={() => {
-                router.push(
-                  "/kr/polygon/tbot"
-                );
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              TBOT
-            </button>
-            <button
-              onClick={() => {
-                //console.log("settings");
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              SETTINGS
-            </button>
-          </div>
+          
         </div>
         
+        {/*
+        <Image
+          src={thirdwebIcon}
+          alt=""
+          className="size-[150px] md:size-[150px]"
+          style={{
+            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+          }}
+        />
+        */}
+  
+  
         
       </header>
     );
   }
+  
