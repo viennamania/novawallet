@@ -2402,7 +2402,6 @@ const TradeDetail = (
 
 
 
-
   function Header() {
 
     const router = useRouter();
@@ -2413,13 +2412,17 @@ const TradeDetail = (
   
         {/* header menu */}
         <div className="w-full flex flex-row justify-between items-center gap-2
-          bg-green-500 p-4 rounded-lg mb-5
+          bg-zinc-800 p-5 rounded-lg text-center
+          hover:shadow-lg
+          transition duration-300 ease-in-out
+          transform hover:-translate-y-1
+          
         ">
-
-          {/* logo */}
           <button
             onClick={() => {
-              router.push("/");
+              router.push(
+                "/"
+              );
             }}
           >
             <div className="flex flex-row gap-2 items-center">
@@ -2430,59 +2433,30 @@ const TradeDetail = (
                 height={35}
                 className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
               />
-              <span className="text-lg xl:text-3xl text-gray-800 font-semibold">
-                NOVA
+              <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
+                NOVA Wallet
               </span>
             </div>
           </button>
-
+  
           {/* menu */}
-          {/* COIN, NFT, DEFI */}
-          <div className="flex flex-row gap-2 items-center">
-            <button
-                onClick={() => {
-  
-                  /*
-                  router.push(
-                    "/" + params.lang + "/" + params.chain + "/send-token/?wallet=" + wallet + "&token=CAMT"
-                  );
-                  */
-  
-                }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              WALLET
-            </button>
-            <button
-              onClick={() => {
-                //console.log("chat");
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              TRADE
-            </button>
-            <button
-              onClick={() => {
-                router.push(
-                  "/kr/polygon/tbot"
-                );
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              TBOT
-            </button>
-            <button
-              onClick={() => {
-                //console.log("settings");
-              }}
-              className="text-gray-600 hover:underline text-xs xl:text-lg"
-            >
-              SETTINGS
-            </button>
-          </div>
+          
         </div>
         
+        {/*
+        <Image
+          src={thirdwebIcon}
+          alt=""
+          className="size-[150px] md:size-[150px]"
+          style={{
+            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
+          }}
+        />
+        */}
+  
+  
         
       </header>
     );
   }
+  
