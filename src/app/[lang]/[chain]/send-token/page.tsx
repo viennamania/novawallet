@@ -1667,51 +1667,6 @@ export default function SendUsdt({ params }: any) {
             </div>
 
 
-            {/* transaction history table */}
-            <div className="w-full flex flex-col gap-5 items-start justify-start
-              border border-gray-300 rounded-lg p-4
-            ">
-              <table className="w-full border border-gray-300 rounded-lg">
-                <thead className="bg-gray-100">
-                  <tr>
-                    <th className="p-2 border border-gray-300">Date</th>
-                    <th className="p-2 border border-gray-300">Amount</th>
-                    <th className="p-2 border border-gray-300">Recipient</th>
-                    <th className="p-2 border border-gray-300">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-2 border border-gray-300">2024-08-01</td>
-                    <td className="p-2 border border-gray-300">100.24</td>
-                    <td className="p-2 border border-gray-300">0x1234567890</td>
-                    <td className="p-2 border border-gray-300">Success</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2 border border-gray-300">2024-08-01</td>
-                    <td className="p-2 border border-gray-300">100.24</td>
-                    <td className="p-2 border border-gray-300">0x1234567890</td>
-                    <td className="p-2 border border-gray-300">Success</td>
-                  </tr>
-                  <tr>
-                    <td className="p-2 border border-gray-300">2024-08-01</td>
-                    <td className="p-2 border border-gray-300">100.24</td>
-                    <td className="p-2 border border-gray-300">0x1234567890</td>
-                    <td className="p-2 border border-gray-300">Success</td>
-                  </tr>
-
-                </tbody>
-              </table>
-
-              {/* pagination */}
-              <div className="w-full flex flex-row gap-2 items-center justify-center">
-                <button className="p-2 rounded-lg bg-gray-300 text-gray-400">Prev</button>
-                <button className="p-2 rounded-lg bg-gray-300 text-gray-400">Next</button>
-              </div>
-            </div>
-
-
-
 
 
         </div>
