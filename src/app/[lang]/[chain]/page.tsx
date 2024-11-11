@@ -79,6 +79,8 @@ import { N } from "ethers";
 
 
 import { useQRCode } from 'next-qrcode';
+import { acceptBuyOrder } from "@/lib/api/order";
+import App from "next/app";
 
 
 
@@ -245,6 +247,10 @@ export default function Index({ params }: any) {
     Apply_for_Listing_New_Token: "",
     Apply_for_Listing_New_Seller: "",
 
+    Apply_Buy_Order: "",
+    Accept_Buy_Order: "",
+
+    Profile_Settings: "",
 
   } );
 
@@ -282,6 +288,12 @@ export default function Index({ params }: any) {
 
     Apply_for_Listing_New_Token,
     Apply_for_Listing_New_Seller,
+
+    Apply_Buy_Order,
+    Accept_Buy_Order,
+
+    Profile_Settings,
+
   } = data;
 
 
@@ -1167,7 +1179,7 @@ export default function Index({ params }: any) {
                       }}
                       className="p-2 bg-zinc-200 text-zinc-800 rounded-lg"
                     >
-                      프로필 설정
+                      {Profile_Settings}
                   </button>
 
                 </div>
@@ -1296,7 +1308,7 @@ export default function Index({ params }: any) {
                   >
                     <div className="flex flex-row justify-between items-center gap-2">
                       <p className="text-lg font-semibold text-white">
-                        판매하기
+                        {Sell_USDT}
                       </p>
                       <Image
                         src="/goto-icon.webp"
@@ -1342,7 +1354,7 @@ export default function Index({ params }: any) {
                   >
                     <div className="flex flex-row justify-between items-center gap-2">
                       <p className="text-lg font-semibold text-white">
-                        구매신청수락하기
+                        {Accept_Buy_Order}
                       </p>
                       <Image
                         src="/goto-icon.webp"
@@ -1736,7 +1748,7 @@ export default function Index({ params }: any) {
                 >
                   <div className="flex flex-row justify-between items-center gap-2">
                     <p className="text-lg font-semibold text-white">
-                      구매하기
+                      {Buy_USDT}
                     </p>
                     <Image
                       src="/goto-icon.webp"
@@ -1771,7 +1783,7 @@ export default function Index({ params }: any) {
                 >
                   <div className="flex flex-row justify-between items-center gap-2">
                     <p className="text-lg font-semibold text-white">
-                      구매신청하기
+                      {Apply_Buy_Order}
                     </p>
                     <Image
                       src="/goto-icon.webp"

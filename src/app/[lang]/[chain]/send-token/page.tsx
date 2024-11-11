@@ -925,7 +925,7 @@ export default function SendUsdt({ params }: any) {
 
   };
   
-  const [wantToReceiveWalletAddress, setWantToReceiveWalletAddress] = useState(false);
+  const [wantToReceiveWalletAddress, setWantToReceiveWalletAddress] = useState(true);
 
 
   const [isWhateListedUser, setIsWhateListedUser] = useState(false);
@@ -1358,7 +1358,7 @@ export default function SendUsdt({ params }: any) {
            
                 <div className="flex flex-col gap-2 items-start justify-center">
 
-                  <div className="flex flex-row gap-2 items-center justify-center">
+                  <div className=" flex-row gap-2 items-center justify-center hidden">
                     <input
                       type="checkbox"
                       className="w-6 h-6"
@@ -1549,7 +1549,7 @@ export default function SendUsdt({ params }: any) {
               {/* otp verification */}
 
               {verifiedOtp ? (
-                <div className="w-full flex flex-row gap-2 items-center justify-center">
+                <div className="w-full flex-row gap-2 items-center justify-center hidden">
                   <Image
                     src="/verified.png"
                     alt="check"
