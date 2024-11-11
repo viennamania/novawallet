@@ -233,6 +233,7 @@ export default function Index({ params }: any) {
     Sell: "",
     Buy_USDT: "",
     Sell_USDT: "",
+    Sell_NOVART: "",
     Contact_Us: "",
     Buy_Description: "",
     Sell_Description: "",
@@ -275,6 +276,7 @@ export default function Index({ params }: any) {
     Sell,
     Buy_USDT,
     Sell_USDT,
+    Sell_NOVART,
     Contact_Us,
     Buy_Description,
     Sell_Description,
@@ -1271,6 +1273,48 @@ export default function Index({ params }: any) {
 
               
                 <div className="flex flex-col gap-2 mt-5">
+
+
+                  <button
+                    //disabled={!address}
+                    onClick={() => {
+                      // my sell trades
+                      //console.log("my sell trades");
+
+                      /*
+                      if (!address) {
+                        toast.error('Please connect your wallet first');
+                        return;
+                      }
+
+
+                      if (!seller && !userCode) {
+                        toast.error(Please_verify_your_account_first_for_selling);
+                        return;
+                      }
+                      */
+
+                      // redirect to sell trades page
+                      router.push(
+                        "/" + params.lang + "/" + params.chain + "/sell-novart"
+                      );
+
+                    }}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  >
+                    <div className="flex flex-row justify-between items-center gap-2">
+                      <p className="text-lg font-semibold text-white">
+                        {Sell_NOVART}
+                      </p>
+                      <Image
+                        src="/goto-icon.webp"
+                        alt="Go"
+                        width={20}
+                        height={20}
+                      />
+                    </div>
+                  </button>
+
 
  
                   <button

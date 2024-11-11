@@ -52,8 +52,13 @@
     "Seller": "卖家",
     "Buyer": "买家",
     "Me": "我",
+    
     "Buy_USDT": "购买 USDT",
     "Sell_USDT": "卖出 USDT",
+
+    "Buy_NOVART": "购买 NOVART",
+    "Sell_NOVART": "卖出 NOVART",
+
     "Accept_Buy_Order": "接受购买订单",
     "Apply_Buy_Order": "申请购买订单",
     "Send_USDT": "发送 USDT",
