@@ -317,26 +317,6 @@ undefined
 
 
 
-    /*
-    //result.push({ url: output });
-
-
-    /// https://www.olgagpt.com/sub/createNFT.asp?userid=aaaa2&image=https://fal.media/files/tiger/ibDYR3ayLebb0wzzlKIPH.png
-
-    //const url = "https://www.olgagpt.com/sub/createNFT.asp?userid=" + userid + "&image=" + output[0];
-
-
-    // url encode image url
-
-    // if userid is not null, create NFT
-
-    if (userid != null && userid != 'null' && userid != "" && output[0] != null && output[0] != "") {
-        const url = "https://www.olgagpt.com/sub/createNFT.asp?userid=" + userid + "&image=" + encodeURIComponent(output[0]);
-        console.log(url);
-        const callback = await fetch(url);
-    }
-    */
-
     return NextResponse.json({
 
         result: result,

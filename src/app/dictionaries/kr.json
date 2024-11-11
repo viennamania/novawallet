@@ -1,6 +1,6 @@
 {
-    "title": "NOVA Magic Wallet에 오신 것을 환영합니다",
-    "description": "NOVA Magic Wallet은 블록체인 기반의 탈중앙화된 거래 플랫폼입니다. NOVA Magic Wallet을 통해 USDT를 구매하고 판매할 수 있습니다.",
+    "title": "Magic Wallet에 오신 것을 환영합니다",
+    "description": "Magic Wallet은 블록체인 기반의 탈중앙화된 거래 플랫폼입니다. Magic Wallet을 통해 USDT를 구매하고 판매할 수 있습니다.",
 
 
     "menu": {
@@ -55,6 +55,7 @@
     "Accept_Buy_Order": "구매신청수락하기",
     "Apply_Buy_Order": "구매신청하기",
 
+
     "Send_USDT": "USDT 보내기",
     "Pay_USDT": "USDT 지불하기",
 
@@ -85,6 +86,7 @@
 
     "If_you_are_sure_please_click_the_send_button": "확실하다면 전송 버튼을 클릭하세요.",
 
+    "Send": "전송",
     "Sending": "전송 중",
 
     "Rate": "환율",
@@ -131,6 +133,7 @@
     "Edit": "수정",
     "Cancel": "취소",
     "Save": "저장",
+    "Saving": "저장 중",
     "Copy": "복사",
     "Enter_your_nickname": "닉네임 입력",
 
@@ -158,7 +161,11 @@
     "minutes_ago": "분 전",
     "seconds_ago": "초 전",
 
+    "Connect_Wallet": "지갑 연결",
     "Disconnect_Wallet": "지갑 연결 해제",
+
+    "Are_you_sure_you_want_to_disconnect_your_wallet": "지갑 연결을 해제하시겠습니까?",
+
 
      "Order_has_been_placed": "주문이 완료되었습니다.",
 
@@ -344,6 +351,13 @@
     "Copied_Wallet_Address": "지갑 주소가 복사되었습니다.",
 
     "Apply_for_Listing_New_Token": "신규 토큰 상장 신청하기",
-    "Apply_for_Listing_New_Seller": "신규 판매자 등록 신청하기"
+    "Apply_for_Listing_New_Seller": "신규 판매자 등록 신청하기",
+
+    "Copy_Wallet_Address": "지갑 주소 복사하기",
+
+    "Are_you_sure_you_want_to_send_token": "토큰을 전송하시겠습니까?",
+
+    "Fetch_Buy_Order": "구매신청 접수"
+
 
 }

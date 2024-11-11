@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import {
-	insertOneVerified,
+	updateSellerStatusJdPay
 } from '@lib/api/user';
 
 
@@ -10,15 +10,15 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
 
-  const { walletAddress, nickname, mobile, email } = body;
+  const { walletAddress, sellerStatus, qrcodeImage } = body;
 
+  //console.log("walletAddress", walletAddress);
+  //console.log("sellerStatus", sellerStatus);
 
-
-  const result = await insertOneVerified({
+  const result = await updateSellerStatusJdPay({
     walletAddress: walletAddress,
-    nickname: nickname,
-    mobile: mobile,
-    email: email,
+    sellerStatus: sellerStatus,
+    qrcodeImage: qrcodeImage
   });
 
 

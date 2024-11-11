@@ -128,7 +128,7 @@ export async function insertOneVerified(data: any) {
 
   //console.log('insertOne data: ' + JSON.stringify(data));
 
-  if (!data.walletAddress || !data.nickname || !data.mobile) {
+  if (!data.walletAddress || !data.nickname) {
     return null;
   }
 
@@ -165,9 +165,11 @@ export async function insertOneVerified(data: any) {
 
     {
       id: id,
-      email: data.email,
       nickname: data.nickname,
+
       mobile: data.mobile,
+      email: data.email,
+
 
       walletAddress: data.walletAddress,
 
@@ -184,9 +186,10 @@ export async function insertOneVerified(data: any) {
   if (result) {
     return {
       id: id,
-      email: data.email,
+
       nickname: data.nickname,
       mobile: data.mobile,
+      email: data.email,
     };
   } else {
     return null;
@@ -321,6 +324,209 @@ export async function updateSellerStatus(data: any) {
 
 
 }
+
+
+
+
+export async function updateSellerStatusAliPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerAliPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
+
+export async function updateSellerStatusWechatPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerWechatPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
+
+export async function updateSellerStatusUnionPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerUnionPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
+
+export async function updateSellerStatusJdPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerJdPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
+
+export async function updateSellerStatusNaverPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerNaverPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
 
 
 

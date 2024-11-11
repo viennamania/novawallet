@@ -1,8 +1,8 @@
 {
     
     
-    "title": "Welcome to NOVA Magic Wallet",
-    "description": "NOVA Magic Wallet is a decentralized trading platform based on blockchain. You can buy and sell USDT through NOVA Magic Wallet.",
+    "title": "Welcome to Magic Wallet",
+    "description": "Magic Wallet is a decentralized trading platform based on blockchain. You can buy and sell USDT through Magic Wallet.",
 
 
     "header": {
@@ -110,6 +110,7 @@
 
     "If_you_are_sure_please_click_the_send_button": "If you are sure, please click the send button.",
 
+    "Send": "Send",
     "Sending": "Sending",
 
     "Rate": "Rate",
@@ -162,6 +163,7 @@
     "Edit": "Edit",
     "Cancel": "Cancel",
     "Save": "Save",
+    "Saving": "Saving",
     "Copy": "Copy",
     "Enter_your_nickname": "Enter your nickname",
 
@@ -191,7 +193,10 @@
     "minutes_ago": "minutes ago",
     "seconds_ago": "seconds ago",
 
+    "Connect_Wallet": "Connect Wallet",
     "Disconnect_Wallet": "Disconnect Wallet",
+
+    "Are_you_sure_you_want_to_disconnect_your_wallet": "Are you sure you want to disconnect your wallet?",
 
 
     "Order_has_been_placed": "Order has been placed",
@@ -397,7 +402,15 @@
 
 
     "Apply_for_Listing_New_Token": "Apply for Listing New Token",
-    "Apply_for_Listing_New_Seller": "Apply for Listing New Seller"
+    "Apply_for_Listing_New_Seller": "Apply for Listing New Seller",
+    
+    "Copy_Wallet_Address": "Copy Wallet Address",
+
+    "Are_you_sure_you_want_to_send_token": "Are you sure you want to send token?",
+
+    "Fetch_Buy_Order": "Fetch Buy Order"
+
+
 
 
 }

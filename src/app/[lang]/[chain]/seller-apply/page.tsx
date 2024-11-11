@@ -31,7 +31,10 @@ import {
 import { inAppWallet } from "thirdweb/wallets";
 
 
-import { getUserPhoneNumber } from "thirdweb/wallets/in-app";
+import {
+    getUserPhoneNumber,
+    getUserEmail,
+} from "thirdweb/wallets/in-app";
 
 
 import Image from 'next/image';
@@ -40,6 +43,18 @@ import GearSetupIcon from "@/components/gearSetupIcon";
 
 
 import Uploader from '@/components/uploader';
+
+import UploaderAliPay from '@/components/uploaderAliPay';
+
+import UploaderWechatPay from '@/components/uploaderWechatPay';
+
+import UploaderUnionPay from '@/components/uploaderUnionPay';
+
+import UploaderJdPay from '@/components/uploaderJdPay';
+
+import UploaderNaverPay from '@/components/uploaderNaverPay';
+
+
 
 import { balanceOf, transfer } from "thirdweb/extensions/erc20";
  
@@ -158,6 +173,7 @@ export default function SettingsPage({ params }: any) {
 
         Cancel: "",
         Save: "",
+        Saving: "",
         Enter_your_nickname: "",
         Nickname_should_be_5_10_characters: "",
 
@@ -176,7 +192,9 @@ export default function SettingsPage({ params }: any) {
         Nickname_should_be_alphanumeric_lowercase: "",
         Nickname_should_be_at_least_5_characters_and_at_most_10_characters: "",
   
-    
+        Bank_Name: "",
+        Account_Number: "",
+        Account_Holder: "",
     } );
     
     useEffect(() => {
@@ -218,6 +236,7 @@ export default function SettingsPage({ params }: any) {
 
         Cancel,
         Save,
+        Saving,
         Enter_your_nickname,
         Nickname_should_be_5_10_characters,
 
@@ -235,6 +254,10 @@ export default function SettingsPage({ params }: any) {
 
         Nickname_should_be_alphanumeric_lowercase,
         Nickname_should_be_at_least_5_characters_and_at_most_10_characters,
+
+        Bank_Name,
+        Account_Number,
+        Account_Holder,
 
     } = data;
     
@@ -256,6 +279,7 @@ export default function SettingsPage({ params }: any) {
  
 
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
 
     useEffect(() => {
   
@@ -270,6 +294,9 @@ export default function SettingsPage({ params }: any) {
           setPhoneNumber(phoneNumber || "");
         });
   
+        getUserEmail({ client }).then((emailAddress) => {
+          setEmailAddress(emailAddress || "");
+        });
   
   
       }
@@ -343,6 +370,17 @@ export default function SettingsPage({ params }: any) {
     const [seller, setSeller] = useState(null) as any;
 
 
+    // Alipay , Wechat PAY, UnionPay, JD Pay, Naver pay, kakao pay
+
+    const [aliPaySeller, setAlipaySeller] = useState(null) as any;
+    const [wechatPaySeller, setWechatPaySeller] = useState(null) as any;
+    const [unionPaySeller, setUnionPaySeller] = useState(null) as any;
+    const [jdPaySeller, setJdPaySeller] = useState(null) as any;
+    const [naverPaySeller, setNaverPaySeller] = useState(null) as any;
+
+
+
+
 
 
     useEffect(() => {
@@ -369,16 +407,33 @@ export default function SettingsPage({ params }: any) {
 
                 setUserCode(data.result.id);
 
-                setSeller(data.result.seller);
+                setSeller(data.result?.seller);
+
+                setAlipaySeller(data.result?.alipaySeller);
+                setWechatPaySeller(data.result?.wechatPaySeller);
+                setUnionPaySeller(data.result?.unionPaySeller);
+                setJdPaySeller(data.result?.jdPaySeller);
+                setNaverPaySeller(data.result?.naverPaySeller);
+
+
+
+
             } else {
                 setNickname('');
                 setAvatar('/profile-default.png');
                 setUserCode('');
-                setSeller(null);
+
                 setEditedNickname('');
                 setAccountHolder('');
                 setAccountNumber('');
                 setBankName('');
+
+                setSeller(null);
+                setAlipaySeller(null);
+                setWechatPaySeller(null);
+                setUnionPaySeller(null);
+                setJdPaySeller(null);
+                setNaverPaySeller(null);
             }
 
         };
@@ -390,6 +445,7 @@ export default function SettingsPage({ params }: any) {
 
 
 
+    const [loadingSetUserUpdated, setLoadingSetUserUpdated] = useState(false);
 
     const setUserData = async () => {
 
@@ -408,6 +464,9 @@ export default function SettingsPage({ params }: any) {
             toast.error(Nickname_should_be_alphanumeric_lowercase);
             return;
         }
+
+        setLoadingSetUserUpdated(true);
+
 
         if (nicknameEdit) {
 
@@ -460,6 +519,7 @@ export default function SettingsPage({ params }: any) {
                     nickname: editedNickname,
 
                     mobile: phoneNumber,
+                    email: emailAddress,
                 }),
             });
 
@@ -483,8 +543,7 @@ export default function SettingsPage({ params }: any) {
         }
 
 
-        
-
+        setLoadingSetUserUpdated(false);
         
     }
 
@@ -580,7 +639,9 @@ export default function SettingsPage({ params }: any) {
   
       setApplying(false);
     };
-  
+
+
+
 
 
 
@@ -591,7 +652,7 @@ export default function SettingsPage({ params }: any) {
 
     const [otp, setOtp] = useState('');
 
-    const [verifiedOtp, setVerifiedOtp] = useState(false);
+    const [verifiedOtp, setVerifiedOtp] = useState(true);
   
     const [isSendedOtp, setIsSendedOtp] = useState(false);
   
@@ -617,6 +678,7 @@ export default function SettingsPage({ params }: any) {
           chain: params.chain,
           walletAddress: address,
           mobile: phoneNumber,
+          email: emailAddress,
         }),
       });
   
@@ -685,7 +747,10 @@ export default function SettingsPage({ params }: any) {
 
                 <AppBarComponent />
 
-                <Header />
+                <Header
+                    lang={params.lang}
+                    chain={params.chain}
+                />
         
 
 
@@ -724,9 +789,9 @@ export default function SettingsPage({ params }: any) {
 
                             appMetadata={
                                 {
-                                logoUrl: "https://gold.goodtether.com/logo.png",
+                                logoUrl: "https://wallet.novarwa.io/logo.png",
                                 name: "Next App",
-                                url: "https://gold.goodtether.com",
+                                url: "https://wallet.novarwa.io",
                                 description: "This is a Next App.",
 
                                 }
@@ -827,13 +892,16 @@ export default function SettingsPage({ params }: any) {
                                     </span>
                                 </div>
                                 <button
-                                    disabled={!address}
-                                    className="p-2 bg-blue-500 text-zinc-100 rounded"
+                                    disabled={!address || loadingSetUserUpdated}
+                                    className={`
+                                        ${!address || loadingSetUserUpdated ? 'bg-gray-300 text-gray-400' : 'bg-green-500 text-zinc-100'}
+                                        p-2 rounded-lg text-sm font-semibold
+                                    `}
                                     onClick={() => {
                                         setUserData();
                                     }}
                                 >
-                                    {Save}
+                                    {loadingSetUserUpdated ? Saving+'...' : Save}
                                 </button>
 
                                 
@@ -902,236 +970,356 @@ export default function SettingsPage({ params }: any) {
 
 
 
-                        {userCode && seller && (
+                        {userCode && (
 
-                            <div className='flex flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
-
-                                <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
-                                    {Seller}
-                                </div>
-
-                                <div className="flex flex-col p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
-                                    
-                                    <div className="text-lg font-semibold">
-                                        {seller?.bankInfo?.bankName}
-                                    </div>
-                                    <div className="text-lg font-semibold">
-                                        {seller?.bankInfo?.accountNumber}
-                                    </div>
-                                    <div className="text-lg font-semibold">
-                                        {seller?.bankInfo?.accountHolder}
-                                    </div>
-
-                                </div>
-
-                                {/*
-                                <button
-                                    onClick={() => {
-                                        setEditSeller(!editSeller);
-                                    }}
-                                    className="p-2 bg-blue-500 text-zinc-100 rounded"
-                                >
-                                    {editSeller ? Cancel : Edit}
-                                </button>
-                                */}
-
-                                {/* goto seller page /sell-usdt */}
-                                
-                                <button
-                                    onClick={() => {
-                                        router.push('/' + params.lang + '/' + params.chain + '/sell-usdt');
-
-                                    }}
-                                    className="p-2 bg-blue-500 text-zinc-100 rounded"
-                                >
-                                    {Sell_USDT}
-                                </button>
-                                
+                            <div className='w-full flex flex-col gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
 
 
-                                <Image
-                                src="/verified.png"
-                                alt="Verified"
-                                width={20}
-                                height={20}
-                                className="rounded-lg"
-                                />
+                                {/* Bank Payment Information */}
+                                <span className='text-xl font-semibold'>
+                                    Bank Information
+                                </span>
 
 
-                            </div>
-                        )}
 
-                        {
-                            //(userCode && !seller) || (userCode && seller && editSeller) && (
-                            true && (
-
-                            <div className='flex flex-col gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
-                                
-                                <div className='w-full flex flex-row gap-2 items-center justify-between'>
+                                {seller && (
+                                <div className='w-full flex flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
 
                                     <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
                                         {Seller}
                                     </div>
 
-                                    {!seller && (
-                                        <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
-                                            {Not_a_seller}
+                                    <div className="flex flex-col p-5 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold gap-5">
+                                        
+                                        <div className='flex flex-col gap-2 items-start justify-between'>
+                                            <span className='text-xs font-semibold'>
+                                                {Bank_Name}
+                                            </span>
+                                            <div className="text-lg font-semibold">
+                                                {seller?.bankInfo?.bankName}
+                                            </div>
                                         </div>
-                                    )}
-
-                                    {applying ? (
-                                        <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
-                                            {Applying}...
+                                        <div className='flex flex-col gap-2 items-start justify-between'>
+                                            <span className='text-xs font-semibold'>
+                                                {Account_Number}
+                                            </span>
+                                            <div className="text-lg font-semibold">
+                                                {seller?.bankInfo?.accountNumber}
+                                            </div>
                                         </div>
-                                    ) : (
-                                        <button
-                                            disabled={applying || !verifiedOtp}
+                                        <div className='flex flex-col gap-2 items-start justify-between'>
+                                            <span className='text-xs font-semibold'>
+                                                {Account_Holder}
+                                            </span>
+                                            <div className="text-lg font-semibold">
+                                                {seller?.bankInfo?.accountHolder}
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                            onClick={() => {
-                                                // apply to be a seller
-                                                // set seller to true
-                                                // set seller to false
-                                                // set seller to pending
-
-                                                apply();
-
-                                            }}
-                                            className={`
-                                                ${!verifiedOtp ? 'bg-gray-300 text-gray-400'
-                                                : 'bg-green-500 text-zinc-100'}
-
-                                                p-2 rounded-lg text-sm font-semibold
-                                            `}
-                                        >
-                                            {Apply}
-                                        </button>
-                                    )}
-
-                                </div>
-
-                                {/* 은행명, 계좌번호, 예금주 */}
-                                <div className='flex flex-col gap-2 items-start justify-between'>
-                                                                        
-                                    <input 
-                                        disabled={applying}
-                                        className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
-                                        placeholder={Enter_your_bank_name}
-                                        value={bankName}
-                                        type='text'
-                                        onChange={(e) => {
-                                            setBankName(e.target.value);
+                                    {/*
+                                    <button
+                                        onClick={() => {
+                                            setEditSeller(!editSeller);
                                         }}
-                                    />
-                                    <input 
-                                        disabled={applying}
-                                        className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
-                                        placeholder={Enter_your_account_number}
-                                        value={accountNumber}
-                                        type='number'
-                                        onChange={(e) => {
+                                        className="p-2 bg-blue-500 text-zinc-100 rounded"
+                                    >
+                                        {editSeller ? Cancel : Edit}
+                                    </button>
+                                    */}
 
-                                            // check if the value is a number
-
-                                            e.target.value = e.target.value.replace(/[^0-9]/g, '');
-
-                                            setAccountNumber(e.target.value);
-                                        }}
-                                    />
-                                    <input 
-                                        disabled={applying}
-                                        className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
-                                        placeholder={Enter_your_account_holder}
-                                        value={accountHolder}
-                                        type='text'
-                                        onChange={(e) => {
-                                            setAccountHolder(e.target.value);
-                                        }}
-                                    />
-                                </div>
-                                {/*
-                                <div className="text-xs font-semibold">
-                                    To become a seller, you need to send 1 USDT to the contract address
-                                </div>
-                                */}
+                                    
 
 
-
-                            
-
-                                {/* otp verification */}
-
-                                {verifiedOtp ? (
-                                    <div className="w-full flex flex-row gap-2 items-center justify-center">
                                     <Image
                                         src="/verified.png"
-                                        alt="check"
-                                        width={30}
-                                        height={30}
+                                        alt="Verified"
+                                        width={20}
+                                        height={20}
+                                        className="rounded-lg"
                                     />
-                                    <div className="text-white">
-                                        {OTP_verified}
-                                    </div>
-                                    </div>
-                                ) : (
+
+
+                                </div>
+                                )}
+
+
+                                <div className='w-full flex flex-col gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
                                 
-                            
-                                    <div className="w-full flex flex-row gap-2 items-start">
+                                    <div className='w-full flex flex-row gap-2 items-center justify-between'>
 
-                                    <button
-                                        disabled={!address || isSendingOtp}
-                                        onClick={sendOtp}
-                                        className={`
-                                        
-                                        ${isSendedOtp && 'hidden'}
+                                        <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
+                                            {Seller}
+                                        </div>
 
-                                        w-32 p-2 rounded-lg text-sm font-semibold
+                                        {!seller && (
+                                            <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
+                                                {Not_a_seller}
+                                            </div>
+                                        )}
 
-                                            ${
-                                            !address || isSendingOtp
-                                            ?'bg-gray-300 text-gray-400'
-                                            : 'bg-green-500 text-white'
-                                            }
-                                        
-                                        `}
-                                    >
-                                        {Send_OTP}
-                                    </button>
+                                        {applying ? (
+                                            <div className="p-2 bg-gray-300 text-gray-400 rounded text-sm font-semibold">
+                                                {Applying}...
+                                            </div>
+                                        ) : (
+                                            <button
+                                                disabled={applying || !verifiedOtp}
 
-                                    <div className={`flex flex-row gap-2 items-center justify-center ${!isSendedOtp && 'hidden'}`}>
-                                        <input
-                                        type="text"
-                                        placeholder={Enter_OTP}
-                                        className=" w-40 p-2 border border-gray-300 rounded text-black text-sm font-semibold"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
+                                                onClick={() => {
+                                                    // apply to be a seller
+                                                    // set seller to true
+                                                    // set seller to false
+                                                    // set seller to pending
+
+                                                    apply();
+
+                                                }}
+                                                className={`
+                                                    ${!verifiedOtp ? 'bg-gray-300 text-gray-400'
+                                                    : 'bg-green-500 text-zinc-100'}
+
+                                                    p-2 rounded-lg text-sm font-semibold
+                                                `}
+                                            >
+                                                {Apply}
+                                            </button>
+                                        )}
+
+                                    </div>
+
+                                    {/* 은행명, 계좌번호, 예금주 */}
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+                                                                            
+                                        <input 
+                                            disabled={applying}
+                                            className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
+                                            placeholder={Enter_your_bank_name}
+                                            value={bankName}
+                                            type='text'
+                                            onChange={(e) => {
+                                                setBankName(e.target.value);
+                                            }}
                                         />
+                                        <input 
+                                            disabled={applying}
+                                            className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
+                                            placeholder={Enter_your_account_number}
+                                            value={accountNumber}
+                                            type='number'
+                                            onChange={(e) => {
+
+                                                // check if the value is a number
+
+                                                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+
+                                                setAccountNumber(e.target.value);
+                                            }}
+                                        />
+                                        <input 
+                                            disabled={applying}
+                                            className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-lg font-semibold"
+                                            placeholder={Enter_your_account_holder}
+                                            value={accountHolder}
+                                            type='text'
+                                            onChange={(e) => {
+                                                setAccountHolder(e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    {/*
+                                    <div className="text-xs font-semibold">
+                                        To become a seller, you need to send 1 USDT to the contract address
+                                    </div>
+                                    */}
+
+
+
+                                
+
+                                    {/* otp verification */}
+
+                                    {/*
+                                    {verifiedOtp ? (
+                                        <div className="w-full flex flex-row gap-2 items-center justify-center">
+                                        <Image
+                                            src="/verified.png"
+                                            alt="check"
+                                            width={30}
+                                            height={30}
+                                        />
+                                        <div className="text-white">
+                                            {OTP_verified}
+                                        </div>
+                                        </div>
+                                    ) : (
+                                    
+                                
+                                        <div className="w-full flex flex-row gap-2 items-start">
 
                                         <button
-                                        disabled={!otp || isVerifingOtp}
-                                        onClick={verifyOtp}
-                                        className={`w-32 p-2 rounded-lg text-sm font-semibold
+                                            disabled={!address || isSendingOtp}
+                                            onClick={sendOtp}
+                                            className={`
+                                            
+                                            ${isSendedOtp && 'hidden'}
 
-                                            ${
-                                            !otp || isVerifingOtp
-                                            ?'bg-gray-300 text-gray-400'
-                                            : 'bg-green-500 text-white'
-                                            }
+                                            w-32 p-2 rounded-lg text-sm font-semibold
+
+                                                ${
+                                                !address || isSendingOtp
+                                                ?'bg-gray-300 text-gray-400'
+                                                : 'bg-green-500 text-white'
+                                                }
                                             
                                             `}
                                         >
-                                            {Verify_OTP}
+                                            {Send_OTP}
                                         </button>
-                                    </div>
 
-                                    </div>
+                                        <div className={`flex flex-row gap-2 items-center justify-center ${!isSendedOtp && 'hidden'}`}>
+                                            <input
+                                            type="text"
+                                            placeholder={Enter_OTP}
+                                            className=" w-40 p-2 border border-gray-300 rounded text-black text-sm font-semibold"
+                                            value={otp}
+                                            onChange={(e) => setOtp(e.target.value)}
+                                            />
 
-                                )}
+                                            <button
+                                            disabled={!otp || isVerifingOtp}
+                                            onClick={verifyOtp}
+                                            className={`w-32 p-2 rounded-lg text-sm font-semibold
+
+                                                ${
+                                                !otp || isVerifingOtp
+                                                ?'bg-gray-300 text-gray-400'
+                                                : 'bg-green-500 text-white'
+                                                }
+                                                
+                                                `}
+                                            >
+                                                {Verify_OTP}
+                                            </button>
+                                        </div>
+
+                                        </div>
+
+                                    )}
+                                    */}
+
+
+
+
+                                </div>
 
 
 
 
                             </div>
                         )}
+
+
+                        {userCode && (
+
+                            <div className='w-full flex flex-col gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
+
+                                {/* Alipay Payment Information */}
+                                <span className='text-xl font-semibold'>
+                                    QR Code Payment Information
+                                </span>
+
+
+
+                                <div className='w-full flex flex-col xl:flex-row gap-5 items-center justify-between border border-gray-300 p-4 rounded-lg'>
+                            
+                                    {/* sq code image update */}
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+                                                                            
+                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                            Alipay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderAliPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+                                                                            
+                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                            Wechat Pay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderWechatPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+                                                                            
+                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                            Union Pay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderUnionPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+
+                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                            JD Pay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderJdPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+
+                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                            Naver Pay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderNaverPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+                                    
+
+                                </div>
+
+
+
+
+                            </div>
+
+                        )}
+
+
+
+
+
+
+
 
 
                         {/* update USDT Price */}
@@ -1207,7 +1395,7 @@ export default function SettingsPage({ params }: any) {
                                             } }
                                                 
                                         >
-                                            Save
+                                            {Save}
                                         </button>
                                     </div>
                                 )}
@@ -1232,7 +1420,15 @@ export default function SettingsPage({ params }: any) {
 
           
 
-function Header() {
+function Header(
+    {
+      lang,
+      chain,
+    }: {
+      lang: string;
+      chain: string;
+    }
+) {
 
     const router = useRouter();
   
@@ -1251,7 +1447,7 @@ function Header() {
           <button
             onClick={() => {
               router.push(
-                "/"
+                "/" + lang + "/" + chain
               );
             }}
           >

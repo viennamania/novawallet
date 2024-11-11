@@ -153,19 +153,7 @@ export async function POST(request: NextRequest) {
 
 
 
-  
-  /*
-  if (userid != null && userid != 'null' && userid != "" && blob.url != null && blob.url != 'null' && blob.url != "" && userid != "songpa") {
-    const pointRrl = "https://www.olgagpt.com/sub/createNFT.asp?userid=" + userid + "&image=" + encodeURIComponent(blob.url);
-    ///console.log(pointRrl);
-    const callback = await fetch(pointRrl);
 
-    const data = await callback.json();
-
-    ///console.log(data);
-
-  }
-  */
 
 
 
