@@ -413,9 +413,12 @@
 
     "Are_you_sure_you_want_to_send_token": "Are you sure you want to send token?",
 
-    "Fetch_Buy_Order": "Fetch Buy Order"
+    "Fetch_Buy_Order": "Fetch Buy Order",
 
+    "Sign_in_with_Wallet": "Sign in with Wallet",
 
+    "Token_sent_successfully": "Token sent successfully",
 
+    "Failed_to_send_token": "Failed to send token"
 
 }

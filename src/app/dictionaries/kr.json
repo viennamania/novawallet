@@ -360,7 +360,13 @@
 
     "Are_you_sure_you_want_to_send_token": "토큰을 전송하시겠습니까?",
 
-    "Fetch_Buy_Order": "구매신청 접수"
+    "Fetch_Buy_Order": "구매신청 접수",
+
+    "Sign_in_with_Wallet": "지갑으로 로그인",
+
+    "Token_sent_successfully": "토큰을 성공적으로 보냈습니다.",
+
+    "Failed_to_send_token": "토큰을 보내는 데 실패했습니다."
 
 
 }

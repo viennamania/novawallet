@@ -241,7 +241,13 @@
 
     "Are_you_sure_you_want_to_send_token": "您确定要发送代币吗？",
 
-    "Fetch_Buy_Order": "获取购买订单"
+    "Fetch_Buy_Order": "获取购买订单",
+
+    "Sign_in_with_Wallet": "使用钱包登录",
+
+    "Token_sent_successfully": "代币发送成功",
+
+    "Failed_to_send_token": "代币发送失败"
 
    
 }

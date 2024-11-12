@@ -143,8 +143,6 @@ export default function Index({ params }: any) {
       client,
       wallets,
 
-
-
       showThirdwebBranding: false,
       theme: 'light',
       
@@ -255,6 +253,10 @@ export default function Index({ params }: any) {
 
     Disconnect_Wallet: "",
 
+    Are_you_sure_you_want_to_disconnect_your_wallet: "",
+
+    Sign_in_with_Wallet: "",
+
   } );
 
   useEffect(() => {
@@ -299,6 +301,10 @@ export default function Index({ params }: any) {
     Profile_Settings,
 
     Disconnect_Wallet,
+
+    Are_you_sure_you_want_to_disconnect_your_wallet,
+
+    Sign_in_with_Wallet,
 
   } = data;
 
@@ -1074,24 +1080,20 @@ export default function Index({ params }: any) {
 
         {!address && (
 
-          <div className="w-full flex flex-row justify-center items-center gap-2">
-          <button
-            onClick={handleConnect}
-            className="w-full bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-900"
-          >
-            <div className="flex flex-row justify-center items-center gap-2">
-              <Image
-                src={thirdwebIcon}
-                alt="Thirdweb"
-                width={20}
-                height={20}
-                className="rounded-lg w-10 h-10"
-              />
-              <span>Sign in with Wallet</span>
-            </div>
-          </button>
+          <div className="w-full flex flex-row justify-start items-center gap-2">
+            <button
+              onClick={handleConnect}
+              className="bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-900
+                transition duration-300 ease-in-out
+                transform hover:-translate-y-1
+              "
+            >
+              <div className="flex flex-row justify-center items-center gap-2">
+                <span>{Sign_in_with_Wallet}</span>
+              </div>
+            </button>
 
-
+          {/*}
           <ConnectButton
               client={client}
               wallets={wallets}
@@ -1126,8 +1128,10 @@ export default function Index({ params }: any) {
                 }
               }
             />
+             */}
 
           </div>
+         
 
         )}
 
@@ -1139,14 +1143,17 @@ export default function Index({ params }: any) {
             <button
               onClick={() => {
 
+                confirm(Are_you_sure_you_want_to_disconnect_your_wallet) && 
                 activeWallet?.disconnect();
 
-                  
-                  
                 window.location.reload();
 
               }}
-              className="text-lg bg-red-500 text-white px-4 py-2 rounded-md"
+              className="text-lg bg-red-500 text-white px-4 py-2 rounded-lg
+                hover:bg-red-600
+                transition duration-300 ease-in-out
+                transform hover:-translate-y-1
+              "
             >
               {Disconnect_Wallet}
             </button>
