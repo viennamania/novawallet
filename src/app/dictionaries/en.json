@@ -419,6 +419,9 @@
 
     "Token_sent_successfully": "Token sent successfully",
 
-    "Failed_to_send_token": "Failed to send token"
+    "Failed_to_send_token": "Failed to send token",
+
+
+    "Payment_Currency": "Payment Currency"
 
 }

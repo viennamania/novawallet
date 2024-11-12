@@ -247,7 +247,9 @@
 
     "Token_sent_successfully": "代币发送成功",
 
-    "Failed_to_send_token": "代币发送失败"
+    "Failed_to_send_token": "代币发送失败",
+
+    "Payment_Currency": "支付货币"
 
    
 }

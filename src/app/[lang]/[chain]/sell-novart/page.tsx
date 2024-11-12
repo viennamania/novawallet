@@ -81,7 +81,8 @@ interface SellOrder {
   paymentMethods: string[];
 
   novartAmount: number;
-  krwAmount: number;
+  fietAmount: number;
+  fietCurrency: string;
   rate: number;
 
   walletAddress: string;
@@ -120,8 +121,9 @@ const wallets = [
 
 
 
-const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // NOVART on Polygon
-const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // NOVART on Arbitrum
+const contractAddress = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Polygon
+
+const contractAddressArbitrum = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Arbitrum
 
 
 
@@ -287,6 +289,8 @@ export default function Index({ params }: any) {
 
     Anonymous: "",
 
+    Payment_Currency: "",
+
 
   } );
 
@@ -413,6 +417,8 @@ export default function Index({ params }: any) {
 
     Anonymous,
 
+    Payment_Currency,
+
   } = data;
 
 
@@ -430,7 +436,7 @@ export default function Index({ params }: any) {
   
 
 
-    const [rate, setRate] = useState(1350);
+    const [rate, setRate] = useState(0);
 
 
 
@@ -535,7 +541,7 @@ export default function Index({ params }: any) {
     
         //console.log(result);
     
-        setBalance( Number(result) / 10 ** 6 );
+        setBalance( Number(result) / 10 ** 18 );
   
   
         await fetch('/api/user/getBalanceByWalletAddress', {
@@ -799,7 +805,7 @@ export default function Index({ params }: any) {
 
     const [defaultKrWAmount, setDefaultKrwAmount] = useState(0);
 
-    const [krwAmount, setKrwAmount] = useState(0);
+    const [fietAmount, setFietAmount] = useState(0);
 
     //console.log('novartAmount', novartAmount);
 
@@ -812,7 +818,7 @@ export default function Index({ params }: any) {
 
         setDefaultKrwAmount(0);
 
-        setKrwAmount(0);
+        setFietAmount(0);
 
         return;
       }
@@ -821,7 +827,7 @@ export default function Index({ params }: any) {
       setDefaultKrwAmount( Math.round(novartAmount * rate) );
 
 
-      setKrwAmount( Math.round(novartAmount * rate) );
+      setFietAmount( Math.round(novartAmount * rate) );
 
     } , [novartAmount, rate]);
 
@@ -839,6 +845,25 @@ export default function Index({ params }: any) {
 
     // check input krw amount at sell order
     const [checkInputKrwAmount, setCheckInputKrwAmount] = useState(false);
+
+
+    // fiet currency
+
+    const [fietCurrency, setFietCurrency] = useState('USD');
+
+    useEffect(() => {
+
+      if (fietCurrency === 'USD') {
+        setRate(1);
+      } else if (fietCurrency === 'KRW') {
+        setRate(1350);
+      } else if (fietCurrency === 'JPY') {
+        setRate(110);
+      } else if (fietCurrency === 'CNY') {
+        setRate(7);
+      }
+
+    } , [fietCurrency]);
 
 
 
@@ -862,7 +887,7 @@ export default function Index({ params }: any) {
       let orderNovartAmount = novartAmount;
 
       if (checkInputKrwAmount) {
-        orderNovartAmount = parseFloat(Number(krwAmount / rate).toFixed(2));
+        orderNovartAmount = parseFloat(Number(fietAmount / rate).toFixed(2));
       }
       
 
@@ -876,7 +901,8 @@ export default function Index({ params }: any) {
           chain: params.chain,
           walletAddress: address,
           novartAmount: orderNovartAmount,
-          krwAmount: krwAmount,
+          fietAmount: fietAmount,
+          fietCurrency: fietCurrency,
           rate: rate,
           privateSale: privateSale,
         })
@@ -1119,7 +1145,7 @@ export default function Index({ params }: any) {
 
             //console.log(result);
 
-            setBalance( Number(result) / 10 ** 6 );
+            setBalance( Number(result) / 10 ** 18 );
 
 
             toast.success(Payment_request_has_been_sent);
@@ -1182,10 +1208,10 @@ export default function Index({ params }: any) {
   const [paymentAmounts, setPaymentAmounts] = useState([] as number[]);
   useEffect(() => {
 
-    // default payment amount is from sellOrders krwAmount
+    // default payment amount is from sellOrders fietAmount
       
     setPaymentAmounts(
-      sellOrders.map((item) => item.krwAmount)
+      sellOrders.map((item) => item.fietAmount)
       );
 
   } , [sellOrders]);
@@ -1472,6 +1498,7 @@ export default function Index({ params }: any) {
 
 
 
+
     
     return (
 
@@ -1485,7 +1512,10 @@ export default function Index({ params }: any) {
 
           <AppBarComponent />
 
-          <Header />
+          <Header
+            lang={params.lang}
+            chain={params.chain}
+          />
 
           {/* store code number */}
           {/*
@@ -1856,7 +1886,55 @@ export default function Index({ params }: any) {
                   </div>
                   */}
 
+
+   
+
+
                   <div className=" w-full grid gap-4  justify-center">
+
+                    {/* select payemnt currency
+                    option is USD, JPY, CNY, KRW */}
+
+                    <div className="flex flex-row items-center gap-2">
+                      <p className="text-sm text-zinc-400">
+                        {Payment_Currency}
+                      </p>
+                      <select
+                        className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
+                        value={fietCurrency}
+                        onChange={(e) => {
+                          //console.log(e.target.value);
+                          setFietCurrency(e.target.value);
+                        }}
+                      >
+                        
+                        <option
+                          value="USD"
+                          selected={fietCurrency === 'USD'}
+                        >
+                          USD
+                        </option>
+                        <option
+                          value="JPY"
+                          selected={fietCurrency === 'JPY'}
+                        >
+                          JPY
+                        </option>
+                        <option
+                          value="CNY"
+                          selected={fietCurrency === 'CNY'}
+                        >
+                          CNY
+                        </option>
+                        <option
+                          value="KRW"
+                          selected={fietCurrency === 'KRW'}
+                        >
+                          KRW
+                        </option>
+                      </select>
+                    </div>
+
 
                     
 
@@ -1910,13 +1988,31 @@ export default function Index({ params }: any) {
                           </div>
 
 
-                          <p className="mt-4 text-xl font-bold text-zinc-400">1 NOVART = {
-                            // currency format
-                            Number(rate).toLocaleString('ko-KR', {
-                              style: 'currency',
-                              currency: 'KRW'
-                            })
-                          }</p>
+                          <p className="mt-4 text-xl font-bold text-zinc-400">1 NOVART = 
+                            {
+                              fietCurrency === 'USD' ? (
+                                Number(rate).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD'
+                                })
+                              ) : fietCurrency === 'JPY' ? (
+                                Number(rate).toLocaleString('ja-JP', {
+                                  style: 'currency',
+                                  currency: 'JPY'
+                                })
+                              ) : fietCurrency === 'CNY' ? (
+                                Number(rate).toLocaleString('zh-CN', {
+                                  style: 'currency',
+                                  currency: 'CNY'
+                                })
+                              ) : (
+                                Number(rate).toLocaleString('ko-KR', {
+                                  style: 'currency',
+                                  currency: 'KRW'
+                                })
+                              )
+                            }
+                          </p>
                           
                           <div className=" flex flex-row items-center gap-2">
                             <p className="text-xl text-blue-500 font-bold ">
@@ -1933,16 +2029,11 @@ export default function Index({ params }: any) {
                                   if (e.target.value.startsWith('0')) {
                                     e.target.value = e.target.value.substring(1);
                                   }
-
-                                  
+   
                                   if (e.target.value === '') {
                                     setNovartAmount(0);
                                     return;
                                   }
-
-                                  
-                              
-
 
                                   parseFloat(e.target.value) < 0 ? setNovartAmount(0) : setNovartAmount(parseFloat(e.target.value));
 
@@ -1957,10 +2048,36 @@ export default function Index({ params }: any) {
 
                             <p className=" text-xl text-zinc-400 font-bold">
                               = {
+
+                                fietCurrency === 'USD' ? (
+                                  Number(novartAmount * rate).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                  })
+                                ) : fietCurrency === 'JPY' ? (
+                                  Number(novartAmount * rate).toLocaleString('ja-JP', {
+                                    style: 'currency',
+                                    currency: 'JPY'
+                                  })
+                                ) : fietCurrency === 'CNY' ? (
+                                  Number(novartAmount * rate).toLocaleString('zh-CN', {
+                                    style: 'currency',
+                                    currency: 'CNY'
+                                  })
+                                ) : (
+                                  Number(novartAmount * rate).toLocaleString('ko-KR', {
+                                    style: 'currency',
+                                    currency: 'KRW'
+                                  })
+                                )
+                              /*
                               Number(defaultKrWAmount).toLocaleString('ko-KR', {
                                 style: 'currency',
                                 currency: 'KRW'
                               })
+                              */
+
+
                               }
                             </p>
                           </div>
@@ -1990,7 +2107,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-red-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 0 && setKrwAmount(krwAmount - 1);
+                                  fietAmount > 0 && setFietAmount(fietAmount - 1);
                                 }}
                               >
                                 -1
@@ -2000,7 +2117,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-red-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 10 && setKrwAmount(krwAmount - 10);
+                                  fietAmount > 10 && setFietAmount(fietAmount - 10);
                                 }}
                               >
                                 -10
@@ -2010,7 +2127,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-red-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 100 && setKrwAmount(krwAmount - 100);
+                                  fietAmount > 100 && setFietAmount(fietAmount - 100);
                                 }}
                               >
                                 -100
@@ -2020,7 +2137,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-red-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 1000 && setKrwAmount(krwAmount - 1000);
+                                  fietAmount > 1000 && setFietAmount(fietAmount - 1000);
                                 }}
                               >
                                 -1000
@@ -2035,33 +2152,57 @@ export default function Index({ params }: any) {
                                   disabled
                                   type="number"
                                   className=" w-36  px-3 py-2 text-black bg-white text-xl font-bold border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
-                                  value={krwAmount}
+                                  value={fietAmount}
                                   onChange={(e) => {
                                     // check number
                                     e.target.value = e.target.value.replace(/[^0-9.]/g, '');
 
                                     if (e.target.value === '') {
-                                      setKrwAmount(0);
+                                      setFietAmount(0);
                                       return;
                                     }
 
-                                    parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
 
-                                    parseFloat(e.target.value) > 1000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) > 1000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
 
                                   } }
                                 />
                               </div>
 
-                              {krwAmount > 0 && (
+                              {fietAmount > 0 && (
                                 <div className="text-lg font-semibold text-zinc-400">
                                   {Rate}: {
 
                                     // currency format
-                                    Number((krwAmount / novartAmount).toFixed(2)).toLocaleString('ko-KR', {
+                                    /*
+                                    Number((fietAmount / novartAmount).toFixed(2)).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW'
                                     })
+                                    */
+
+                                    fietCurrency === 'USD' ? (
+                                      Number(fietAmount / novartAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                      })
+                                    ) : fietCurrency === 'JPY' ? (
+                                      Number(fietAmount / novartAmount).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY'
+                                      })
+                                    ) : fietCurrency === 'CNY' ? (
+                                      Number(fietAmount / novartAmount).toLocaleString('zh-CN', {
+                                        style: 'currency',
+                                        currency: 'CNY'
+                                      })
+                                    ) : (
+                                      Number(fietAmount / novartAmount).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW'
+                                      })
+                                    )
 
                                   } 
                                 </div>
@@ -2073,7 +2214,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-green-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 1);
+                                  setFietAmount(fietAmount + 1);
                                 }}
                               >
                                 +1
@@ -2082,7 +2223,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-green-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 10);
+                                  setFietAmount(fietAmount + 10);
                                 }}
                               >
                                 +10
@@ -2092,7 +2233,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-green-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 100);
+                                  setFietAmount(fietAmount + 100);
                                 }}
                               >
                                 +100
@@ -2102,7 +2243,7 @@ export default function Index({ params }: any) {
                                 disabled={novartAmount === 0}
                                 className="bg-green-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 1000);
+                                  setFietAmount(fietAmount + 1000);
                                 }}
                               >
                                 +1000
@@ -2323,7 +2464,7 @@ export default function Index({ params }: any) {
                                     type="number"
                                     className=" w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
                                     placeholder={Price}
-                                    value={krwAmount}
+                                    value={fietAmount}
                                     onChange={(e) => {
                                       // check number
                                       e.target.value = e.target.value.replace(/[^0-9.]/g, '');
@@ -2336,17 +2477,17 @@ export default function Index({ params }: any) {
 
                                       /*
                                       if (e.target.value === '') {
-                                        setKrwAmount(0);
+                                        setFietAmount(0);
                                         return;
                                       }
                                       */
 
   
-                                      parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
   
-                                      parseFloat(e.target.value) > 100000000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) > 100000000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
   
-                                      //setNovartAmount(Number((krwAmount / rate).toFixed(2)));
+                                      //setNovartAmount(Number((fietAmount / rate).toFixed(2)));
                                     
                                     
                                     } }
@@ -2358,9 +2499,9 @@ export default function Index({ params }: any) {
   
                                 <p className=" text-xl text-zinc-400 font-bold">
                                   = {
-                                  krwAmount === 0 ? '0' :
+                                  fietAmount === 0 ? '0' :
                                   
-                                  (krwAmount / rate).toFixed(2) === 'NaN' ? '0' : (krwAmount / rate).toFixed(2)
+                                  (fietAmount / rate).toFixed(2) === 'NaN' ? '0' : (fietAmount / rate).toFixed(2)
 
                                   }{' '}NOVART
                                 </p>
@@ -2391,7 +2532,7 @@ export default function Index({ params }: any) {
                           <div className="mt-4 flex flex-col gap-2">
                             <div className="flex flex-row items-center gap-2">
                               <input
-                                disabled={!address || krwAmount === 0 || sellOrdering}
+                                disabled={!address || fietAmount === 0 || sellOrdering}
                                 type="checkbox"
                                 checked={agreementPlaceOrder}
                                 onChange={(e) => setAgreementPlaceOrder(e.target.checked)}
@@ -2427,8 +2568,8 @@ export default function Index({ params }: any) {
                                 </div>
                               ) : (
                                   <button
-                                      disabled={krwAmount === 0 || agreementPlaceOrder === false}
-                                      className={`text-lg text-white px-4 py-2 rounded-md ${krwAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      disabled={fietAmount === 0 || agreementPlaceOrder === false}
+                                      className={`text-lg text-white px-4 py-2 rounded-md ${fietAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                       onClick={() => {
                                           console.log('Sell NOVART');
                                           // open trade detail
@@ -2667,10 +2808,30 @@ export default function Index({ params }: any) {
                               <td className="p-2">
                                 <div className="flex flex-col gap-1">
                                   <span className="text-lg text-yellow-500 font-semibold">
-                                    {Number(item.krwAmount).toLocaleString('ko-KR', {
-                                      style: 'currency',
-                                      currency: 'KRW',
-                                    })}
+                                    
+                                    {item.fietCurrency === 'USD' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                      })
+                                    ) : item.fietCurrency === 'JPY' ? (
+                                      Number(item.fietAmount).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY'
+                                      })
+                                    ) : item.fietCurrency === 'CNY' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY'
+                                      })
+                                    ) : (
+                                      Number(item.fietAmount).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW',
+                                      })
+                                    )}
+
+
                                   </span>
                                   <span className="text-sm">{item.novartAmount}{' '}NOVART</span>
                                   <span className="text-xs">
@@ -2690,10 +2851,30 @@ export default function Index({ params }: any) {
 
                               <td className="text-lg text-yellow-500 font-semibold">
                                 {item.status === 'paymentConfirmed' && (
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
-                                    style: 'currency',
-                                    currency: 'KRW',
-                                  })
+
+                                  item.fietCurrency === 'USD' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD'
+                                    })
+                                  ) : item.fietCurrency === 'JPY' ? (
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY'
+                                    })
+                                  ) : item.fietCurrency === 'CNY' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY'
+                                    })
+                                  ) : (
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
+                                      style: 'currency',
+                                      currency: 'KRW',
+                                    })
+                                  )
+
+
                                 )}
 
                                 {item.status === 'paymentRequested' && (
@@ -3192,15 +3373,36 @@ export default function Index({ params }: any) {
 
 
                               <p className="text-2xl text-zinc-400">
-                                {Price}: {
-                                  // currency
-                                
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
-                                    style: 'currency',
-                                    currency: 'KRW',
-                                  })
-
+                                {Price}: 
+                                {
+                                  item.fietCurrency === 'KRW' ? (
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
+                                      style: 'currency',
+                                      currency: 'KRW',
+                                    })
+                                  ) : item.fietCurrency === 'USD' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
+                                    })
+                                  ) : item.fietCurrency === 'JPY' ? (
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY',
+                                    })
+                                  ) : item.fietCurrency === 'CNY' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY',
+                                    })
+                                  ) : (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
+                                    })
+                                  )
                                 }
+                                
                               </p>
 
 
@@ -3210,7 +3412,7 @@ export default function Index({ params }: any) {
 
                                 <p className="text-lg font-semibold text-white">{Rate}: {
 
-                                  Number(item.krwAmount / item.novartAmount).toFixed(2)
+                                  Number(item.fietAmount / item.novartAmount).toFixed(2)
 
                                 }</p>
 
@@ -3520,7 +3722,7 @@ export default function Index({ params }: any) {
                                     />
 
                                     <div>
-                                      {Waiting_for_seller_to_deposit} {item.krwAmount} KRW to {Seller}...
+                                      {Waiting_for_seller_to_deposit} {item.fietAmount} KRW to {Seller}...
                                     </div>
 
                                   </div>
@@ -3682,8 +3884,16 @@ const TradeDetail = (
 
 
 
-  function Header() {
-
+  function Header(
+    {
+      lang,
+      chain,
+    } : {
+      lang: string,
+      chain: string,
+    }
+  ) {
+  
     const router = useRouter();
   
   
@@ -3701,7 +3911,7 @@ const TradeDetail = (
           <button
             onClick={() => {
               router.push(
-                "/"
+                "/" + lang + "/" + chain
               );
             }}
           >
@@ -3719,22 +3929,7 @@ const TradeDetail = (
             </div>
           </button>
   
-          {/* menu */}
-          
         </div>
-        
-        {/*
-        <Image
-          src={thirdwebIcon}
-          alt=""
-          className="size-[150px] md:size-[150px]"
-          style={{
-            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-          }}
-        />
-        */}
-  
-  
         
       </header>
     );

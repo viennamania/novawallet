@@ -47,8 +47,9 @@ export interface UserProps {
 
   tradeId: string,
 
-  usdtAmount: number,
-  krwAmount: number,
+  novartAmount: number,
+  fietAmount: number,
+  fietCurrency: string,
   
   acceptedAt: string,
   paymentRequestedAt: string,
@@ -163,7 +164,7 @@ export async function insertSellOrder(data: any) {
 
   console.log('insertSellOrder data: ' + JSON.stringify(data));
 
-  if (!data.walletAddress || !data.usdtAmount || !data.krwAmount || !data.rate) {
+  if (!data.walletAddress || !data.novartAmount || !data.fietAmount || !data.fietCurrency || !data.rate) {
     return null;
   }
 
@@ -216,8 +217,9 @@ export async function insertSellOrder(data: any) {
       mobile: mobile,
       avatar: avatar,
       seller: seller,
-      usdtAmount: data.usdtAmount,
-      krwAmount: data.krwAmount,
+      novartAmount: data.novartAmount,
+      fietAmount: data.fietAmount,
+      fietCurrency: data.fietCurrency,
       rate: data.rate,
       createdAt: new Date().toISOString(),
       status: 'ordered',
@@ -280,9 +282,7 @@ export async function getOpenOrdersCount(): Promise<number> {
 
 // get sell orders order by createdAt desc
 export async function getSellOrders(
-
   {
-
     limit,
     page,
     walletAddress,
@@ -1077,7 +1077,7 @@ export async function getSellTradesByWalletAddressProcessing(
 
 
 // get paymentRequested trades by wallet address
-// and sum of usdtAmount
+// and sum of novartAmount
 export async function getPaymentRequestedUsdtAmountByWalletAddress(
 
   {
@@ -1102,7 +1102,7 @@ export async function getPaymentRequestedUsdtAmountByWalletAddress(
     {
       $group: {
         _id: null,
-        totalUsdtAmount: { $sum: '$usdtAmount' },
+        totalUsdtAmount: { $sum: '$novartAmount' },
       }
     }
   ]).toArray();
@@ -1247,7 +1247,7 @@ export async function insertBuyOrder(data: any) {
   insertBuyOrder data:
   {
     "walletAddress":"0xC426C1a1b7bEC05CD5CCFc2c85Ae7A2245BE2263",
-    "usdtAmount":0.71,
+    "novartAmount":0.71,
     "krwAmount":1000,
     "rate":1350,
     "privateSale":false,
@@ -1255,7 +1255,7 @@ export async function insertBuyOrder(data: any) {
   }
   */
 
-  if (!data.walletAddress || !data.usdtAmount || !data.krwAmount || !data.rate) {
+  if (!data.walletAddress || !data.novartAmount || !data.krwAmount || !data.rate) {
     return null;
   }
 
@@ -1314,7 +1314,7 @@ export async function insertBuyOrder(data: any) {
       
       //seller: seller,
 
-      usdtAmount: data.usdtAmount,
+      novartAmount: data.novartAmount,
       krwAmount: data.krwAmount,
       rate: data.rate,
       createdAt: new Date().toISOString(),

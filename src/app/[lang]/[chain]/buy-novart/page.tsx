@@ -55,6 +55,8 @@ import { add } from "thirdweb/extensions/farcaster/keyGateway";
 import AppBarComponent from "@/components/Appbar/AppBar";
 import { getDictionary } from "../../../dictionaries";
 import Chat from "@/components/Chat";
+import { N } from "ethers";
+import { it } from "node:test";
 
 
 
@@ -71,8 +73,9 @@ interface SellOrder {
   limit: string;
   paymentMethods: string[];
 
-  usdtAmount: number;
-  krwAmount: number;
+  novartAmount: number;
+  fietAmount: number;
+  fietCurrency: string;
   rate: number;
 
 
@@ -107,8 +110,8 @@ const wallets = [
 
 
 
-const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on Polygon
-const contractAddressArbitrum = "0x2f2a2543B76A4166549F7aab2e75Bef0aefC5B0f"; // USDT on Arbitrum
+const contractAddress = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Polygon
+const contractAddressArbitrum = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Arbitrum
 
 
 
@@ -173,7 +176,7 @@ export default function Index({ params }: any) {
     Buyer: "",
     Me: "",
 
-    Buy_USDT: "",
+    Buy_NOVART: "",
     Rate: "",
     Payment: "",
     Bank_Transfer: "",
@@ -188,7 +191,7 @@ export default function Index({ params }: any) {
     Waiting_for_seller_to_deposit: "",
 
     to_escrow: "",
-    If_the_seller_does_not_deposit_the_USDT_to_escrow: "",
+    If_the_seller_does_not_deposit_the_NOVART_to_escrow: "",
     this_trade_will_be_cancelled_in: "",
 
     Cancel_My_Trade: "",
@@ -256,7 +259,7 @@ export default function Index({ params }: any) {
     Buyer,
     Me,
 
-    Buy_USDT,
+    Buy_NOVART,
     Rate,
     Payment,
     Bank_Transfer,
@@ -271,7 +274,7 @@ export default function Index({ params }: any) {
 
     to_escrow,
 
-    If_the_seller_does_not_deposit_the_USDT_to_escrow,
+    If_the_seller_does_not_deposit_the_NOVART_to_escrow,
     this_trade_will_be_cancelled_in,
 
     Cancel_My_Trade,
@@ -373,7 +376,7 @@ export default function Index({ params }: any) {
   
       //console.log(result);
   
-      setBalance( Number(result) / 10 ** 6 );
+      setBalance( Number(result) / 10 ** 18 );
 
 
       await fetch('/api/user/getBalanceByWalletAddress', {
@@ -585,7 +588,7 @@ export default function Index({ params }: any) {
         const fetchSellOrders = async () => {
 
 
-            const response = await fetch('/api/order/getAllSellOrdersForBuyer', {
+            const response = await fetch('/api/orderNovart/getAllSellOrdersForBuyer', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -874,7 +877,7 @@ export default function Index({ params }: any) {
               <div className='flex flex-row items-center space-x-4'>
                   <Image
                     src="/logo-tether.png"
-                    alt="USDT"
+                    alt="NOVART"
                     width={35}
                     height={35}
                     className="rounded-lg"
@@ -890,7 +893,7 @@ export default function Index({ params }: any) {
                     className="rounded-lg"
                   />
 
-                  <div className="text-2xl font-semibold">{Buy_USDT}</div>
+                  <div className="text-2xl font-semibold">{Buy_NOVART}</div>
 
               </div>
 
@@ -898,7 +901,7 @@ export default function Index({ params }: any) {
                 <div className="w-full flex flex-row items-start justify-between gap-2">
 
 
-                  {/* my usdt balance */}
+                  {/* my novart balance */}
                   <div className="flex flex-row items-start gap-3">
                     
                     <div className="flex flex-col gap-2 items-start">
@@ -907,7 +910,7 @@ export default function Index({ params }: any) {
                         <span className="text-4xl font-semibold text-gray-800">
                           {Number(balance).toFixed(2)}
                         </span>
-                        <span className="text-lg">USDT</span>
+                        <span className="text-lg">NOVART</span>
                       </div>
                     </div>
 
@@ -1213,21 +1216,36 @@ export default function Index({ params }: any) {
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
                                 {
-                                  // currency
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
+                                  item.fietCurrency === 'USD' ?
+                                  Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                  }) : item.fietCurrency === 'JPY' ?
+                                  Number(item.fietAmount).toLocaleString('ja-JP', {
+                                    style: 'currency',
+                                    currency: 'JPY',
+                                  }) : item.fietCurrency === 'CNY' ?
+                                  Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'CNY',
+                                  }) : item.fietCurrency === 'KRW' ?
+                                  Number(item.fietAmount).toLocaleString('ko-KR', {
                                     style: 'currency',
                                     currency: 'KRW',
+                                  }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
                                   })
                                 }
                               </div>
                               <div className="text-sm font-semibold text-white">
-                              {Rate}{' '}{Number(item.krwAmount / item.usdtAmount).toFixed(2)}
+                              {Rate}{' '}{Number(item.fietAmount / item.novartAmount).toFixed(2)}
                               </div>
                             </td>
 
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
-                                {item.usdtAmount} USDT
+                                {item.novartAmount} NOVART
                               </div>
                             </td>
 
@@ -1529,7 +1547,7 @@ export default function Index({ params }: any) {
                                       className="text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
 
-                                        window.open(`https://gold.goodtether.com/${params.lang}/sell-usdt/${item._id}`, '_blank');
+                                        window.open(`https://gold.goodtether.com/${params.lang}/sell-novart/${item._id}`, '_blank');
 
                                       }}
                                     >
@@ -1680,11 +1698,11 @@ export default function Index({ params }: any) {
                                       className="ml-5 text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
 
-                                        //window.open(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-usdt/${item._id}`, '_blank');
+                                        //window.open(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-novart/${item._id}`, '_blank');
 
                                         // copy to clipboard
 
-                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-usdt/${item._id}`);
+                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-novart/${item._id}`);
 
                                         toast.success('Link copied to clipboard');
 
@@ -1744,23 +1762,37 @@ export default function Index({ params }: any) {
                                 <p className="text-2xl text-gray-800 font-semibold">
                                   {Price}: {
                                     // currency
-                                  
-                                    Number(item.krwAmount).toLocaleString('ko-KR', {
+                                    item.fietCurrency === 'USD' ?
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
+                                    }) : item.fietCurrency === 'JPY' ?
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY',
+                                    }) : item.fietCurrency === 'CNY' ?
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY',
+                                    }) : item.fietCurrency === 'KRW' ?
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW',
+                                    }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
                                     })
-
                                   }
                                 </p>
 
                                 <div className="mt-2 flex flex-row items-start gap-2">
 
                                   <p className="text-xl font-semibold text-green-500">
-                                    {item.usdtAmount}{' '}USDT
+                                    {item.novartAmount}{' '}NOVART
                                   </p>
                                   <p className="text-lg font-semibold text-gray-800">{Rate}: {
 
-                                    Number(item.krwAmount / item.usdtAmount).toFixed(2)
+                                    Number(item.fietAmount / item.novartAmount).toFixed(2)
 
                                     }</p>
                                 </div>
@@ -1823,13 +1855,13 @@ export default function Index({ params }: any) {
                                   <button
                                     className="bg-green-500 text-white px-4 py-2 rounded-lg"
                                     onClick={() => {
-                                        //console.log('Buy USDT');
+                                        //console.log('Buy NOVART');
                                         // go to chat
                                         // close modal
                                         //closeModal();
                                         ///goChat(item._id, item.tradeId);
 
-                                        router.push(`/${params.lang}/${params.chain}/sell-usdt/${item._id}`);
+                                        router.push(`/${params.lang}/${params.chain}/sell-novart/${item._id}`);
 
                                     }}
                                   >
@@ -1930,12 +1962,12 @@ export default function Index({ params }: any) {
 
                                     <div className="flex flex-col gap-2 items-start">
                                       <span>
-                                        {Waiting_for_seller_to_deposit} {item.usdtAmount} USDT {to_escrow}...
+                                        {Waiting_for_seller_to_deposit} {item.novartAmount} NOVART {to_escrow}...
                                       </span>
 
                                       <span className="text-sm text-zinc-400">
 
-                                        {If_the_seller_does_not_deposit_the_USDT_to_escrow},
+                                        {If_the_seller_does_not_deposit_the_NOVART_to_escrow},
 
                                         {this_trade_will_be_cancelled_in} {
 
@@ -2046,7 +2078,7 @@ export default function Index({ params }: any) {
                                         width={32}
                                         height={32}
                                       />
-                                      <div>{Escrow}: {item.usdtAmount} USDT</div>
+                                      <div>{Escrow}: {item.novartAmount} NOVART</div>
                                       <button
                                         className="bg-white text-black px-2 py-2 rounded-md"
                                         onClick={() => {
@@ -2079,10 +2111,29 @@ export default function Index({ params }: any) {
                                       />
 
                                       <div>Waiting for buyer to send {
-                                      item.krwAmount.toLocaleString('ko-KR', {
-                                        style: 'currency',
-                                        currency: 'KRW',
-                                      })} to seller...</div>
+
+                                        item.fietCurrency === 'USD' ?
+                                        Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD',
+                                        }) : item.fietCurrency === 'JPY' ?
+                                        Number(item.fietAmount).toLocaleString('ja-JP', {
+                                          style: 'currency',
+                                          currency: 'JPY',
+                                        }) : item.fietCurrency === 'CNY' ?
+                                        Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'CNY',
+                                        }) : item.fietCurrency === 'KRW' ?
+                                        Number(item.fietAmount).toLocaleString('ko-KR', {
+                                          style: 'currency',
+                                          currency: 'KRW',
+                                        }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD',
+                                        })
+                                      
+                                      } to seller...</div>
                                     
 
                                     </div>
@@ -2216,7 +2267,7 @@ export default function Index({ params }: any) {
 
                                               }}
                                             >
-                                              {Buy} {item.usdtAmount} USDT
+                                              {Buy} {item.novartAmount} NOVART
                                             </button>
 
 
@@ -2340,7 +2391,7 @@ const TradeDetail = (
           </div>
           <div className="flex justify-between text-gray-700 mt-2">
             <span>Available</span>
-            <span>1085.91 USDT</span>
+            <span>1085.91 NOVART</span>
           </div>
           <div className="flex justify-between text-gray-700 mt-2">
             <span>Seller&apos;s payment method</span>
@@ -2369,7 +2420,7 @@ const TradeDetail = (
               <label className="block text-gray-700">I will receive</label>
               <input 
                 type="text"
-                value={`${receiveAmount} USDT`}
+                value={`${receiveAmount} NOVART`}
                 readOnly
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -2378,7 +2429,7 @@ const TradeDetail = (
               <label className="block text-gray-700">Commission</label>
               <input 
                 type="text"
-                value={`${commission} USDT`}
+                value={`${commission} NOVART`}
                 readOnly
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -2389,7 +2440,7 @@ const TradeDetail = (
             <button
                 className="bg-green-500 text-white px-4 py-2 rounded-lg"
                 onClick={() => {
-                    console.log('Buy USDT');
+                    console.log('Buy NOVART');
                     // go to chat
                     // close modal
                     closeModal();
@@ -2397,7 +2448,7 @@ const TradeDetail = (
 
                 }}
             >
-                Buy USDT
+                Buy NOVART
             </button>
             <button
                 className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg"

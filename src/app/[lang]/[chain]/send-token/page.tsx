@@ -71,7 +71,7 @@ const wallets = [
 
 
 
-const contractAddressTron = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // USDT on Tron
+//const contractAddressTron = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // USDT on Tron
 
 
 
@@ -859,7 +859,10 @@ export default function SendUsdt({ params }: any) {
         <AppBarComponent />
 
 
-        <Header />
+        <Header
+          lang={params.lang}
+          chain={params.chain}
+        />
 
         {/*
         <div className="mt-4 flex justify-start space-x-4 mb-10">
@@ -1454,7 +1457,15 @@ export default function SendUsdt({ params }: any) {
 
 
 
-function Header() {
+function Header(
+  {
+    lang,
+    chain,
+  } : {
+    lang: string,
+    chain: string,
+  }
+) {
 
   const router = useRouter();
 
@@ -1473,7 +1484,7 @@ function Header() {
         <button
           onClick={() => {
             router.push(
-              "/"
+              "/" + lang + "/" + chain
             );
           }}
         >
@@ -1491,22 +1502,7 @@ function Header() {
           </div>
         </button>
 
-        {/* menu */}
-        
       </div>
-      
-      {/*
-      <Image
-        src={thirdwebIcon}
-        alt=""
-        className="size-[150px] md:size-[150px]"
-        style={{
-          filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-        }}
-      />
-      */}
-
-
       
     </header>
   );

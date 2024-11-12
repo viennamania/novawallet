@@ -257,6 +257,10 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet: "",
 
+    Copy_Wallet_Address: "",
+
+    Copied_Wallet_Address: "",
+
   } );
 
   useEffect(() => {
@@ -305,6 +309,10 @@ export default function Index({ params }: any) {
     Are_you_sure_you_want_to_disconnect_your_wallet,
 
     Sign_in_with_Wallet,
+
+    Copy_Wallet_Address,
+
+    Copied_Wallet_Address,
 
   } = data;
 
@@ -414,7 +422,7 @@ export default function Index({ params }: any) {
           address: address,
         });
     
-        //console.log(result);
+        if (!result) return;
     
         setBalance( Number(result) / 10 ** 6 );
 
@@ -457,7 +465,7 @@ export default function Index({ params }: any) {
             address: address,
           });
       
-          //console.log(result);
+          if (!result) return;
       
           setNovartBalance( Number(result) / 10 ** 18 );
   
@@ -799,110 +807,13 @@ export default function Index({ params }: any) {
 
   //console.log("params.chain", params.chain);
 
-  const [tronWalletAddress, setTronWalletAddress] = useState('');
-  useEffect(() => {
-      
-      if (address && params.chain === "tron") {
-  
-        // get tron wallet address
-        const getTronWalletAddress = async () => {
-  
-          const response = await fetch('/api/tron/getTronWalletAddress', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              lang: params.lang,
-              chain: params.chain,
-              walletAddress: address,
-            }),
-          });
-  
-          const data = await response.json();
-  
-          setTronWalletAddress(data?.result?.tronWalletAddress);
-  
-        };
-  
-        getTronWalletAddress();
-  
-      }
-  
-    } , [address, params.chain, params.lang]);
-
-
-  console.log("tronWalletAddress", tronWalletAddress);
-
 
   console.log("address", address);
-
-  // getTronBalance
-  const [tronBalance, setTronBalance] = useState(0);
-  useEffect(() => {
-    if (tronWalletAddress && params.chain === "tron") {
-      const getTronBalance = async () => {
-        const response = await fetch('/api/tron/getTronBalance', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            lang: params.lang,
-            chain: params.chain,
-            tronWalletAddress: tronWalletAddress,
-          }),
-        });
-
-        if (!response) return;
-
-        const data = await response.json();
-
-        setTronBalance(data.result.tronBalance);
-
-      };
-
-      getTronBalance();
-
-    }
-
-  } , [tronWalletAddress, params.chain, params.lang]);
-
-  console.log("tronBalance", tronBalance);
 
 
   // usdt balance
   const [usdtBalance, setUsdtBalance] = useState(0);
-  useEffect(() => {
-    if (tronWalletAddress && params.chain === "tron") {
-      const getUsdtBalance = async () => {
-        const response = await fetch('/api/tron/getUsdtBalance', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            lang: params.lang,
-            chain: params.chain,
-            tronWalletAddress: tronWalletAddress,
-          }),
-        });
 
-        if (!response) return;
-
-        const data = await response.json();
-
-        setUsdtBalance(data.result?.usdtBalance);
-
-      };
-
-      getUsdtBalance();
-
-    }
-
-  } , [tronWalletAddress, params.chain, params.lang]);
-
-  console.log("usdtBalance", usdtBalance);
 
 
 
@@ -910,9 +821,8 @@ export default function Index({ params }: any) {
   // chainBalance
   const [chainBalance, setChainBalance] = useState(0);
   useEffect(() => {
-    if (params.chain === "tron") {
-      setChainBalance(tronBalance);
-    } else if (params.chain === "polygon") {
+
+    if (params.chain === "polygon") {
       setChainBalance(balance);
     } else if (params.chain === "arbitrum") {
       setChainBalance(balance);
@@ -923,7 +833,7 @@ export default function Index({ params }: any) {
     }
   }
 
-  , [tronBalance, balance, params.chain]);
+  , [balance, params.chain]);
       
 
 
@@ -939,7 +849,10 @@ export default function Index({ params }: any) {
       <div className="py-0 w-full">
         
         
-        <Header />
+        <Header
+          lang={params.lang}
+          chain={params.chain}
+        />
 
         <div className="w-full flex flex-row gap-2 justify-between items-center">
 
@@ -1340,7 +1253,7 @@ export default function Index({ params }: any) {
                   >
                     <div className="flex flex-row justify-between items-center gap-2">
                       <p className="text-lg font-semibold text-white">
-                        {Sell_NOVART}
+                        NOVART{' '}{Sell}
                       </p>
                       <Image
                         src="/goto-icon.webp"
@@ -1388,7 +1301,7 @@ export default function Index({ params }: any) {
                   >
                     <div className="flex flex-row justify-between items-center gap-2">
                       <p className="text-lg font-semibold text-white">
-                        {Sell_USDT}
+                        USDT{' '}{Sell}
                       </p>
                       <Image
                         src="/goto-icon.webp"
@@ -1640,7 +1553,7 @@ export default function Index({ params }: any) {
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(address);
-                    toast.success('주소가 복사되었습니다');
+                    toast.success(Copied_Wallet_Address);
                   }}
                   className="p-2 bg-zinc-200 text-zinc-800 rounded-lg mt-4"
                 >
@@ -1651,7 +1564,7 @@ export default function Index({ params }: any) {
                       width={20}
                       height={20}
                     />
-                    <span>주소복사</span>
+                    <span>{Copy_Wallet_Address}</span>
                   </div>
                 </button>
               )}
@@ -1694,7 +1607,8 @@ export default function Index({ params }: any) {
                 hover:shadow-lg
                 transition duration-300 ease-in-out
                 transform hover:-translate-y-1
-              ">
+              "
+              >
                 <Image
                   src="/logo-novart.png"
                   alt="NOVART"
@@ -1806,7 +1720,30 @@ export default function Index({ params }: any) {
 
 
               <div className=" flex flex-col gap-2 justify-center items-center mt-10">
-                
+
+                {/* Go Buy NOVART */}
+                <button
+                  onClick={() => {
+                    router.push(
+                      "/" + params.lang + "/" + params.chain + "/buy-novart"
+                    );
+                  }}
+                  className=" w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                >
+                  <div className="flex flex-row justify-between items-center gap-2">
+                    <p className="text-lg font-semibold text-white">
+                      NOVART{' '}{Buy}
+                    </p>
+                    <Image
+                      src="/goto-icon.webp"
+                      alt="Go"
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                  
+                </button>
+
                 {/* Go Buy USDT */}
                 <button
                   onClick={() => {
@@ -1828,7 +1765,7 @@ export default function Index({ params }: any) {
                 >
                   <div className="flex flex-row justify-between items-center gap-2">
                     <p className="text-lg font-semibold text-white">
-                      {Buy_USDT}
+                      USDT{' '}{Buy}
                     </p>
                     <Image
                       src="/goto-icon.webp"
@@ -2118,7 +2055,16 @@ export default function Index({ params }: any) {
 
 
 
-function Header() {
+
+function Header(
+  {
+    lang,
+    chain,
+  } : {
+    lang: string,
+    chain: string,
+  }
+) {
 
   const router = useRouter();
 
@@ -2137,7 +2083,7 @@ function Header() {
         <button
           onClick={() => {
             router.push(
-              "/"
+              "/" + lang + "/" + chain
             );
           }}
         >
@@ -2155,26 +2101,12 @@ function Header() {
           </div>
         </button>
 
-        {/* menu */}
-        
       </div>
-      
-      {/*
-      <Image
-        src={thirdwebIcon}
-        alt=""
-        className="size-[150px] md:size-[150px]"
-        style={{
-          filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-        }}
-      />
-      */}
-
-
       
     </header>
   );
 }
+
 
 function ThirdwebResources() {
   return (
