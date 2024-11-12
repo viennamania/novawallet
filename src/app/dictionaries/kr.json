@@ -368,7 +368,8 @@
 
     "Failed_to_send_token": "토큰을 보내는 데 실패했습니다.",
 
-    "Payment_Currency": "결제 통화"
+    "Payment_Currency": "결제 통화",
+    "Payment_Method": "결제 방법"
 
 
 

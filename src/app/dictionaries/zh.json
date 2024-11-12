@@ -249,7 +249,8 @@
 
     "Failed_to_send_token": "代币发送失败",
 
-    "Payment_Currency": "支付货币"
+    "Payment_Currency": "支付货币",
+    "Payment_Method": "支付方式"
 
    
 }

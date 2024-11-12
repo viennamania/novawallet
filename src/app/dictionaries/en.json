@@ -422,6 +422,7 @@
     "Failed_to_send_token": "Failed to send token",
 
 
-    "Payment_Currency": "Payment Currency"
+    "Payment_Currency": "Payment Currency",
+    "Payment_Method": "Payment Method"
 
 }

@@ -50,7 +50,9 @@ export interface UserProps {
   novartAmount: number,
   fietAmount: number,
   fietCurrency: string,
-  
+  rate: number,
+  payment: object,
+
   acceptedAt: string,
   paymentRequestedAt: string,
   paymentConfirmedAt: string,
@@ -164,7 +166,7 @@ export async function insertSellOrder(data: any) {
 
   console.log('insertSellOrder data: ' + JSON.stringify(data));
 
-  if (!data.walletAddress || !data.novartAmount || !data.fietAmount || !data.fietCurrency || !data.rate) {
+  if (!data.walletAddress || !data.novartAmount || !data.fietAmount || !data.fietCurrency || !data.rate || !data.payment) {
     return null;
   }
 
@@ -221,6 +223,7 @@ export async function insertSellOrder(data: any) {
       fietAmount: data.fietAmount,
       fietCurrency: data.fietCurrency,
       rate: data.rate,
+      payment: data.payment,
       createdAt: new Date().toISOString(),
       status: 'ordered',
       privateSale: data.privateSale,

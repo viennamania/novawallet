@@ -84,6 +84,7 @@ interface SellOrder {
   fietAmount: number;
   fietCurrency: string;
   rate: number;
+  payment: any;
 
   walletAddress: string;
 
@@ -291,6 +292,8 @@ export default function Index({ params }: any) {
 
     Payment_Currency: "",
 
+    Payment_Method: "",
+
 
   } );
 
@@ -418,6 +421,8 @@ export default function Index({ params }: any) {
     Anonymous,
 
     Payment_Currency,
+
+    Payment_Method,
 
   } = data;
 
@@ -742,7 +747,7 @@ export default function Index({ params }: any) {
     
     const [sellOrders, setSellOrders] = useState<SellOrder[]>([]);
 
-    const [searchMyOrders, setSearchMyOrders] = useState(true);
+    const [searchMyOrders, setSearchMyOrders] = useState(false);
 
 
     const [loadingFetchSellOrders, setLoadingFetchSellOrders] = useState(false);
@@ -867,6 +872,14 @@ export default function Index({ params }: any) {
 
 
 
+    // payment method
+    // Bank, AliPay, WechatPay, UnionPay, JDPay, NaverPay, KakaoPay
+
+    const [paymentMethod, setPaymentMethod] = useState('Bank');
+
+
+
+
     const sellOrder = async () => {
       // api call
       // set sell order
@@ -903,6 +916,25 @@ export default function Index({ params }: any) {
           novartAmount: orderNovartAmount,
           fietAmount: fietAmount,
           fietCurrency: fietCurrency,
+
+          payment:
+            {
+              method: paymentMethod,
+
+              seller:
+
+              paymentMethod === 'Bank' ? user?.seller
+              : paymentMethod === 'AliPay' ? user?.sellerAliPay
+              : paymentMethod === 'WechatPay' ? user?.sellerWechatPay
+              : paymentMethod === 'UnionPay' ? user?.sellerUnionPay
+              : paymentMethod === 'JDPay' ? user?.sellerJDPay
+              : paymentMethod === 'NaverPay' ? user?.sellerNaverPay
+              : paymentMethod === 'KakaoPay' ? user?.sellerKakaoPay
+              : user?.seller
+
+            }
+            ,
+
           rate: rate,
           privateSale: privateSale,
         })
@@ -1892,7 +1924,8 @@ export default function Index({ params }: any) {
 
                   <div className=" w-full grid gap-4  justify-center">
 
-                    {/* select payemnt currency
+                    <div className="flex flex-row items-center gap-5">
+                    {/* select payment currency
                     option is USD, JPY, CNY, KRW */}
 
                     <div className="flex flex-row items-center gap-2">
@@ -1935,6 +1968,67 @@ export default function Index({ params }: any) {
                       </select>
                     </div>
 
+                    {/* select payment method */}
+                    {/* Bank, AliPay, WechatPay, UnionPay, JDPay, NaverPay, KakaoPay */}
+                    <div className="flex flex-row items-center gap-2">
+                      <p className="text-sm text-zinc-400">
+                        {Payment_Method}
+                      </p>
+                      <select
+                        className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
+                        value={paymentMethod}
+                        onChange={(e) => {
+                          //console.log(e.target.value);
+                          setPaymentMethod(e.target.value);
+                        }}
+                      >
+                        
+                        <option
+                          value="Bank"
+                          selected={paymentMethod === 'Bank'}
+                        >
+                          Bank
+                        </option>
+                        <option
+                          value="AliPay"
+                          selected={paymentMethod === 'AliPay'}
+                        >
+                          Alipay
+                        </option>
+                        <option
+                          value="WechatPay"
+                          selected={paymentMethod === 'WechatPay'}
+                        >
+                          WeChat Pay
+                        </option>
+                        <option
+                          value="UnionPay"
+                          selected={paymentMethod === 'UnionPay'}
+                        >
+                          Union Pay
+                        </option>
+                        <option
+                          value="JDPay"
+                          selected={paymentMethod === 'JDPay'}
+                        >
+                          JD Pay
+                        </option>
+                        <option
+                          value="NaverPay"
+                          selected={paymentMethod === 'NaverPay'}
+                        >
+                          Naver Pay
+                        </option>
+                        <option
+                          value="KakaoPay"
+                          selected={paymentMethod === 'KakaoPay'}
+                        >
+                          Kakao Pay
+                        </option>
+                      </select>
+                    </div>
+                    
+                    </div>
 
                     
 
@@ -2842,12 +2936,42 @@ export default function Index({ params }: any) {
 
                            
                               <td>
-                                <div className="flex flex-col gap-1">
-                                  <span>{item.seller?.bankInfo.bankName}</span>
-                                  <span>{item.seller?.bankInfo.accountNumber}</span>
-                                  <span>{item.seller?.bankInfo.accountHolder}</span>
-                                </div>
+
+                                {item?.payment?.method === 'Bank' ? (
+                                  <div className="flex flex-col gap-1">
+                                    <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                    <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                    <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                  </div>
+                                ) : item?.payment?.method === 'AliPay'
+                                || item?.payment?.method === 'WechatPay'
+                                || item?.payment?.method === 'UnionPay'
+                                || item?.payment?.method === 'JDPay'
+                                || item?.payment?.method === 'NaverPay'
+                                || item?.payment?.method === 'KakaoPay' ? (
+
+                                  <div className="flex flex-col gap-1">
+                                    <span>{item?.payment?.method}</span>
+                                    <Image
+                                      src={item.seller?.qrcodeImage ? item.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                      alt="qrcode"
+                                      width={32}
+                                      height={32}
+                                      className="rounded-md"
+                                    />
+                                  </div>
+
+                                ) : (
+                                  <div className="flex flex-col gap-1">
+                                    <span>
+                                      X
+                                    </span>
+                                  </div>
+                                )}
+
+
                               </td>
+
 
                               <td className="text-lg text-yellow-500 font-semibold">
                                 {item.status === 'paymentConfirmed' && (
@@ -3178,7 +3302,7 @@ export default function Index({ params }: any) {
                             key={index}
                             className={`
 
-                              w-96 xl:w-full h-full
+                              w-full h-full
 
                               bg-black p-4 rounded-md border
                               
@@ -3424,13 +3548,54 @@ export default function Index({ params }: any) {
                             {address && item.walletAddress === address && item.status !== 'cancelled' && (
                               <div className="mt-4 flex flex-col gap-2 items-start">
                                 <p className="mt-2 text-sm text-zinc-400">
-                                  {Payment}: {item.seller?.bankInfo.bankName} {item.seller?.bankInfo.accountNumber} {item.seller?.bankInfo.accountHolder}
+
+                                  {Payment}:
                                 </p>
+                                  
+                                  
+                                  {/*item.seller?.bankInfo.bankName} {item.seller?.bankInfo.accountNumber} {item.seller?.bankInfo.accountHolder*/}
+
+                                  {item?.payment?.method === 'Bank' ? (
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                    </div>
+                                  ) : item?.payment?.method === 'AliPay'
+                                  || item?.payment?.method === 'WechatPay'
+                                  || item?.payment?.method === 'UnionPay'
+                                  || item?.payment?.method === 'JDPay'
+                                  || item?.payment?.method === 'NaverPay'
+                                  || item?.payment?.method === 'KakaoPay' ? (
+
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.method}</span>
+                                      <Image
+                                        src={item?.payment?.seller?.qrcodeImage ? item?.payment?.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                        alt="qrcode"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-md"
+                                      />
+                                    </div>
+
+                                  ) : (
+                                    <div className="flex flex-col gap-1">
+                                      <span>
+                                        X
+                                      </span>
+                                    </div>
+                                  )}
+
+
+                                
+                                {/*
                                 <p className="text-sm text-zinc-400">
                                   {Deposit_Name}: {
                                     item.buyer?.depositName ? item.buyer?.depositName : item.tradeId
                                   }
                                 </p>  
+                                */}
                               </div>
 
                             )}
