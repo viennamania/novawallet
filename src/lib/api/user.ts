@@ -43,6 +43,13 @@ export interface UserProps {
 
   tronWalletAddress: string,
   tronWalletPrivateKey: string,
+
+  aliPay: string,
+  wechatPay: string,
+  unionPay: string,
+  JdPay: string,
+  naverPay: string,
+  kakaoPay: string,
 }
 
 export interface ResultProps {

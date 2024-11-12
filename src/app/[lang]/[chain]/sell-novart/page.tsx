@@ -754,9 +754,11 @@ export default function Index({ params }: any) {
 
     const fetchSellOrders = async () => {
 
+      /*
       if (!address) {
         return;
       }
+      */
 
       setLoadingFetchSellOrders(true);
 
@@ -873,7 +875,7 @@ export default function Index({ params }: any) {
 
 
     // payment method
-    // Bank, AliPay, WechatPay, UnionPay, JDPay, NaverPay, KakaoPay
+    // Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay
 
     const [paymentMethod, setPaymentMethod] = useState('Bank');
 
@@ -927,7 +929,7 @@ export default function Index({ params }: any) {
               : paymentMethod === 'AliPay' ? user?.sellerAliPay
               : paymentMethod === 'WechatPay' ? user?.sellerWechatPay
               : paymentMethod === 'UnionPay' ? user?.sellerUnionPay
-              : paymentMethod === 'JDPay' ? user?.sellerJDPay
+              : paymentMethod === 'JdPay' ? user?.sellerJdPay
               : paymentMethod === 'NaverPay' ? user?.sellerNaverPay
               : paymentMethod === 'KakaoPay' ? user?.sellerKakaoPay
               : user?.seller
@@ -1402,7 +1404,10 @@ export default function Index({ params }: any) {
 
     const fetchSellOrders = async () => {
 
-      if (!address
+      if (
+        //!address
+        false
+
         || sellOrdering
         || cancellings.some((item) => item === true)
         || escrowing.some((item) => item === true)
@@ -1969,13 +1974,13 @@ export default function Index({ params }: any) {
                     </div>
 
                     {/* select payment method */}
-                    {/* Bank, AliPay, WechatPay, UnionPay, JDPay, NaverPay, KakaoPay */}
+                    {/* Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay */}
                     <div className="flex flex-row items-center gap-2">
                       <p className="text-sm text-zinc-400">
                         {Payment_Method}
                       </p>
                       <select
-                        className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
+                        className="w-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
                         value={paymentMethod}
                         onChange={(e) => {
                           //console.log(e.target.value);
@@ -2008,8 +2013,8 @@ export default function Index({ params }: any) {
                           Union Pay
                         </option>
                         <option
-                          value="JDPay"
-                          selected={paymentMethod === 'JDPay'}
+                          value="JdPay"
+                          selected={paymentMethod === 'JdPay'}
                         >
                           JD Pay
                         </option>
@@ -2946,7 +2951,7 @@ export default function Index({ params }: any) {
                                 ) : item?.payment?.method === 'AliPay'
                                 || item?.payment?.method === 'WechatPay'
                                 || item?.payment?.method === 'UnionPay'
-                                || item?.payment?.method === 'JDPay'
+                                || item?.payment?.method === 'JdPay'
                                 || item?.payment?.method === 'NaverPay'
                                 || item?.payment?.method === 'KakaoPay' ? (
 
@@ -3544,8 +3549,12 @@ export default function Index({ params }: any) {
 
                             </div>
 
-
+                            {/*
                             {address && item.walletAddress === address && item.status !== 'cancelled' && (
+                            */}
+                            {item.status !== 'cancelled' && (
+                              
+                              
                               <div className="mt-4 flex flex-col gap-2 items-start">
                                 <p className="mt-2 text-sm text-zinc-400">
 
@@ -3564,7 +3573,7 @@ export default function Index({ params }: any) {
                                   ) : item?.payment?.method === 'AliPay'
                                   || item?.payment?.method === 'WechatPay'
                                   || item?.payment?.method === 'UnionPay'
-                                  || item?.payment?.method === 'JDPay'
+                                  || item?.payment?.method === 'JdPay'
                                   || item?.payment?.method === 'NaverPay'
                                   || item?.payment?.method === 'KakaoPay' ? (
 
