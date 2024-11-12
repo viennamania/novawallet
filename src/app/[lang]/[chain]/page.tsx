@@ -253,6 +253,8 @@ export default function Index({ params }: any) {
 
     Profile_Settings: "",
 
+    Disconnect_Wallet: "",
+
   } );
 
   useEffect(() => {
@@ -296,6 +298,8 @@ export default function Index({ params }: any) {
 
     Profile_Settings,
 
+    Disconnect_Wallet,
+
   } = data;
 
 
@@ -322,7 +326,7 @@ export default function Index({ params }: any) {
 
 
   // get the active wallet
-  //const activeWallet = useActiveWallet();
+  const activeWallet = useActiveWallet();
 
 
 
@@ -1126,6 +1130,31 @@ export default function Index({ params }: any) {
           </div>
 
         )}
+
+        {/* disconnect button */}
+        {address && (
+          <div className="w-full flex flex-col items-start justify-center gap-5">
+            {/* disconnect button */}
+            
+            <button
+              onClick={() => {
+
+                activeWallet?.disconnect();
+
+                  
+                  
+                window.location.reload();
+
+              }}
+              className="text-lg bg-red-500 text-white px-4 py-2 rounded-md"
+            >
+              {Disconnect_Wallet}
+            </button>
+          </div>
+        )}
+
+        {/* address */}
+
 
         {/*address && (
           <div className="mt-0 w-full flex items-start justify-start gap-5">

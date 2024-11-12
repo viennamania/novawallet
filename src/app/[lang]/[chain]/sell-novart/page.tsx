@@ -434,7 +434,7 @@ export default function Index({ params }: any) {
 
 
 
-    const [novartPrice, setUsdtPrice] = useState(0);
+    const [novartPrice, setNovartPrice] = useState(0);
     useEffect(() => {
 
         if (!address) {
@@ -458,7 +458,7 @@ export default function Index({ params }: any) {
             ///console.log("getPrice data", data);
 
             if (data.result) {
-                setUsdtPrice(data.result.novartPrice);
+                setNovartPrice(data.result.novartPrice);
 
                 setRate(data.result.novartPrice);
             }
@@ -795,7 +795,7 @@ export default function Index({ params }: any) {
     }
 
 
-    const [novartAmount, setUsdtAmount] = useState(0);
+    const [novartAmount, setNovartAmount] = useState(0);
 
     const [defaultKrWAmount, setDefaultKrwAmount] = useState(0);
 
@@ -859,10 +859,10 @@ export default function Index({ params }: any) {
       setSellOrdering(true);
 
 
-      let orderUsdtAmount = novartAmount;
+      let orderNovartAmount = novartAmount;
 
       if (checkInputKrwAmount) {
-        orderUsdtAmount = parseFloat(Number(krwAmount / rate).toFixed(2));
+        orderNovartAmount = parseFloat(Number(krwAmount / rate).toFixed(2));
       }
       
 
@@ -875,7 +875,7 @@ export default function Index({ params }: any) {
           lang: params.lang,
           chain: params.chain,
           walletAddress: address,
-          novartAmount: orderUsdtAmount,
+          novartAmount: orderNovartAmount,
           krwAmount: krwAmount,
           rate: rate,
           privateSale: privateSale,
@@ -891,7 +891,7 @@ export default function Index({ params }: any) {
           Order_has_been_placed
         );
 
-        setUsdtAmount(0);
+        setNovartAmount(0);
         setprivateSale(false);
 
         setAgreementPlaceOrder(false);
@@ -1934,7 +1934,7 @@ export default function Index({ params }: any) {
 
                                   
                                   if (e.target.value === '') {
-                                    setUsdtAmount(0);
+                                    setNovartAmount(0);
                                     return;
                                   }
 
@@ -1942,9 +1942,9 @@ export default function Index({ params }: any) {
                               
 
 
-                                  parseFloat(e.target.value) < 0 ? setUsdtAmount(0) : setUsdtAmount(parseFloat(e.target.value));
+                                  parseFloat(e.target.value) < 0 ? setNovartAmount(0) : setNovartAmount(parseFloat(e.target.value));
 
-                                  parseFloat(e.target.value) > 1000 ? setUsdtAmount(1000) : setUsdtAmount(parseFloat(e.target.value));
+                                  parseFloat(e.target.value) > 1000 ? setNovartAmount(1000) : setNovartAmount(parseFloat(e.target.value));
 
                                 } }
 
@@ -2344,7 +2344,7 @@ export default function Index({ params }: any) {
   
                                       parseFloat(e.target.value) > 100000000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
   
-                                      //setUsdtAmount(Number((krwAmount / rate).toFixed(2)));
+                                      //setNovartAmount(Number((krwAmount / rate).toFixed(2)));
                                     
                                     
                                     } }
