@@ -294,6 +294,8 @@ export default function Index({ params }: any) {
 
     Copied_Wallet_Address: "",
 
+    Accept_Buy_Order: "",
+
 
   } );
 
@@ -411,6 +413,8 @@ export default function Index({ params }: any) {
     Escrow_balance_is_less_than_payment_amount,
 
     Copied_Wallet_Address,
+
+    Accept_Buy_Order,
 
   } = data;
 
@@ -1866,7 +1870,7 @@ export default function Index({ params }: any) {
                   />
 
                   <div className="text-2xl font-semibold">
-                    USDT 구매 접수
+                    USDT {Accept_Buy_Order}
                   </div>
 
               </div>

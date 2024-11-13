@@ -210,6 +210,8 @@ export default function SendUsdt({ params }: any) {
 
     Failed_to_send_token: "",
 
+    Send: "",
+
   } );
 
   useEffect(() => {
@@ -261,6 +263,9 @@ export default function SendUsdt({ params }: any) {
     Token_sent_successfully,
 
     Failed_to_send_token,
+
+    Send,
+    
   } = data;
 
 
@@ -912,12 +917,13 @@ export default function SendUsdt({ params }: any) {
               </div>
 
               <div className="text-2xl font-semibold">
-                {token} 보내기
+                {token} {Send}
               </div>
 
             </div>
 
             {/* goto buy usdt page */}
+            {/*
             <div className="text-sm font-semibold text-zinc-100 mt-2 w-full text-right">
   
               <a
@@ -932,6 +938,7 @@ export default function SendUsdt({ params }: any) {
                 {token} 구매하러 가기
               </a>
             </div>
+            */}
 
 
           
@@ -1411,7 +1418,7 @@ export default function SendUsdt({ params }: any) {
                    
                    `}
               >
-                  {token} 보내기
+                  {token} {Send}
               </button>
 
               <div className="w-full flex flex-row gap-2 text-xl font-semibold">
