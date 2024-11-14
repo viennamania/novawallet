@@ -1241,17 +1241,6 @@ export async function sellOrderRollbackPayment(data: any) {
 export async function insertBuyOrder(data: any) {
 
   console.log('insertBuyOrder data: ' + JSON.stringify(data));
-  /*
-  insertBuyOrder data:
-  {
-    "walletAddress":"0xC426C1a1b7bEC05CD5CCFc2c85Ae7A2245BE2263",
-    "usdtAmount":0.71,
-    "krwAmount":1000,
-    "rate":1350,
-    "privateSale":false,
-    "buyer":{"depositBankName":"국민은행","depositName":"송수영"}
-  }
-  */
 
   if (!data.walletAddress || !data.usdtAmount || !data.krwAmount || !data.rate) {
     return null;

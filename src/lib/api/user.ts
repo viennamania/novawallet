@@ -90,8 +90,6 @@ export async function insertOne(data: any) {
   }
 
 
-  // generate id 100000 ~ 999999
-
   const id = Math.floor(Math.random() * 900000) + 100000;
 
 
@@ -162,8 +160,6 @@ export async function insertOneVerified(data: any) {
     return null;
   }
 
-
-  // generate id 100000 ~ 999999
 
   const id = Math.floor(Math.random() * 900000) + 100000;
 
