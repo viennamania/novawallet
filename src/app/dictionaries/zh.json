@@ -257,7 +257,11 @@
     "Please_register_your_seller_information": "请注册您的卖家信息。您必须注册您的卖家信息才能出售。",
 
     "Nickname_saved": "昵称已保存",
-    "You_must_enter_different_nickname": "您必须输入不同的昵称"
+    "You_must_enter_different_nickname": "您必须输入不同的昵称",
+
+    "Profile_Information": "个人资料信息",
+    "Bank_Information": "银行信息",
+    "QR_Code_Payment_Information": "二维码支付信息"
 
 
    

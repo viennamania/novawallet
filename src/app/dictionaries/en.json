@@ -431,6 +431,10 @@
 
 
     "Nickname_saved": "Nickname saved",
-    "You_must_enter_different_nickname": "You must enter different nickname"
+    "You_must_enter_different_nickname": "You must enter different nickname",
+
+    "Profile_Information": "Profile Information",
+    "Bank_Information": "Bank Information",
+    "QR_Code_Payment_Information": "QR Code Payment Information"
 
 }

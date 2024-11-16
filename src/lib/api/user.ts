@@ -532,6 +532,48 @@ export async function updateSellerStatusNaverPay(data: any) {
 
 
 
+export async function updateSellerStatusKakaoPay(data: any) {
+
+  const client = await clientPromise;
+  const collection = client.db('nova').collection('users');
+
+
+  // update and return updated user
+
+  if (!data.walletAddress || !data.sellerStatus || !data.qrcodeImage) {
+    return null;
+  }
+
+  const seller = {
+    status: data.sellerStatus,
+    qrcodeImage: data.qrcodeImage,
+  };
+  
+
+
+  const result = await collection.updateOne(
+    { walletAddress: data.walletAddress },
+    { $set: { sellerKakaoPay: seller } }
+  );
+
+  if (result) {
+    const updated = await collection.findOne<UserProps>(
+      { walletAddress: data.walletAddress },
+      { projection: { _id: 0, emailVerified: 0 } }
+    );
+
+    return updated;
+  } else {
+    return null;
+  }
+
+
+}
+
+
+
+
+
 
 export async function getOneByWalletAddress(
   walletAddress: string,

@@ -54,7 +54,7 @@ import UploaderJdPay from '@/components/uploaderJdPay';
 
 import UploaderNaverPay from '@/components/uploaderNaverPay';
 
-
+import UploaderKakaoPay from '@/components/uploaderKakaoPay';
 
 import { balanceOf, transfer } from "thirdweb/extensions/erc20";
  
@@ -198,6 +198,10 @@ export default function SettingsPage({ params }: any) {
 
         Nickname_saved: "",
         You_must_enter_different_nickname: "",
+
+        Profile_Information: "",
+        Bank_Information: "",
+        QR_Code_Payment_Information: "",
     
     } );
     
@@ -265,6 +269,10 @@ export default function SettingsPage({ params }: any) {
 
         Nickname_saved,
         You_must_enter_different_nickname,
+
+        Profile_Information,
+        Bank_Information,
+        QR_Code_Payment_Information,
 
     } = data;
     
@@ -384,6 +392,7 @@ export default function SettingsPage({ params }: any) {
     const [unionPaySeller, setUnionPaySeller] = useState(null) as any;
     const [jdPaySeller, setJdPaySeller] = useState(null) as any;
     const [naverPaySeller, setNaverPaySeller] = useState(null) as any;
+    const [kakaoPaySeller, setKakaoPaySeller] = useState(null) as any;
 
 
 
@@ -421,6 +430,7 @@ export default function SettingsPage({ params }: any) {
                 setUnionPaySeller(data.result?.unionPaySeller);
                 setJdPaySeller(data.result?.jdPaySeller);
                 setNaverPaySeller(data.result?.naverPaySeller);
+                setKakaoPaySeller(data.result?.kakaoPaySeller);
 
 
 
@@ -441,6 +451,7 @@ export default function SettingsPage({ params }: any) {
                 setUnionPaySeller(null);
                 setJdPaySeller(null);
                 setNaverPaySeller(null);
+                setKakaoPaySeller(null);
             }
 
         };
@@ -777,142 +788,154 @@ export default function SettingsPage({ params }: any) {
                     </div>
 
 
-                    <div className='w-full  flex flex-col gap-5 '>
+                    <div className='w-full flex flex-col gap-5 '>
 
-                        {/* profile picture */}
-                    
+                        {/* profile */}
+                
+
+                        <div className='w-full flex flex-col gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
 
 
+                            {/* Profile Information */}
+                            <span className='text-xl font-semibold'>
+                                {Profile_Information}
+                            </span>
 
-                        {userCode && (
-                            <div className='flex flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
+                            <div className='w-full grid grid-cols-1 xl:grid-cols-2 gap-5 items-start justify-between'>
 
-                                <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
-                                    {My_Nickname}
+                                <div className='w-full flex flex-col gap-2 items-start justify-between'>
+                                    {userCode && (
+                                        <div className='w-full flex flex-row gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
+
+                                            <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
+                                                {My_Nickname}
+                                            </div>
+
+                                            <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
+                                                {nickname}
+                                            </div>
+
+                                            
+                                            <button
+                                                onClick={() => {
+
+                                                    nicknameEdit ? setNicknameEdit(false) : setNicknameEdit(true);
+
+                                                } }
+                                                className="p-2 bg-blue-500 text-zinc-100 rounded"
+                                            >
+                                                {nicknameEdit ? Cancel : Edit}
+                                            </button>
+
+                                            <Image
+                                                src="/verified.png"
+                                                alt="Verified"
+                                                width={20}
+                                                height={20}
+                                                className="rounded-lg"
+                                            />
+                                        </div>
+                                    )}
+
+
+                                    { (address && (nicknameEdit || !userCode)) && (
+                                        <div className='w-full flex flex-col xl:flex-row gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
+
+                                            <div
+                                                className="bg-green-500 text-sm text-zinc-100 p-2 rounded"
+                                            >
+                                                {My_Nickname}
+                                            </div>
+
+                                            <div className='flex flex-col gap-2 items-start justify-between'>
+                                                <input
+                                                    disabled={!address}
+                                                    className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-2xl font-semibold"
+                                                    placeholder={Enter_your_nickname}
+                                                    
+                                                    //value={nickname}
+                                                    value={editedNickname}
+
+                                                    type='text'
+                                                    onChange={(e) => {
+                                                        // check if the value is a number
+                                                        // check if the value is alphanumeric and lowercase
+
+                                                        if (!/^[a-z0-9]*$/.test(e.target.value)) {
+                                                            toast.error(Nickname_should_be_alphanumeric_lowercase);
+                                                            return;
+                                                        }
+                                                        if ( e.target.value.length > 10) {
+                                                            toast.error(Nickname_should_be_at_least_5_characters_and_at_most_10_characters);
+                                                            return;
+                                                        }
+
+                                                        //setNickname(e.target.value);
+
+                                                        setEditedNickname(e.target.value);
+
+                                                    } }
+
+
+                                                />
+                                                <div className='flex flex-row gap-2 items-center justify-between'>
+                                                    <span className='text-xs font-semibold'>
+                                                        {Nickname_should_be_5_10_characters}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+                                            <button
+                                                disabled={!address || loadingSetUserUpdated}
+                                                className={`
+                                                    ${!address || loadingSetUserUpdated ? 'bg-gray-300 text-gray-400' : 'bg-green-500 text-zinc-100'}
+                                                    p-2 rounded-lg text-sm font-semibold
+                                                `}
+                                                onClick={() => {
+                                                    setUserData();
+                                                }}
+                                            >
+                                                <div className='flex flex-row gap-2 items-center justify-center'>
+                                                    <Image
+                                                        src="/icon-save.png"
+                                                        alt="Save"
+                                                        width={20}
+                                                        height={20}
+                                                    />
+                                                    <span>
+                                                    {loadingSetUserUpdated ? Saving+'...' : Save}
+                                                    </span>
+                                                </div>
+                                            </button>
+
+                                            
+
+                                        </div>
+                                    )}
+
                                 </div>
 
-                                <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
-                                    {nickname}
-                                </div>
+                                {userCode && (
+                                    <div className='w-full flex flex-row xl:flex-row gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
 
-                                
-                                <button
-                                    onClick={() => {
+                                        <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
+                                            {My_Profile_Picture}
+                                        </div>
 
-                                        nicknameEdit ? setNicknameEdit(false) : setNicknameEdit(true);
+                                        <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
+                                            <Uploader
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
 
-                                    } }
-                                    className="p-2 bg-blue-500 text-zinc-100 rounded"
-                                >
-                                    {nicknameEdit ? Cancel : Edit}
-                                </button>
-
-                                <Image
-                                    src="/verified.png"
-                                    alt="Verified"
-                                    width={20}
-                                    height={20}
-                                    className="rounded-lg"
-                                />
-
-
-                                
-                            </div>
-                        )}
-
-
-                        { (address && (nicknameEdit || !userCode)) && (
-                            <div className=' flex flex-col xl:flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
-
-                                <div
-                                    className="bg-green-500 text-sm text-zinc-100 p-2 rounded"
-                                >
-                                    {My_Nickname}
-                                </div>
-
-                                <input
-                                    disabled={!address}
-                                    className="p-2 w-64 text-zinc-100 bg-zinc-800 rounded text-2xl font-semibold"
-                                    placeholder={Enter_your_nickname}
-                                    
-                                    //value={nickname}
-                                    value={editedNickname}
-
-                                    type='text'
-                                    onChange={(e) => {
-                                        // check if the value is a number
-                                        // check if the value is alphanumeric and lowercase
-
-                                        if (!/^[a-z0-9]*$/.test(e.target.value)) {
-                                            toast.error(Nickname_should_be_alphanumeric_lowercase);
-                                            return;
-                                        }
-                                        if ( e.target.value.length > 10) {
-                                            toast.error(Nickname_should_be_at_least_5_characters_and_at_most_10_characters);
-                                            return;
-                                        }
-
-                                        //setNickname(e.target.value);
-
-                                        setEditedNickname(e.target.value);
-
-                                    } }
-
-
-                                />
-                                <div className='flex flex-row gap-2 items-center justify-between'>
-                                    <span className='text-xs font-semibold'>
-                                        {Nickname_should_be_5_10_characters}
-                                    </span>
-                                </div>
-
-                                <button
-                                    disabled={!address || loadingSetUserUpdated}
-                                    className={`
-                                        ${!address || loadingSetUserUpdated ? 'bg-gray-300 text-gray-400' : 'bg-green-500 text-zinc-100'}
-                                        p-2 rounded-lg text-sm font-semibold
-                                    `}
-                                    onClick={() => {
-                                        setUserData();
-                                    }}
-                                >
-                                    <div className='flex flex-row gap-2 items-center justify-center'>
-                                        <Image
-                                            src="/icon-save.png"
-                                            alt="Save"
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <span>
-                                        {loadingSetUserUpdated ? Saving+'...' : Save}
-                                        </span>
                                     </div>
-                                </button>
-
-                                
+                                )}
 
                             </div>
-                        )}
 
-
-                        {userCode && (
-                            <div className='flex flex-row xl:flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
-
-                                <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
-                                    {My_Profile_Picture}
-                                </div>
-
-                                <div className="p-2 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold">
-                                    <Uploader
-                                        lang={params.lang}
-                                        walletAddress={address as string}
-                                    />
-                                </div>
-
-                            </div>
-                        )}
-
-
+                        </div>
 
                         {/*
                         {userCode && (
@@ -962,70 +985,71 @@ export default function SettingsPage({ params }: any) {
 
                                 {/* Bank Payment Information */}
                                 <span className='text-xl font-semibold'>
-                                    Bank Information
+                                    {Bank_Information}
                                 </span>
 
-
+                                <div className='w-full flex flex-col xl:flex-row gap-2 items-start justify-between'>
 
                                 {seller && (
-                                <div className='w-full flex flex-row gap-2 items-center justify-between border border-gray-300 p-4 rounded-lg'>
 
-                                    <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
-                                        {Seller}
-                                    </div>
+                                    <div className='w-full flex flex-row gap-2 items-start justify-between border border-gray-300 p-4 rounded-lg'>
 
-                                    <div className="flex flex-col p-5 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold gap-5">
+                                        <div className="bg-green-500 text-sm text-zinc-100 p-2 rounded">
+                                            {Seller}
+                                        </div>
+
+                                        <div className="flex flex-col p-5 bg-zinc-800 rounded text-zinc-100 text-xl font-semibold gap-5">
+                                            
+                                            <div className='flex flex-col xl:flex-row gap-2 items-center justify-between'>
+                                                <span className='text-xs font-semibold'>
+                                                    {Bank_Name}
+                                                </span>
+                                                <div className="text-lg font-semibold">
+                                                    {seller?.bankInfo?.bankName}
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-col xl:flex-row gap-2 items-center justify-between'>
+                                                <span className='text-xs font-semibold'>
+                                                    {Account_Number}
+                                                </span>
+                                                <div className="text-lg font-semibold">
+                                                    {seller?.bankInfo?.accountNumber}
+                                                </div>
+                                            </div>
+                                            <div className='flex flex-col xl:flex-row gap-2 items-center justify-between'>
+                                                <span className='text-xs font-semibold'>
+                                                    {Account_Holder}
+                                                </span>
+                                                <div className="text-lg font-semibold">
+                                                    {seller?.bankInfo?.accountHolder}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/*
+                                        <button
+                                            onClick={() => {
+                                                setEditSeller(!editSeller);
+                                            }}
+                                            className="p-2 bg-blue-500 text-zinc-100 rounded"
+                                        >
+                                            {editSeller ? Cancel : Edit}
+                                        </button>
+                                        */}
+
                                         
-                                        <div className='flex flex-col gap-2 items-start justify-between'>
-                                            <span className='text-xs font-semibold'>
-                                                {Bank_Name}
-                                            </span>
-                                            <div className="text-lg font-semibold">
-                                                {seller?.bankInfo?.bankName}
-                                            </div>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-start justify-between'>
-                                            <span className='text-xs font-semibold'>
-                                                {Account_Number}
-                                            </span>
-                                            <div className="text-lg font-semibold">
-                                                {seller?.bankInfo?.accountNumber}
-                                            </div>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-start justify-between'>
-                                            <span className='text-xs font-semibold'>
-                                                {Account_Holder}
-                                            </span>
-                                            <div className="text-lg font-semibold">
-                                                {seller?.bankInfo?.accountHolder}
-                                            </div>
-                                        </div>
+
+
+                                        <Image
+                                            src="/verified.png"
+                                            alt="Verified"
+                                            width={20}
+                                            height={20}
+                                            className="rounded-lg"
+                                        />
+
+
                                     </div>
-
-                                    {/*
-                                    <button
-                                        onClick={() => {
-                                            setEditSeller(!editSeller);
-                                        }}
-                                        className="p-2 bg-blue-500 text-zinc-100 rounded"
-                                    >
-                                        {editSeller ? Cancel : Edit}
-                                    </button>
-                                    */}
-
-                                    
-
-
-                                    <Image
-                                        src="/verified.png"
-                                        alt="Verified"
-                                        width={20}
-                                        height={20}
-                                        className="rounded-lg"
-                                    />
-
-
-                                </div>
                                 )}
 
 
@@ -1194,11 +1218,10 @@ export default function SettingsPage({ params }: any) {
                                     */}
 
 
-
-
                                 </div>
 
 
+                                </div>
 
 
                             </div>
@@ -1211,17 +1234,17 @@ export default function SettingsPage({ params }: any) {
 
                                 {/* Alipay Payment Information */}
                                 <span className='text-xl font-semibold'>
-                                    QR Code Payment Information
+                                    {QR_Code_Payment_Information}
                                 </span>
 
 
 
-                                <div className='w-full flex flex-col xl:flex-row gap-5 items-center justify-between border border-gray-300 p-4 rounded-lg'>
+                                <div className='w-full grid grid-cols-2 xl:flex xl:flex-row gap-5 items-center justify-between border border-gray-300 p-4 rounded-lg'>
                             
                                     {/* sq code image update */}
                                     <div className='w-full flex flex-col gap-2 items-start justify-between'>
                                                                             
-                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
                                             Alipay QR Code
                                         </span>
                                         <div className='bg-zinc-800 rounded-lg p-2'>
@@ -1235,7 +1258,7 @@ export default function SettingsPage({ params }: any) {
 
                                     <div className='w-full flex flex-col gap-2 items-start justify-between'>
                                                                             
-                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
                                             Wechat Pay QR Code
                                         </span>
                                         <div className='bg-zinc-800 rounded-lg p-2'>
@@ -1249,7 +1272,7 @@ export default function SettingsPage({ params }: any) {
 
                                     <div className='w-full flex flex-col gap-2 items-start justify-between'>
                                                                             
-                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
                                             Union Pay QR Code
                                         </span>
                                         <div className='bg-zinc-800 rounded-lg p-2'>
@@ -1263,7 +1286,7 @@ export default function SettingsPage({ params }: any) {
 
                                     <div className='w-full flex flex-col gap-2 items-start justify-between'>
 
-                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
                                             JD Pay QR Code
                                         </span>
                                         <div className='bg-zinc-800 rounded-lg p-2'>
@@ -1277,11 +1300,25 @@ export default function SettingsPage({ params }: any) {
 
                                     <div className='w-full flex flex-col gap-2 items-start justify-between'>
 
-                                        <span className='text-sm bg-green-500 text-zinc-100 p-2 rounded'>
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
                                             Naver Pay QR Code
                                         </span>
                                         <div className='bg-zinc-800 rounded-lg p-2'>
                                             <UploaderNaverPay
+                                                lang={params.lang}
+                                                walletAddress={address as string}
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className='w-full flex flex-col gap-2 items-start justify-between'>
+
+                                        <span className='w-full text-sm bg-green-500 text-zinc-100 p-2 rounded h-14'>
+                                            Kakao Pay QR Code
+                                        </span>
+                                        <div className='bg-zinc-800 rounded-lg p-2'>
+                                            <UploaderKakaoPay
                                                 lang={params.lang}
                                                 walletAddress={address as string}
                                             />

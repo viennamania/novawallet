@@ -376,7 +376,11 @@
     "Please_register_your_seller_information": "판매자 정보를 등록하세요. 판매자 등록을 해야 판매할 수 있습니다.",
 
     "Nickname_saved": "닉네임이 저장되었습니다.",
-    "You_must_enter_different_nickname": "다른 닉네임을 입력해야 합니다."
+    "You_must_enter_different_nickname": "다른 닉네임을 입력해야 합니다.",
+
+    "Profile_Information": "프로필 정보",
+    "Bank_Information": "은행 정보",
+    "QR_Code_Payment_Information": "QR코드 결제 정보"
 
 
 }
