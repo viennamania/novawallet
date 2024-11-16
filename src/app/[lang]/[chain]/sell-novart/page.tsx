@@ -298,6 +298,8 @@ export default function Index({ params }: any) {
 
     Please_register_your_seller_information: "",
 
+    Sign_in_with_Wallet: "",
+
 
   } );
 
@@ -431,6 +433,8 @@ export default function Index({ params }: any) {
     Order_has_been_failed,
 
     Please_register_your_seller_information,
+
+    Sign_in_with_Wallet,
 
   } = data;
 
@@ -1638,40 +1642,36 @@ export default function Index({ params }: any) {
                     </div>
 
                     {!address && (
+
                       <ConnectButton
-                        client={client}
-                        wallets={wallets}
+                      client={client}
+                      wallets={wallets}
+                      accountAbstraction={{
+                        chain: polygon,
+                        ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum, ethereum
+                        sponsorGas: true
+                      }}
+                      theme={"light"}
+                      connectButton={{
+                        label: Sign_in_with_Wallet,
+                      }}
+                      connectModal={{
+                        size: "wide", 
+                        titleIcon: "https://wallet.novarwa.io/logo-nova.png",                       
+                        showThirdwebBranding: false,
 
-                        
-                        accountAbstraction={{   
-                          chain: params.chain === "arbitrum" ? arbitrum : polygon,
-                          //
-                          //chain: polygon,
-
-                          //chain: arbitrum,
-                          factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                          gasless: true,
-                        }}
-                        
-                      
-                        
-                        theme={"light"}
-                        connectModal={{
-                          size: "wide",                            
-                          //title: "Connect",
-
-                        }}
-
-                        appMetadata={
-                          {
-                            logoUrl: "https://gold.goodtether.com/logo.png",
-                            name: "Next App",
-                            url: "https://gold.goodtether.com",
-                            description: "This is a Next App.",
-
-                          }
-                        }
+                      }}
+                      //locale={"ko_KR"}
+                      //locale={"en_US"}
+                      locale={
+                        params.lang === "en" ? "en_US" :
+                        params.lang === "zh" ? "en_US" :
+                        params.lang === "ja" ? "ja_JP" :
+                        params.lang === "kr" ? "ko_KR" :
+                        "en_US"
+                      }
                       />
+
                     )}
 
                     {/*address && (

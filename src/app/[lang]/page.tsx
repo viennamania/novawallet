@@ -1077,17 +1077,7 @@ export default function Index({ params }: any) {
 
           {!address && (
             <ConnectButton
-
               client={client}
-
-              // Connect Wallet button text change
-              
-
-
-              // inAppWallet
-
-              //wallets={wallets}
-
               wallets={wallets}
               
               accountAbstraction={{        
@@ -1100,10 +1090,6 @@ export default function Index({ params }: any) {
               theme={"light"}
               connectModal={{
                 size: "wide",
-                
-                //title: "Connect",
-
-
 
               }}
 
