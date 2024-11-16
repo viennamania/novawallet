@@ -44,12 +44,50 @@ export interface UserProps {
   tronWalletAddress: string,
   tronWalletPrivateKey: string,
 
+  /*
   aliPay: string,
   wechatPay: string,
   unionPay: string,
   JdPay: string,
   naverPay: string,
   kakaoPay: string,
+  */
+
+  /*
+  seller: {
+    status: string,
+    bankInfo: {
+      bankName: string,
+      accountNumber: string,
+      accountHolder: string,
+    }
+  },
+  sellerAliPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  sellerWechatPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  sellerUnionPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  sellerJdPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  sellerNaverPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  sellerKakaoPay: {
+    status: string,
+    qrcodeImage: string,
+  },
+  */
+
 }
 
 export interface ResultProps {

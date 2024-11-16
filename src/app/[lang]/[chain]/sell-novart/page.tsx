@@ -711,6 +711,16 @@ export default function Index({ params }: any) {
 
     const [seller, setSeller] = useState(null) as any;
   
+    // get all payment method from user
+    const [paymentMethods, setPaymentMethods] = useState([] as any[]);
+    // [{"method":"Bank","seller": object},
+    // ,{"method":"AliPay","seller": object},
+    // ,{"method":"WechatPay","seller": object},
+    // ,{"method":"UnionPay","seller": object},
+    // ,{"method":"JdPay","seller": object},
+    // ,{"method":"NaverPay","seller": object},
+    // ,{"method":"KakaoPay","seller": object}]
+
   
     useEffect(() => {
         const fetchData = async () => {
@@ -723,10 +733,16 @@ export default function Index({ params }: any) {
                     walletAddress: address,
                 }),
             });
+
+            if (response.status !== 200) {
+                return;
+            }
   
             const data = await response.json();
   
-            //console.log("data", data);
+            console.log("data", data);
+
+
   
             if (data.result) {
                 setNickname(data.result.nickname);
@@ -739,17 +755,45 @@ export default function Index({ params }: any) {
 
                 setEscrowWalletAddress(data.result?.escrowWalletAddress);
 
+
+                /*
+                setPaymentMethods(
+                  [
+                    data.result?.seller && {"method":"Bank","seller": data.result?.seller},
+                    data.result?.sellerAliPay && {"method":"AliPay","seller": data.result?.sellerAliPay},
+                    data.result?.sellerWechatPay && {"method":"WechatPay","seller": data.result?.sellerWechatPay},
+                    data.result?.sellerUnionPay && {"method":"UnionPay","seller": data.result?.sellerUnionPay},
+                    data.result?.sellerJdPay && {"method":"JdPay","seller": data.result?.sellerJdPay},
+                    data.result?.sellerNaverPay && {"method":"NaverPay","seller": data.result?.sellerNaverPay},
+                    data.result?.sellerKakaoPay && {"method":"KakaoPay","seller": data.result?.sellerKakaoPay},
+
+                  ]
+                );
+                */
+
+                // clear paymentMethods
+                setPaymentMethods([]);
+
+                data?.result?.seller && setPaymentMethods( (prev) => [...prev, {"method":"Bank","seller": data.result?.seller}] );
+                data?.result?.sellerAliPay && setPaymentMethods( (prev) => [...prev, {"method":"AliPay","seller": data.result?.sellerAliPay}] );
+                data?.result?.sellerWechatPay && setPaymentMethods( (prev) => [...prev, {"method":"WechatPay","seller": data.result?.sellerWechatPay}] );
+                data?.result?.sellerUnionPay && setPaymentMethods( (prev) => [...prev, {"method":"UnionPay","seller": data.result?.sellerUnionPay}] );
+                data?.result?.sellerJdPay && setPaymentMethods( (prev) => [...prev, {"method":"JdPay","seller": data.result?.sellerJdPay}] );
+                data?.result?.sellerNaverPay && setPaymentMethods( (prev) => [...prev, {"method":"NaverPay","seller": data.result?.sellerNaverPay}] );
+                data?.result?.sellerKakaoPay && setPaymentMethods( (prev) => [...prev, {"method":"KakaoPay","seller": data.result?.sellerKakaoPay}] );
+
   
             }
         };
   
-        fetchData();
+        address && fetchData();
   
     }, [address]);
 
 
 
 
+    console.log("paymentMethods", paymentMethods);
 
 
 
@@ -889,7 +933,7 @@ export default function Index({ params }: any) {
     // payment method
     // Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay
 
-    const [paymentMethod, setPaymentMethod] = useState('Bank');
+    const [paymentMethod, setPaymentMethod] = useState('');
 
 
 
@@ -1553,7 +1597,8 @@ export default function Index({ params }: any) {
 
 
 
-
+    
+    
     
     return (
 
@@ -1969,62 +2014,121 @@ export default function Index({ params }: any) {
 
                     {/* select payment method */}
                     {/* Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay */}
-                    <div className="flex flex-row items-center gap-2">
+                    <div className="flex flex-col xl:flex-row items-start justify-center gap-2">
+
                       <p className="text-sm text-zinc-400">
                         {Payment_Method}
                       </p>
-                      <select
-                        className="w-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
-                        value={paymentMethod}
-                        onChange={(e) => {
-                          //console.log(e.target.value);
-                          setPaymentMethod(e.target.value);
-                        }}
-                      >
-                        
-                        <option
-                          value="Bank"
-                          selected={paymentMethod === 'Bank'}
-                        >
-                          Bank
-                        </option>
-                        <option
-                          value="AliPay"
-                          selected={paymentMethod === 'AliPay'}
-                        >
-                          Alipay
-                        </option>
-                        <option
-                          value="WechatPay"
-                          selected={paymentMethod === 'WechatPay'}
-                        >
-                          WeChat Pay
-                        </option>
-                        <option
-                          value="UnionPay"
-                          selected={paymentMethod === 'UnionPay'}
-                        >
-                          Union Pay
-                        </option>
-                        <option
-                          value="JdPay"
-                          selected={paymentMethod === 'JdPay'}
-                        >
-                          JD Pay
-                        </option>
-                        <option
-                          value="NaverPay"
-                          selected={paymentMethod === 'NaverPay'}
-                        >
-                          Naver Pay
-                        </option>
-                        <option
-                          value="KakaoPay"
-                          selected={paymentMethod === 'KakaoPay'}
-                        >
-                          Kakao Pay
-                        </option>
-                      </select>
+
+                      {/* radio button for payment method */}
+
+                      
+
+                      {userCode && paymentMethods.length > 0 && (
+                        <div className="flex flex-row items-center gap-2">
+
+                          <div className="flex flex-col items-start gap-2">
+                            
+                            {paymentMethods.map((item, index) => (
+                              <div key={index} className="flex flex-row items-center gap-2">
+                                <input
+                                  type="radio"
+                                  id={item?.method}
+                                  name="paymentMethod"
+                                  value={item?.method}
+                                  checked={paymentMethod === item?.method}
+                                  onChange={(e) => setPaymentMethod(e.target.value)}
+                                />
+                                <label htmlFor={item} className="text-sm text-zinc-400">
+                                  {item?.method}
+                                  </label>
+                              </div>
+                            ))}
+
+                          </div>
+
+                          <span className="text-sm text-zinc-400">
+                            {paymentMethod === 'Bank' ?
+                              paymentMethods.filter((item) => item.method === 'Bank')[0]?.seller?.bankName :
+                              paymentMethod === 'AliPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md"
+                                />
+                              : paymentMethod === 'WechatPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md"
+                                />
+                              : paymentMethod === 'UnionPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md" 
+                                />
+                              : paymentMethod === 'JdPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md"
+                                />
+                              : paymentMethod === 'NaverPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md"
+                                />
+                              : paymentMethod === 'KakaoPay' ?
+                                <Image
+                                  src={
+                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                  }
+                                  alt={paymentMethod}
+                                  width={100}
+                                  height={100}
+                                  className="rounded-md"
+                                />
+                              : ''
+                              
+                            }
+                          </span>
+
+                        </div>
+                      )}
+
+                      {userCode && paymentMethods.length === 0 && (
+                        <div className="text-sm text-zinc-400">
+                          {Please_register_your_seller_information}
+                        </div>
+                      )}
+
+
+
+
+
+
                     </div>
                     
                     </div>
