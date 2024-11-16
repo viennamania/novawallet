@@ -369,6 +369,10 @@
     "Failed_to_send_token": "토큰을 보내는 데 실패했습니다.",
 
     "Payment_Currency": "결제 통화",
-    "Payment_Method": "결제 방법"
+    "Payment_Method": "결제 방법",
+
+    "Order_has_been_failed": "주문이 실패했습니다.",
+
+    "Please_register_your_seller_information": "판매자 정보를 등록하세요. 판매자 등록을 해야 판매할 수 있습니다."
 
 }

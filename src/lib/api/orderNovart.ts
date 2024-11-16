@@ -165,6 +165,9 @@ export async function updatePrice(data: any) {
 export async function insertSellOrder(data: any) {
 
   console.log('insertSellOrder data: ' + JSON.stringify(data));
+  /*
+  {"walletAddress":"0xc6F48f56C5Da5c674746C298A460A2E1427d0998","novartAmount":10,"fietAmount":15,"fietCurrency":"USD","rate":1.5,"payment":{"method":"Bank"},"privateSale":false}
+  */
 
   if (!data.walletAddress || !data.novartAmount || !data.fietAmount || !data.fietCurrency || !data.rate || !data.payment) {
     return null;

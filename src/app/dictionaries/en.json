@@ -423,6 +423,10 @@
 
 
     "Payment_Currency": "Payment Currency",
-    "Payment_Method": "Payment Method"
+    "Payment_Method": "Payment Method",
+
+    "Order_has_been_failed": "Order has been failed",
+
+    "Please_register_your_seller_information": "Please register your seller information. You must register your seller information to sell."
 
 }

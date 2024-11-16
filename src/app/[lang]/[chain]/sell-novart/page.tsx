@@ -294,6 +294,10 @@ export default function Index({ params }: any) {
 
     Payment_Method: "",
 
+    Order_has_been_failed: "",
+
+    Please_register_your_seller_information: "",
+
 
   } );
 
@@ -423,6 +427,10 @@ export default function Index({ params }: any) {
     Payment_Currency,
 
     Payment_Method,
+
+    Order_has_been_failed,
+
+    Please_register_your_seller_information,
 
   } = data;
 
@@ -723,9 +731,9 @@ export default function Index({ params }: any) {
 
                 setUser(data.result);
   
-                setSeller(data.result.seller);
+                setSeller(data.result?.seller);
 
-                setEscrowWalletAddress(data.result.escrowWalletAddress);
+                setEscrowWalletAddress(data.result?.escrowWalletAddress);
 
   
             }
@@ -942,6 +950,12 @@ export default function Index({ params }: any) {
         })
       });
 
+      if (response.status !== 200) {
+        toast.error(Order_has_been_failed);
+        setSellOrdering(false);
+        return;
+      }
+
       const data = await response.json();
 
       //console.log('data', data);
@@ -982,7 +996,7 @@ export default function Index({ params }: any) {
 
 
       } else {
-        toast.error('Order has been failed');
+        toast.error(Order_has_been_failed);
       }
 
       setSellOrdering(false);
@@ -1032,7 +1046,7 @@ export default function Index({ params }: any) {
 
 
       } else {
-        toast.error('Order has been failed');
+        toast.error(Order_has_been_failed);
       }
 
       setCancellings(cancellings.map((item, i) => i === index ? false : item));
@@ -2457,9 +2471,19 @@ export default function Index({ params }: any) {
 
 
                           ) : (
+
+                            <>
+
+                              {!seller && (
+                                <span className="text-sm text-zinc-400">
+                                  {Please_register_your_seller_information}
+                                </span>
+                              )} 
+                              
+
                               <button
-                                  disabled={novartAmount === 0 || agreementPlaceOrder === false}
-                                  className={`text-lg text-white px-4 py-2 rounded-md ${novartAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
+                                  disabled={!seller || novartAmount === 0 || agreementPlaceOrder === false}
+                                  className={`text-lg text-white px-4 py-2 rounded-md ${!seller || novartAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                   onClick={() => {
                                       console.log('Sell NOVART');
                                       // open trade detail
@@ -2471,6 +2495,9 @@ export default function Index({ params }: any) {
                               >
                                 {Place_Order}
                               </button>
+
+                            </>
+
                           )}
 
                         </div>

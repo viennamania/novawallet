@@ -226,6 +226,8 @@ export default function Index({ params }: any) {
     My_Balance: "",
 
     Anonymous: "",
+
+    Order_has_been_failed: "",
   
 
   } );
@@ -308,6 +310,8 @@ export default function Index({ params }: any) {
     My_Balance,
 
     Anonymous,
+
+    Order_has_been_failed,
 
 
   } = data;
@@ -820,7 +824,7 @@ export default function Index({ params }: any) {
         });
 
       } else {
-        toast.error('Order has been failed');
+        toast.error(Order_has_been_failed);
       }
 
       setCancellings(cancellings.map((item, i) => i === index ? false : item));

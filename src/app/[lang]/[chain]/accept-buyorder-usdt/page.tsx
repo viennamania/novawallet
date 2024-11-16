@@ -296,6 +296,8 @@ export default function Index({ params }: any) {
 
     Accept_Buy_Order: "",
 
+    Order_has_been_failed: "",
+
 
   } );
 
@@ -415,6 +417,8 @@ export default function Index({ params }: any) {
     Copied_Wallet_Address,
 
     Accept_Buy_Order,
+
+    Order_has_been_failed,
 
   } = data;
 
@@ -984,7 +988,7 @@ export default function Index({ params }: any) {
         });
 
       } else {
-        toast.error('Order has been failed');
+        toast.error(Order_has_been_failed);
       }
 
 
