@@ -710,6 +710,13 @@ export default function Index({ params }: any) {
 
 
     const [seller, setSeller] = useState(null) as any;
+
+
+
+    const [isSeller, setIsSeller] = useState(false);
+
+
+
   
     // get all payment method from user
     const [paymentMethods, setPaymentMethods] = useState([] as any[]);
@@ -751,9 +758,27 @@ export default function Index({ params }: any) {
 
                 setUser(data.result);
   
+                
+                
                 setSeller(data.result?.seller);
 
+
+                if (data?.result?.seller
+                  || data?.result?.sellerAliPay
+                  || data?.result?.sellerWechatPay
+                  || data?.result?.sellerUnionPay
+                  || data?.result?.sellerJdPay
+                  || data?.result?.sellerNaverPay
+                  || data?.result?.sellerKakaoPay
+                ) {
+                  setIsSeller(true);
+                }
+
+
+
+
                 setEscrowWalletAddress(data.result?.escrowWalletAddress);
+
 
 
                 /*
@@ -793,7 +818,7 @@ export default function Index({ params }: any) {
 
 
 
-    console.log("paymentMethods", paymentMethods);
+    ///console.log("paymentMethods", paymentMethods);
 
 
 
@@ -2049,8 +2074,16 @@ export default function Index({ params }: any) {
 
                           <span className="text-sm text-zinc-400">
                             {paymentMethod === 'Bank' ?
-                              paymentMethods.filter((item) => item.method === 'Bank')[0]?.seller?.bankName :
-                              paymentMethod === 'AliPay' ?
+
+                              <div className="flex flex-col gap-2 items-start border border-zinc-400 rounded-md p-2">
+                                  {
+                                paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.bankName 
+                                + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountNumber
+                                + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountHolder
+                                }
+                              </div>
+                              
+                              : paymentMethod === 'AliPay' ?
                                 <Image
                                   src={
                                     paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
@@ -2058,7 +2091,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md"
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : paymentMethod === 'WechatPay' ?
                                 <Image
@@ -2068,7 +2101,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md"
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : paymentMethod === 'UnionPay' ?
                                 <Image
@@ -2078,7 +2111,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md" 
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : paymentMethod === 'JdPay' ?
                                 <Image
@@ -2088,7 +2121,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md"
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : paymentMethod === 'NaverPay' ?
                                 <Image
@@ -2098,7 +2131,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md"
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : paymentMethod === 'KakaoPay' ?
                                 <Image
@@ -2108,7 +2141,7 @@ export default function Index({ params }: any) {
                                   alt={paymentMethod}
                                   width={100}
                                   height={100}
-                                  className="rounded-md"
+                                  className="rounded-md w-20 h-20 object-cover"
                                 />
                               : ''
                               
@@ -2578,7 +2611,7 @@ export default function Index({ params }: any) {
 
                             <>
 
-                              {!seller && (
+                              {!isSeller && (
                                 <span className="text-sm text-zinc-400">
                                   {Please_register_your_seller_information}
                                 </span>
@@ -2586,8 +2619,8 @@ export default function Index({ params }: any) {
                               
 
                               <button
-                                  disabled={!seller || novartAmount === 0 || agreementPlaceOrder === false}
-                                  className={`text-lg text-white px-4 py-2 rounded-md ${!seller || novartAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
+                                  disabled={!isSeller || !paymentMethod || novartAmount === 0 || agreementPlaceOrder === false}
+                                  className={`text-lg text-white px-4 py-2 rounded-md ${!isSeller || !paymentMethod || novartAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                   onClick={() => {
                                       console.log('Sell NOVART');
                                       // open trade detail
