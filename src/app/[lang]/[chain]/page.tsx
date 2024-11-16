@@ -994,6 +994,8 @@ export default function Index({ params }: any) {
         {!address && (
 
           <div className="w-full flex flex-row justify-start items-center gap-2">
+
+            {/*
             <button
               onClick={handleConnect}
               className="bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-900
@@ -1005,8 +1007,9 @@ export default function Index({ params }: any) {
                 <span>{Sign_in_with_Wallet}</span>
               </div>
             </button>
+            */}
 
-          {/*}
+          {/*
           <ConnectButton
               client={client}
               wallets={wallets}
@@ -1041,7 +1044,43 @@ export default function Index({ params }: any) {
                 }
               }
             />
-             */}
+            */}
+
+
+            <ConnectButton
+              client={client}
+              wallets={wallets}
+              accountAbstraction={{
+                chain: polygon,
+                ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum, ethereum
+                sponsorGas: true
+              }}
+              theme={"light"}
+              connectButton={{
+                label: Sign_in_with_Wallet,
+              }}
+              connectModal={{
+                size: "wide", 
+                titleIcon: "https://wallet.novarwa.io/logo-nova.png",                       
+                showThirdwebBranding: false,
+
+              }}
+              //locale={"ko_KR"}
+              //locale={"en_US"}
+              locale={
+                params.lang === "en" ? "en_US" :
+                params.lang === "zh" ? "en_US" :
+                params.lang === "ja" ? "ja_JP" :
+                params.lang === "kr" ? "ko_KR" :
+                "en_US"
+              }
+            />
+
+
+
+
+
+             
 
           </div>
          

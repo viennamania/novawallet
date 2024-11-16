@@ -290,26 +290,29 @@ export default function SendUsdt({ params }: any) {
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    if (address) {
-      const getBalance = async () => {
-        const result = await balanceOf({
-          contract,
-          address: address,
-        });
-        if (!result) return;
-        if (token === "USDT") {
-          setBalance(Number(result) / 10 ** 6);
-        } else if (token === "NOVART") {
-          setBalance(Number(result) / 10 ** 18);
-        }
+   
+    const getBalance = async () => {
 
-      };
-      getBalance();
+      if (!address) return;
 
-      const interval = setInterval(() => {
-        if (address) getBalance();
-      }, 1000);
-    }
+      const result = await balanceOf({
+        contract,
+        address: address,
+      });
+      if (!result) return;
+      if (token === "USDT") {
+        setBalance(Number(result) / 10 ** 6);
+      } else if (token === "NOVART") {
+        setBalance(Number(result) / 10 ** 18);
+      }
+
+    };
+    getBalance();
+
+    const interval = setInterval(() => {
+      if (address) getBalance();
+    }, 1000);
+    
   } , [address, contract, token]);
 
 
