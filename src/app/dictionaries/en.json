@@ -427,6 +427,10 @@
 
     "Order_has_been_failed": "Order has been failed",
 
-    "Please_register_your_seller_information": "Please register your seller information. You must register your seller information to sell."
+    "Please_register_your_seller_information": "Please register your seller information. You must register your seller information to sell.",
+
+
+    "Nickname_saved": "Nickname saved",
+    "You_must_enter_different_nickname": "You must enter different nickname"
 
 }

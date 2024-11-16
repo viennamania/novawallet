@@ -254,7 +254,11 @@
 
     "Order_has_been_failed": "订单失败",
     
-    "Please_register_your_seller_information": "请注册您的卖家信息。您必须注册您的卖家信息才能出售。"
+    "Please_register_your_seller_information": "请注册您的卖家信息。您必须注册您的卖家信息才能出售。",
+
+    "Nickname_saved": "昵称已保存",
+    "You_must_enter_different_nickname": "您必须输入不同的昵称"
+
 
    
 }

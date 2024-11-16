@@ -195,6 +195,10 @@ export default function SettingsPage({ params }: any) {
         Bank_Name: "",
         Account_Number: "",
         Account_Holder: "",
+
+        Nickname_saved: "",
+        You_must_enter_different_nickname: "",
+    
     } );
     
     useEffect(() => {
@@ -258,6 +262,9 @@ export default function SettingsPage({ params }: any) {
         Bank_Name,
         Account_Number,
         Account_Holder,
+
+        Nickname_saved,
+        You_must_enter_different_nickname,
 
     } = data;
     
@@ -497,11 +504,11 @@ export default function SettingsPage({ params }: any) {
                 setNicknameEdit(false);
                 setEditedNickname('');
 
-                toast.success('Nickname saved');
+                toast.success(Nickname_saved);
 
             } else {
 
-                toast.error('You must enter different nickname');
+                toast.error(You_must_enter_different_nickname);
             }
 
 
@@ -535,10 +542,10 @@ export default function SettingsPage({ params }: any) {
                 setNicknameEdit(false);
                 setEditedNickname('');
 
-                toast.success('Nickname saved');
+                toast.success(Nickname_saved);
 
             } else {
-                toast.error('Error saving nickname');
+                toast.error(You_must_enter_different_nickname);
             }
         }
 
@@ -568,33 +575,8 @@ export default function SettingsPage({ params }: any) {
     }
   
       setApplying(true);
-
-
-      const toWalletAddress = "0x2111b6A49CbFf1C8Cc39d13250eF6bd4e1B59cF6";
-      const amount = 1;
   
       try {
-  
-  
-        /*
-          // send USDT
-          // Call the extension function to prepare the transaction
-          const transaction = transfer({
-              contract,
-              to: toWalletAddress,
-              amount: amount,
-          });
-          
-  
-          const transactionResult = await sendAndConfirmTransaction({
-              transaction: transaction,
-              
-              account: smartAccount as any,
-          });
-
-  
-          console.log(transactionResult);
-            */
   
           await fetch('/api/user/updateSeller', {
             method: 'POST',
@@ -624,14 +606,6 @@ export default function SettingsPage({ params }: any) {
             .then((data) => {
                 setSeller(data.result.seller);
             });
-
-  
-  
-  
-          /////toast.success('USDT sent successfully');
-  
-        
-  
   
       } catch (error) {
         toast.error('Failed to send USDT');
@@ -891,6 +865,7 @@ export default function SettingsPage({ params }: any) {
                                         {Nickname_should_be_5_10_characters}
                                     </span>
                                 </div>
+
                                 <button
                                     disabled={!address || loadingSetUserUpdated}
                                     className={`
@@ -901,7 +876,17 @@ export default function SettingsPage({ params }: any) {
                                         setUserData();
                                     }}
                                 >
-                                    {loadingSetUserUpdated ? Saving+'...' : Save}
+                                    <div className='flex flex-row gap-2 items-center justify-center'>
+                                        <Image
+                                            src="/icon-save.png"
+                                            alt="Save"
+                                            width={20}
+                                            height={20}
+                                        />
+                                        <span>
+                                        {loadingSetUserUpdated ? Saving+'...' : Save}
+                                        </span>
+                                    </div>
                                 </button>
 
                                 
