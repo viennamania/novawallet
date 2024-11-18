@@ -4099,9 +4099,9 @@ export default function Index({ params }: any) {
                                     />
 
                                     <div>
-                                      {Waiting_for_seller_to_deposit} {item.fietAmount}
-                                      {item?.fietCurrency}
-                                      to {Seller}...
+                                      {Waiting_for_seller_to_deposit}{' '}{item.fietAmount}
+                                      {' '}{item?.fietCurrency}
+                                      
                                     </div>
 
                                   </div>
@@ -4135,7 +4135,7 @@ export default function Index({ params }: any) {
                                     <button
                                       disabled={escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index]}
                                       
-                                      className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-2 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
                                       onClick={() => {
 
                                         requestPayment(
@@ -4161,7 +4161,113 @@ export default function Index({ params }: any) {
                                 )}
 
 
+                                {item.status === 'paymentRequested' && (
 
+                                <div className="mt-5 flex flex-col gap-1 mb-1">
+
+                                  <span className="text-sm font-semibold text-yellow-500">{Escrow_Completed}</span>
+
+                                  <div className="flex flex-row gap-1">
+
+                                    <input
+                                      disabled={confirmingPayment[index]}
+                                      type="checkbox"
+                                      checked={confirmPaymentCheck[index]}
+                                      onChange={(e) => {
+                                        setConfirmPaymentCheck(
+                                          confirmPaymentCheck.map((item, idx) => {
+                                            if (idx === index) {
+                                              return e.target.checked;
+                                            }
+                                            return item;
+                                          })
+                                        );
+                                      }}
+                                    />
+
+                                    <button
+                                      disabled={confirmingPayment[index] || !confirmPaymentCheck[index]}
+                                      className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-2 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      onClick={() => {
+                                        confirmPayment(
+                                          index,
+                                          item._id,
+                                          paymentAmounts[index]
+                                        );
+                                      }}
+
+                                    >
+
+                                      <Image
+                                        src="/loading.png"
+                                        alt="loading"
+                                        width={16}
+                                        height={16}
+                                        className={confirmingPayment[index] ? 'animate-spin' : 'hidden'}
+                                      />
+                                      <span>{Confirm_Payment}</span>
+
+                                    </button>
+
+                                  </div>
+
+
+                                  {/* escrow cancel */}
+                                  {/*
+                                  <div className="flex flex-row gap-1">
+
+                                    <input
+                                      disabled={rollbackingPayment[index]}
+                                      type="checkbox"
+                                      checked={rollbackPaymentCheck[index]}
+                                      onChange={(e) => {
+                                        setRollbackPaymentCheck(
+                                          rollbackPaymentCheck.map((item, idx) => {
+                                            if (idx === index) {
+                                              return e.target.checked;
+                                            }
+                                            return item;
+                                          })
+                                        );
+                                      }}
+                                    />
+
+                                    <button
+                                      disabled={rollbackingPayment[index] || !rollbackPaymentCheck[index]}
+                                      className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
+                                      onClick={() => {
+                                        rollbackPayment(
+                                          index,
+                                          item._id,
+                                          paymentAmounts[index]
+                                        );
+                                      }}
+
+                                    >
+                                        
+                                        <Image
+                                          src="/loading.png"
+                                          alt="loading"
+                                          width={16}
+                                          height={16}
+                                          className={rollbackingPayment[index] ? 'animate-spin' : 'hidden'}
+                                        />
+                                        <span>
+                                          에스크로 취소
+                                        </span>
+
+                                    </button>
+
+                                  </div>
+                                  */}
+
+
+
+                                </div>
+
+
+
+                                )}
 
 
 

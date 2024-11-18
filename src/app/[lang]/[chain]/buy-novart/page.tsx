@@ -623,6 +623,9 @@ export default function Index({ params }: any) {
               ),
             });
 
+            if (!response.ok) {
+                return;
+            }
 
 
 
@@ -630,16 +633,16 @@ export default function Index({ params }: any) {
             setSellOrders(data.result.orders);
         }
 
-        fetchSellOrders();
+        address && fetchSellOrders();
 
-        /*
+        
         const interval = setInterval(() => {
             fetchSellOrders();
         }, 10000);
 
 
         return () => clearInterval(interval);
-        */
+      
 
 
 
@@ -2072,6 +2075,7 @@ export default function Index({ params }: any) {
                                         {Waiting_for_seller_to_deposit} {item.novartAmount} NOVART {to_escrow}...
                                       </span>
 
+                                      {/*
                                       <span className="text-sm text-zinc-400">
 
                                         {If_the_seller_does_not_deposit_the_NOVART_to_escrow},
@@ -2085,6 +2089,9 @@ export default function Index({ params }: any) {
                                         } 
 
                                       </span>
+                                      */}
+
+
                                     </div>
                                   </div>
 
