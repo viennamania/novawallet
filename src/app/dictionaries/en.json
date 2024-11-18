@@ -438,7 +438,11 @@
     "QR_Code_Payment_Information": "QR Code Payment Information",
 
 
-    "Waiting_for_buyer_to_send": "Waiting for buyer to send"
+    "Waiting_for_buyer_to_send": "Waiting for buyer to send",
+
+    "Create_Escrow_Wallet": "Create Escrow Wallet",
+
+    "Please_create_your_escrow_wallet": "Please create your escrow wallet. You must have an escrow wallet to sell."
 
 
 

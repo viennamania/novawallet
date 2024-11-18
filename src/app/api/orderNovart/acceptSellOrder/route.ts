@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
 
     // send sms
-
+    
     const to = mobile;
 
 
@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
 
     try {
 
+
+      /*
       let msgBody = '';
 
       if (lang === 'en') {
@@ -89,6 +91,7 @@ export async function POST(request: NextRequest) {
       });
 
       console.log(message.sid);
+      */
 
       
       /*

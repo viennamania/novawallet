@@ -302,6 +302,9 @@ export default function Index({ params }: any) {
 
     Apply_for_Listing_New_Seller: "",
 
+    Create_Escrow_Wallet: "",
+
+    Please_create_your_escrow_wallet: "",
 
   } );
 
@@ -439,6 +442,10 @@ export default function Index({ params }: any) {
     Sign_in_with_Wallet,
 
     Apply_for_Listing_New_Seller,
+
+    Create_Escrow_Wallet,
+
+    Please_create_your_escrow_wallet,
 
   } = data;
 
@@ -1949,7 +1956,7 @@ export default function Index({ params }: any) {
                                 <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-zinc-100"></div>
                               ) : (
                                 <div className="text-sm">
-                                  에스크로 지갑 생성하기
+                                  {Create_Escrow_Wallet}
                                 </div>
                               )}
                             </div>
@@ -1958,7 +1965,7 @@ export default function Index({ params }: any) {
                           <div className="flex flex-row items-center gap-2">
                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                             <p className="text-sm text-zinc-400">
-                              에스크로 지갑이 있어야 판매 가능합니다.
+                              {Please_create_your_escrow_wallet}
                             </p>
                           </div>
                           

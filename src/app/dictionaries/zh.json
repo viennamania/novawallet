@@ -263,7 +263,12 @@
     "Bank_Information": "银行信息",
     "QR_Code_Payment_Information": "二维码支付信息",
 
-    "Waiting_for_buyer_to_send": "等待买家发送"
+    "Waiting_for_buyer_to_send": "等待买家发送",
+
+    "Create_Escrow_Wallet": "创建托管钱包",
+
+    "Please_create_your_escrow_wallet": "请创建您的托管钱包"
+
 
 
    
