@@ -306,6 +306,8 @@ export default function Index({ params }: any) {
 
     Please_create_your_escrow_wallet: "",
 
+    Payment_has_been_rollbacked: "",
+
   } );
 
   useEffect(() => {
@@ -446,6 +448,8 @@ export default function Index({ params }: any) {
     Create_Escrow_Wallet,
 
     Please_create_your_escrow_wallet,
+
+    Payment_has_been_rollbacked,
 
   } = data;
 
@@ -1475,7 +1479,7 @@ export default function Index({ params }: any) {
       
       fetchSellOrders();
 
-      toast.success('Payment has been rollbacked');
+      toast.success(Payment_has_been_rollbacked);
 
       playSong();
 

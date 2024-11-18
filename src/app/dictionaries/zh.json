@@ -267,7 +267,9 @@
 
     "Create_Escrow_Wallet": "创建托管钱包",
 
-    "Please_create_your_escrow_wallet": "请创建您的托管钱包"
+    "Please_create_your_escrow_wallet": "请创建您的托管钱包",
+
+    "Payment_has_been_rollbacked": "付款已回滚"
 
 
 

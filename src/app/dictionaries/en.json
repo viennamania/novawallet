@@ -442,7 +442,9 @@
 
     "Create_Escrow_Wallet": "Create Escrow Wallet",
 
-    "Please_create_your_escrow_wallet": "Please create your escrow wallet. You must have an escrow wallet to sell."
+    "Please_create_your_escrow_wallet": "Please create your escrow wallet. You must have an escrow wallet to sell.",
+
+    "Payment_has_been_rollbacked": "Payment has been rollbacked"
 
 
 

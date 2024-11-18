@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
   const { lang, chain, orderId, transactionHash } = body;
 
   console.log("orderId", orderId);
+  console.log("transactionHash", transactionHash);
   
 
   const result = await requestPayment({
@@ -29,7 +30,9 @@ export async function POST(request: NextRequest) {
   });
 
 
-  //console.log("result", JSON.stringify(result));
+  ////console.log("result", JSON.stringify(result));
+
+
 
   const {
     mobile: mobile,
@@ -45,9 +48,9 @@ export async function POST(request: NextRequest) {
   } = result as UserProps;
 
 
-  const bankName = seller.bankInfo.bankName;
-  const accountNumber = seller.bankInfo.accountNumber;
-  const accountHolder = seller.bankInfo.accountHolder;
+  const bankName = seller?.bankInfo.bankName;
+  const accountNumber = seller?.bankInfo.accountNumber;
+  const accountHolder = seller?.bankInfo.accountHolder;
   const depositName = tradeId;
 
   //const amount = krwAmount;
