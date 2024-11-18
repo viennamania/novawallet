@@ -439,7 +439,7 @@ export async function POST(request: NextRequest) {
   
   
       // send sms
-
+    /*
 
     if (!buyer?.mobile) {
       return NextResponse.json({
@@ -489,7 +489,7 @@ export async function POST(request: NextRequest) {
   
     }
 
-  
+    */
   
   
   

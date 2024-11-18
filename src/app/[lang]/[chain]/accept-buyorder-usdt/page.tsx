@@ -2967,26 +2967,6 @@ export default function Index({ params }: any) {
 
 
 
-                                    {/* share button */}
-                                    {/*
-                                    <button
-                                      className="text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
-                                      onClick={() => {
-
-                                        window.open(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`, '_blank');
-
-                                      }}
-                                    >
-                                      <Image
-                                        src="/icon-share.png"
-                                        alt="Share"
-                                        width={20}
-                                        height={20}
-                                      />
-                                    </button>
-                                    */}
-
-
                                   </div>
 
 

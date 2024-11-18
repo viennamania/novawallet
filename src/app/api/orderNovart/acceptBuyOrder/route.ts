@@ -53,6 +53,7 @@ export async function POST(request: NextRequest) {
 
     // send sms
 
+      /*
     const to = mobile;
 
 
@@ -89,31 +90,12 @@ export async function POST(request: NextRequest) {
       console.log(message.sid);
 
       
-      /*
-      let msgBody2 = '';
 
-      if (lang === 'en') { 
-        msgBody2 = `[NOVA] TID[${tradeId}] Check the trade: https://wallet.novarwa.io/${lang}/${chain}/sell-usdt/${orderId}`;
-      } else if (lang === 'kr') {
-        msgBody2 = `[NOVA] TID[${tradeId}] 거래 확인: https://wallet.novarwa.io/${lang}/${chain}/sell-usdt/${orderId}`;
-      } else {
-        msgBody2 = `[NOVA] TID[${tradeId}] Check the trade: https://wallet.novarwa.io/${lang}/${chain}/sell-usdt/${orderId}`;
-      }
-
-
-      message = await client.messages.create({
-        body: msgBody2,
-        from: "+17622254217",
-        to: to,
-      });
-
-      console.log(message.sid);
-      */
 
     } catch (e) {
       console.error('error', e);
     }
-
+    */
 
 
 
