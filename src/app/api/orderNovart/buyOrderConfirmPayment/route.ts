@@ -92,10 +92,11 @@ export const config = {
 //const chain = polygon;
 
 
-// USDT Token (USDT)
-const tokenContractAddressUSDT = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F';
 
-const contractAddressArbitrum = "0x2f2a2543B76A4166549F7aab2e75Bef0aefC5B0f"; // USDT on Arbitrum
+const tokenContractAddressNOVART = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Polygon
+
+const contractAddressArbitrum = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Arbitrum
+
 
 
 
@@ -225,8 +226,6 @@ export async function POST(request: NextRequest) {
       const wallet = smartWallet({
 
         chain: chain === 'polygon' ? polygon : arbitrum,
-
-        factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // your own deployed account factory address
         sponsorGas: true,
       });
 
@@ -250,7 +249,7 @@ export async function POST(request: NextRequest) {
       const contract = getContract({
         client,
         chain: chain === 'polygon' ? polygon : arbitrum,
-        address: tokenContractAddressUSDT, // erc20 contract from thirdweb.com/explore
+        address: tokenContractAddressNOVART, // erc20 contract from thirdweb.com/explore
       });
 
       const transactionSendToStore = transfer({
@@ -342,7 +341,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           to: toAddressStore,
-          currencyAddress: chain === "polygon" ? tokenContractAddressUSDT : contractAddressArbitrum,
+          currencyAddress: chain === "polygon" ? tokenContractAddressNOVART : contractAddressArbitrum,
           amount: sendAmountToStore,
 
           /*
@@ -436,7 +435,7 @@ export async function POST(request: NextRequest) {
   
   
   
-    const amount = usdtAmount;
+    const amount = novartAmount;
   
   
       // send sms
