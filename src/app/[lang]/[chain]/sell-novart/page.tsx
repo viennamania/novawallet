@@ -3349,7 +3349,7 @@ export default function Index({ params }: any) {
 
                                       <button
                                         disabled={confirmingPayment[index] || !confirmPaymentCheck[index]}
-                                        className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                        className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
                                         onClick={() => {
                                           confirmPayment(
                                             index,
@@ -3394,7 +3394,7 @@ export default function Index({ params }: any) {
 
                                       <button
                                         disabled={rollbackingPayment[index] || !rollbackPaymentCheck[index]}
-                                        className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
+                                        className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
                                         onClick={() => {
                                           rollbackPayment(
                                             index,
@@ -3419,9 +3419,6 @@ export default function Index({ params }: any) {
                                       </button>
 
                                     </div>
-
-
-
 
 
 
