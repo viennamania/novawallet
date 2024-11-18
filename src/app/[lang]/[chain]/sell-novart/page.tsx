@@ -300,6 +300,8 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet: "",
 
+    Apply_for_Listing_New_Seller: "",
+
 
   } );
 
@@ -435,6 +437,8 @@ export default function Index({ params }: any) {
     Please_register_your_seller_information,
 
     Sign_in_with_Wallet,
+
+    Apply_for_Listing_New_Seller,
 
   } = data;
 
@@ -2153,15 +2157,35 @@ export default function Index({ params }: any) {
 
 
                       {!userCode && (
-                        <div className="text-sm text-blue-500">
-                          {Please_register_your_seller_information}
+                        <div className="flex flex-col gap-2 items-start">
+                          <div className="text-sm text-blue-500">
+                            {Please_register_your_seller_information}
+                          </div>
+                          <button
+                            onClick={() => {
+                              router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                            }}
+                            className="text-sm text-blue-500 underline"
+                          >
+                            {Apply_for_Listing_New_Seller}
+                          </button>
                         </div>
                       )}
                      
 
                       {userCode && paymentMethods.length === 0 && (
-                        <div className="text-sm text-blue-500">
-                          {Please_register_your_seller_information}
+                        <div className="flex flex-col gap-2 items-start">
+                          <div className="text-sm text-blue-500">
+                            {Please_register_your_seller_information}
+                          </div>
+                          <button
+                            onClick={() => {
+                              router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                            }}
+                            className="text-sm text-blue-500 underline"
+                          >
+                            {Apply_for_Listing_New_Seller}
+                          </button>
                         </div>
                       )}
 
