@@ -663,7 +663,7 @@ export default function Index({ params }: any) {
         });
   
     
-        setEscrowBalance( Number(result) / 10 ** 6 );
+        setEscrowBalance( Number(result) / 10 ** 18 );
   
   
   

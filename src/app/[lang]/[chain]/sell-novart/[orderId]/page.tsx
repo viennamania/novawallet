@@ -120,9 +120,9 @@ const wallets = [
 
 
 
-const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on Polygon
-const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // USDT on Arbitrum
+const contractAddress = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Polygon
 
+const contractAddressArbitrum = "0x03cF969581AEdEA742506631188130d84e147806"; // NOVART on Arbitrum
 
 
 
@@ -290,6 +290,8 @@ export default function Index({ params }: any) {
 
       Reload: "",
 
+      Sign_in_with_Wallet: "",
+
     } );
   
     useEffect(() => {
@@ -384,6 +386,8 @@ export default function Index({ params }: any) {
       Enter_your_nickname,
 
       Reload,
+
+      Sign_in_with_Wallet,
 
     } = data;
    
@@ -677,7 +681,7 @@ export default function Index({ params }: any) {
 
     }
 
-
+    /*
     useEffect(() => {
 
 
@@ -731,6 +735,8 @@ export default function Index({ params }: any) {
 
 
     } , [ sellOrders ]);
+       
+      */
 
 
 
@@ -1317,6 +1323,7 @@ export default function Index({ params }: any) {
               >
                 {Go_Home}
               </button>
+              {/*}
               <button
                 onClick={() => router.push('/' + params.lang + '/' + params.chain + '/buy-usdt')}
                 className="text-zinc-100 font-semibold underline"
@@ -1324,6 +1331,7 @@ export default function Index({ params }: any) {
         
                 {Go_Buy_USDT}
               </button>
+              */}
               {/* Go to Sell USDT */}
               {/*
               <button
@@ -1338,7 +1346,7 @@ export default function Index({ params }: any) {
           {address ? (
             <div className="flex flex-col items-center space-y-4 mb-4">
               {/* disconnect button */}
-              
+              {/*
               <button
                 onClick={() => {
 
@@ -1349,10 +1357,11 @@ export default function Index({ params }: any) {
                   window.location.reload();
 
                 }}
-                className="text-lg bg-red-500 text-white px-4 py-2 rounded-md"
+                className="text-lg bg-red-500 text-zinc-800 px-4 py-2 rounded-md"
               >
                 {Disconnect_Wallet}
               </button>
+              */}
               
             </div>
 
@@ -1360,96 +1369,34 @@ export default function Index({ params }: any) {
             <div className="flex flex-col items-center space-y-4 mb-4">
 
 
-                {params.chain === "polygon" && (
-
-
-                  <ConnectButton
-
-                    client={client}
-
-                    wallets={wallets}
-                    
-                    accountAbstraction={{   
-                      
-                      chain: polygon,
-                      //
-                      //chain: polygon,
-
-                      //chain: arbitrum,
-                      factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                      gasless: true,
-                    }}
-                    
-                    theme={"light"}
-                    connectModal={{
-                      size: "wide",
-                      
-                      //title: "Connect",
-
-
-
-                    }}
-
-
-                    
-                    appMetadata={
-                      {
-                        logoUrl: "https://gold.goodtether.com/logo.png",
-                        name: "Next App",
-                        url: "https://gold.goodtether.com",
-                        description: "This is a Next App.",
-
-                      }
-                    }
-
-                  />
-
-                )}
-
-
-
-                {params.chain === "arbitrum" && (
-                    
                     <ConnectButton
-    
                       client={client}
-    
                       wallets={wallets}
-                      
-                      accountAbstraction={{   
-                        
-                        chain: arbitrum,
-                        //
-                        //chain: polygon,
-    
-                        //chain: arbitrum,
-                        factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                        gasless: true,
+                      accountAbstraction={{
+                        chain: polygon,
+                        ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum, ethereum
+                        sponsorGas: true
                       }}
-                      
                       theme={"light"}
+                      connectButton={{
+                        label: Sign_in_with_Wallet,
+                      }}
                       connectModal={{
-                        size: "wide",
-                        
-                        //title: "Connect",
+                        size: "wide", 
+                        titleIcon: "https://wallet.novarwa.io/logo-nova.png",                       
+                        showThirdwebBranding: false,
 
                       }}
-
-                      appMetadata={
-                        {
-                          logoUrl: "https://gold.goodtether.com/logo.png",
-                          name: "Next App",
-                          url: "https://gold.goodtether.com",
-                          description: "This is a Next App.",
-    
-                        }
+                      //locale={"ko_KR"}
+                      //locale={"en_US"}
+                      locale={
+                        params.lang === "en" ? "en_US" :
+                        params.lang === "zh" ? "en_US" :
+                        params.lang === "ja" ? "ja_JP" :
+                        params.lang === "kr" ? "ko_KR" :
+                        "en_US"
                       }
-
                     />
-
-                )}
-
-
 
                 <span className="text-lg text-zinc-400 xl:w-1/2 text-center">
                   {Connect_Wallet_Description_For_Buyers}
@@ -1470,8 +1417,8 @@ export default function Index({ params }: any) {
                     <div className='w-full flex flex-row items-between justify-start gap-5'>
 
                       <div className=" flex flex-col gap-2 items-start">
-                        <div className="text-5xl font-semibold text-white">
-                          {Number(balance).toFixed(2)} <span className="text-lg">USDT</span>
+                        <div className="text-5xl font-semibold text-zinc-800">
+                          {Number(balance).toFixed(2)} <span className="text-lg">NOVA</span>
                         </div>
                       </div>
 
@@ -1490,7 +1437,9 @@ export default function Index({ params }: any) {
                                 height: '20px',
                             }}
                           />
-                          <div className="text-lg font-semibold text-white ">{
+                          <div
+                            className="text-lg font-semibold text-zinc-800
+                          ">{
                             user?.nickname ? user.nickname : Anonymous
                           }</div>
 
@@ -1631,7 +1580,8 @@ export default function Index({ params }: any) {
                               {/* reload button */}
                               <button
                                 disabled={loadingOneSellOrder}
-                                className={`flex flex-row gap-1 text-sm text-white px-2 py-1 rounded-md ${loadingOneSellOrder ? 'bg-gray-500' : 'bg-green-500'}`}
+                                className={`flex flex-row gap-1 text-sm text-zinc-400
+                                  px-2 py-1 rounded-md ${loadingOneSellOrder ? 'bg-gray-500' : 'bg-green-500'}`}
                                 onClick={
                                   () => {
                                     fetchOneSellOrder();
@@ -1769,7 +1719,8 @@ export default function Index({ params }: any) {
 
                               { (item.status === 'accepted' || item.status === 'paymentRequested' || item.status === 'paymentConfirmed') && (
 
-                                <div className='flex flex-row items-center gap-2 bg-white px-2 py-3 rounded-md mb-4'>
+                                <div className='flex flex-row items-center gap-2 bg-zinc-500
+                                px-2 py-3 rounded-md mb-4'>
 
                                   {item.status === 'accepted' || item.status === 'paymentRequested' && (
                                     <Image
@@ -1946,8 +1897,10 @@ export default function Index({ params }: any) {
                                 <div className="mt-2 flex flex-row items-between space-x-2">
 
 
-                                  <p className="text-lg font-semibold text-white">{item.usdtAmount} USDT</p>
-                                  <p className="text-lg font-semibold text-white">{Rate}: {
+                                  <p className="text-lg font-semibold text-zinc-400
+                                  ">{item.usdtAmount} USDT</p>
+                                  <p className="text-lg font-semibold text-zinc-400
+                                  ">{Rate}: {
 
                                     Number(item.krwAmount / item.usdtAmount).toFixed(2)
 
@@ -1971,7 +1924,7 @@ export default function Index({ params }: any) {
 
                                 <div className='flex flex-row items-center justify-end gap-2'>
                                   <button
-                                      className="flex text-sm bg-blue-500 text-white px-2 py-1 rounded-md"
+                                      className="flex text-sm bg-blue-500 text-zinc-800 px-2 py-1 rounded-md"
                                       onClick={() => {
                                         
                                         //router.push(`/sell-usdt/${item._id}`);
@@ -2046,7 +1999,7 @@ export default function Index({ params }: any) {
                                           height={32}
                                           className="animate-spin"
                                       />
-                                      <div className="text-lg font-semibold text-white">
+                                      <div className="text-lg font-semibold text-zinc-800">
                                         Escrowing {item.usdtAmount} USDT...
                                       </div>
                                     </div>
@@ -2075,7 +2028,7 @@ export default function Index({ params }: any) {
                                           height={50}
                                           className="animate-spin"
                                       />
-                                      <div className="text-lg font-semibold text-white">
+                                      <div className="text-lg font-semibold text-zinc-800">
                                         {Requesting_Payment}...
                                       </div>
                                     </div>
@@ -2129,7 +2082,7 @@ export default function Index({ params }: any) {
 
 
 
-                                <div className="mt-4 flex flex-col gap-2 text-sm text-left text-white">
+                                <div className="mt-4 flex flex-col gap-2 text-sm text-left text-zinc-800">
                                   <div className='flex flex-row items-center gap-2'>
                                     {/* dot */}
                                     <div  className="w-2 h-2 rounded-full bg-green-500"></div>
@@ -2161,7 +2114,7 @@ export default function Index({ params }: any) {
 
                                       ${requestPaymentCheck[index] ? 'bg-green-500' : 'bg-gray-500'}
                                       
-                                    text-white px-4 py-2 rounded-md mt-4`}
+                                    text-zinc-800 px-4 py-2 rounded-md mt-4`}
 
                                     onClick={() => {
                                         //console.log('request Payment');
@@ -2190,33 +2143,33 @@ export default function Index({ params }: any) {
                                         </div>
                                       </div>
 
-                                      <div className="text-lg text-white">
+                                      <div className="text-lg text-zinc-800">
                                         Insufficient Balance
                                       </div>
-                                      <div className="text-lg text-white">
+                                      <div className="text-lg text-zinc-800">
                                         You need {item.usdtAmount} USDT
                                       </div>
-                                      <div className="text-lg text-white">
+                                      <div className="text-lg text-zinc-800">
                                         You have {balance} USDT
                                       </div>
-                                      <div className="text-lg text-white">
+                                      <div className="text-lg text-zinc-800">
                                         Please top up your balance by depositing {item.usdtAmount - balance} USDT
                                       </div>
-                                      <div className="text-lg text-white">
+                                      <div className="text-lg text-zinc-800">
                                         Your wallet address is
                                       </div>
-                                      <div className="text-xs text-white">
+                                      <div className="text-xs text-zinc-800">
                                         {address.substring(0, 10)}...{address.substring(address.length - 10, address.length)}
                                         
                                       </div>
-                                      <div className="text-xs text-white">
+                                      <div className="text-xs text-zinc-800">
                                       
                                         <button
                                             onClick={() => {
                                                 navigator.clipboard.writeText(address);
                                                 toast.success('Address has been copied');
                                             }}
-                                        className="text-xs bg-green-500 text-white px-2 py-1 rounded-md">Copy</button>
+                                        className="text-xs bg-green-500 text-zinc-800 px-2 py-1 rounded-md">Copy</button>
                                       </div>
                                     </div>
 
@@ -2335,7 +2288,7 @@ export default function Index({ params }: any) {
                                           
                                             <button
                                             disabled={!user || !agreementForTrade[index]}
-                                            className={`text-lg text-white px-4 py-2 rounded-md
+                                            className={`text-lg text-zinc-800 px-4 py-2 rounded-md
                                               ${!user || !agreementForTrade[index] ? 'bg-zinc-800' : 'bg-green-500 hover:bg-green-600'}
                                               `}
 
@@ -2392,7 +2345,7 @@ export default function Index({ params }: any) {
 
                                     {/* polygon icon to go to polygon scan */}
                                     <button
-                                      className="text-sm bg-green-500 text-white px-2 py-1 rounded-md"
+                                      className="text-sm bg-green-500 text-zinc-800 px-2 py-1 rounded-md"
                                       onClick={() => {
                                         {
                                           params.chain === 'polygon' ?
@@ -2535,12 +2488,12 @@ export default function Index({ params }: any) {
                                       height={32}
                                     />
 
-                                    <span className="textlg text-white">
+                                    <span className="textlg text-zinc-800">
                                       Escrow: {item.usdtAmount} USDT
                                     </span>
 
                                     <button
-                                        className="ml-5 text-sm bg-white text-white px-2 py-1 rounded-md"
+                                        className="ml-5 text-sm bg-white text-zinc-800 px-2 py-1 rounded-md"
                                         onClick={() => {
                                             //console.log('Cancel Payment Request');
                                             // new window
@@ -2580,7 +2533,7 @@ export default function Index({ params }: any) {
                                             height={32}
                                             className="animate-spin"
                                         />
-                                        <div className="text-lg font-semibold text-white">
+                                        <div className="text-lg font-semibold text-zinc-800">
                                           
                                           {Checking_the_bank_transfer_from_the_buyer} ( {
                                             item.buyer.nickname ? item.buyer.nickname : Anonymous
@@ -2663,7 +2616,7 @@ export default function Index({ params }: any) {
                                         height={32}
                                         className="animate-spin"
                                     />
-                                    <div className="text-lg font-semibold text-white">
+                                    <div className="text-lg font-semibold text-zinc-800">
 
                                       {/*
                                       Transfering {item.usdtAmount} USDT to the buyer ( {item.buyer.nickname} ) wallet address...
@@ -2682,7 +2635,7 @@ export default function Index({ params }: any) {
                                       }
                                         className={`w-full text-lg
                                           ${confirmPaymentCheck[index] ? 'bg-green-500' : 'bg-gray-500'}
-                                          text-white px-4 py-2 rounded-md mt-4`}
+                                          text-zinc-800 px-4 py-2 rounded-md mt-4`}
                                         onClick={() => {
                                             console.log('Canfirm Payment');
 
@@ -2733,6 +2686,7 @@ export default function Index({ params }: any) {
 
                 </div>
 
+                {/*
                 {orderId && address && user && user.nickname && user.avatar && (
                   <div className=' w-full '>
                     <Chat
@@ -2747,6 +2701,7 @@ export default function Index({ params }: any) {
                     />
                   </div>
                 )}
+                */}
 
 
 
@@ -2865,7 +2820,7 @@ const TradeDetail = (
           
           <div className="mt-6 flex space-x-4">
             <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                className="bg-green-500 text-zinc-800 px-4 py-2 rounded-lg"
                 onClick={() => {
                     console.log('Buy USDT');
                     // go to chat

@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   UserProps,
 	requestPayment,
-} from '@lib/api/order';
+} from '@lib/api/orderNovart';
 
 // Download the helper library from https://www.twilio.com/docs/node/install
 import twilio from "twilio";
@@ -36,7 +36,12 @@ export async function POST(request: NextRequest) {
     seller: seller,
     buyer: buyer,
     tradeId: tradeId,
-    krwAmount: krwAmount,
+    
+    //krwAmount: krwAmount,
+    
+    fietAmount: fietAmount,
+
+
   } = result as UserProps;
 
 
@@ -44,12 +49,16 @@ export async function POST(request: NextRequest) {
   const accountNumber = seller.bankInfo.accountNumber;
   const accountHolder = seller.bankInfo.accountHolder;
   const depositName = tradeId;
-  const amount = krwAmount;
+
+  //const amount = krwAmount;
+  const amount = fietAmount;
 
 
-    // send sms
 
 
+  // send sms
+
+  /*
     console.log("byuer.mobile", buyer.mobile);
 
 
@@ -100,7 +109,7 @@ export async function POST(request: NextRequest) {
     }
 
 
-
+    */
 
 
 
