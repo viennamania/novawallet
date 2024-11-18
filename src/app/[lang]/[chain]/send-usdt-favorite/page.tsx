@@ -824,9 +824,9 @@ export default function SendUsdt({ params }: any) {
 
                       appMetadata={
                         {
-                          logoUrl: "https://gold.goodtether.com/logo.png",
+                          logoUrl: "https://wallet.novarwa.io/logo.png",
                           name: "Next App",
-                          url: "https://gold.goodtether.com",
+                          url: "https://wallet.novarwa.io",
                           description: "This is a Next App.",
 
                         }

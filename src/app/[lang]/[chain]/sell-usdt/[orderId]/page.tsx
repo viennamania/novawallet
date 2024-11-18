@@ -656,7 +656,7 @@ export default function Index({ params }: any) {
         body: JSON.stringify({
           name: tradeId,
           channel_url: orderId,
-          cover_url: 'https://gold.goodtether.com/icon-trade.png',
+          cover_url: 'https://wallet.novarwa.io/icon-trade.png',
           custom_type: 'trade',
 
         }),
@@ -704,7 +704,7 @@ export default function Index({ params }: any) {
             body: JSON.stringify({
               name: sellOrders[0].tradeId,
               channel_url: sellOrders[0]._id,
-              cover_url: 'https://gold.goodtether.com/icon-trade.png',
+              cover_url: 'https://wallet.novarwa.io/icon-trade.png',
               custom_type: 'trade',
     
             }),
@@ -1394,9 +1394,9 @@ export default function Index({ params }: any) {
                     
                     appMetadata={
                       {
-                        logoUrl: "https://gold.goodtether.com/logo.png",
+                        logoUrl: "https://wallet.novarwa.io/logo.png",
                         name: "Next App",
-                        url: "https://gold.goodtether.com",
+                        url: "https://wallet.novarwa.io",
                         description: "This is a Next App.",
 
                       }
@@ -1437,9 +1437,9 @@ export default function Index({ params }: any) {
 
                       appMetadata={
                         {
-                          logoUrl: "https://gold.goodtether.com/logo.png",
+                          logoUrl: "https://wallet.novarwa.io/logo.png",
                           name: "Next App",
-                          url: "https://gold.goodtether.com",
+                          url: "https://wallet.novarwa.io",
                           description: "This is a Next App.",
     
                         }
@@ -1977,7 +1977,7 @@ export default function Index({ params }: any) {
                                         //router.push(`/sell-usdt/${item._id}`);
 
                                         // copy link to clipboard
-                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/sell-usdt/${item._id}`);
+                                        navigator.clipboard.writeText(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`);
                                         toast.success('Link has been copied');
 
                                       }}

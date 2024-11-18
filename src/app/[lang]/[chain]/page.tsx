@@ -150,8 +150,8 @@ export default function Index({ params }: any) {
       appMetadata: {
         name: "GoodTether",
         description: "GoodTether",
-        url: "https://gold.goodtether.com",
-        //icons: ["https://gold.goodtether.com/logo.png"],
+        url: "https://wallet.novarwa.io",
+        //icons: ["https://wallet.novarwa.io/logo.png"],
       },
       */
 
@@ -995,64 +995,11 @@ export default function Index({ params }: any) {
 
           <div className="w-full flex flex-row justify-start items-center gap-2">
 
-            {/*
-            <button
-              onClick={handleConnect}
-              className="bg-zinc-800 text-white px-4 py-2 rounded-lg hover:bg-zinc-900
-                transition duration-300 ease-in-out
-                transform hover:-translate-y-1
-              "
-            >
-              <div className="flex flex-row justify-center items-center gap-2">
-                <span>{Sign_in_with_Wallet}</span>
-              </div>
-            </button>
-            */}
-
-          {/*
-          <ConnectButton
-              client={client}
-              wallets={wallets}
-
-              
-              accountAbstraction={{   
-                chain: params.chain === "arbitrum" ? arbitrum : polygon,
-                //
-                //chain: polygon,
-
-                //chain: arbitrum,
-                factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                gasless: true,
-              }}
-              
-            
-              
-              theme={"light"}
-              connectModal={{
-                size: "wide",                            
-                //title: "Connect",
-
-              }}
-
-              appMetadata={
-                {
-                  logoUrl: "https://gold.goodtether.com/logo.png",
-                  name: "Next App",
-                  url: "https://gold.goodtether.com",
-                  description: "This is a Next App.",
-
-                }
-              }
-            />
-            */}
-
-
             <ConnectButton
               client={client}
               wallets={wallets}
               accountAbstraction={{
                 chain: polygon,
-                ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum, ethereum
                 sponsorGas: true
               }}
               theme={"light"}
@@ -2009,9 +1956,9 @@ export default function Index({ params }: any) {
                       
                       appMetadata={
                         {
-                          logoUrl: "https://gold.goodtether.com/logo.png",
+                          logoUrl: "https://wallet.novarwa.io/logo.png",
                           name: "Next App",
-                          url: "https://gold.goodtether.com",
+                          url: "https://wallet.novarwa.io",
                           description: "This is a Next App.",
 
                         }

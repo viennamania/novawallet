@@ -660,7 +660,7 @@ export default function Index({ params }: any) {
         body: JSON.stringify({
           name: tradeId,
           channel_url: orderId,
-          cover_url: 'https://gold.goodtether.com/icon-trade.png',
+          cover_url: 'https://wallet.novarwa.io/icon-trade.png',
           custom_type: 'trade',
 
         }),
@@ -708,7 +708,7 @@ export default function Index({ params }: any) {
             body: JSON.stringify({
               name: sellOrders[0].tradeId,
               channel_url: sellOrders[0]._id,
-              cover_url: 'https://gold.goodtether.com/icon-trade.png',
+              cover_url: 'https://wallet.novarwa.io/icon-trade.png',
               custom_type: 'trade',
     
             }),
@@ -1374,7 +1374,7 @@ export default function Index({ params }: any) {
                       wallets={wallets}
                       accountAbstraction={{
                         chain: polygon,
-                        ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum, ethereum
+                         
                         sponsorGas: true
                       }}
                       theme={"light"}
@@ -1930,7 +1930,7 @@ export default function Index({ params }: any) {
                                         //router.push(`/sell-usdt/${item._id}`);
 
                                         // copy link to clipboard
-                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/sell-usdt/${item._id}`);
+                                        navigator.clipboard.writeText(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`);
                                         toast.success('Link has been copied');
 
                                       }}

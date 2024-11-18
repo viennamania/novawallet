@@ -290,6 +290,8 @@ export default function Index({ params }: any) {
 
       Reload: "",
 
+      Sign_in_with_Wallet: "",
+
     } );
   
     useEffect(() => {
@@ -384,6 +386,8 @@ export default function Index({ params }: any) {
       Enter_your_nickname,
 
       Reload,
+
+      Sign_in_with_Wallet,
 
     } = data;
    
@@ -650,7 +654,7 @@ export default function Index({ params }: any) {
         body: JSON.stringify({
           name: tradeId,
           channel_url: orderId,
-          cover_url: 'https://gold.goodtether.com/icon-trade.png',
+          cover_url: 'https://wallet.novarwa.io/icon-trade.png',
           custom_type: 'trade',
 
         }),
@@ -698,7 +702,7 @@ export default function Index({ params }: any) {
             body: JSON.stringify({
               name: sellOrders[0].tradeId,
               channel_url: sellOrders[0]._id,
-              cover_url: 'https://gold.goodtether.com/icon-trade.png',
+              cover_url: 'https://wallet.novarwa.io/icon-trade.png',
               custom_type: 'trade',
     
             }),
@@ -1338,96 +1342,34 @@ export default function Index({ params }: any) {
           ) : (
             <div className="flex flex-col items-center space-y-4 mb-4">
 
-
-                {params.chain === "polygon" && (
-
-
-                  <ConnectButton
-
-                    client={client}
-
-                    wallets={wallets}
-                    
-                    accountAbstraction={{   
-                      
-                      chain: polygon,
-                      //
-                      //chain: polygon,
-
-                      //chain: arbitrum,
-                      factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                      gasless: true,
-                    }}
-                    
-                    theme={"light"}
-                    connectModal={{
-                      size: "wide",
-                      
-                      //title: "Connect",
-
-
-
-                    }}
-
-
-                    
-                    appMetadata={
-                      {
-                        logoUrl: "https://gold.goodtether.com/logo.png",
-                        name: "Next App",
-                        url: "https://gold.goodtether.com",
-                        description: "This is a Next App.",
-
-                      }
-                    }
-
-                  />
-
-                )}
-
-
-
-                {params.chain === "arbitrum" && (
-                    
                     <ConnectButton
-    
                       client={client}
-    
                       wallets={wallets}
-                      
-                      accountAbstraction={{   
-                        
-                        chain: arbitrum,
-                        //
-                        //chain: polygon,
-    
-                        //chain: arbitrum,
-                        factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                        gasless: true,
+                      accountAbstraction={{
+                        chain: polygon,
+                         
+                        sponsorGas: true
                       }}
-                      
                       theme={"light"}
+                      connectButton={{
+                        label: Sign_in_with_Wallet,
+                      }}
                       connectModal={{
-                        size: "wide",
-                        
-                        //title: "Connect",
+                        size: "wide", 
+                        titleIcon: "https://wallet.novarwa.io/logo-nova.png",                       
+                        showThirdwebBranding: false,
 
                       }}
-
-                      appMetadata={
-                        {
-                          logoUrl: "https://gold.goodtether.com/logo.png",
-                          name: "Next App",
-                          url: "https://gold.goodtether.com",
-                          description: "This is a Next App.",
-    
-                        }
+                      //locale={"ko_KR"}
+                      //locale={"en_US"}
+                      locale={
+                        params.lang === "en" ? "en_US" :
+                        params.lang === "zh" ? "en_US" :
+                        params.lang === "ja" ? "ja_JP" :
+                        params.lang === "kr" ? "ko_KR" :
+                        "en_US"
                       }
-
-                    />
-
-                )}
-
+                      />
 
 
                 <span className="text-lg text-zinc-400 xl:w-1/2 text-center">
@@ -1956,7 +1898,7 @@ export default function Index({ params }: any) {
                                         //router.push(`/sell-usdt/${item._id}`);
 
                                         // copy link to clipboard
-                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/sell-usdt/${item._id}`);
+                                        navigator.clipboard.writeText(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`);
                                         toast.success('Link has been copied');
 
                                       }}

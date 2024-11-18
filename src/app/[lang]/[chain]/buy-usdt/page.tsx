@@ -228,6 +228,8 @@ export default function Index({ params }: any) {
     Anonymous: "",
 
     Order_has_been_failed: "",
+
+    Sign_in_with_Wallet: "",
   
 
   } );
@@ -312,6 +314,8 @@ export default function Index({ params }: any) {
     Anonymous,
 
     Order_has_been_failed,
+
+    Sign_in_with_Wallet,
 
 
   } = data;
@@ -917,38 +921,32 @@ export default function Index({ params }: any) {
 
                     {!address && (
                       <ConnectButton
-                        client={client}
-                        wallets={wallets}
+                      client={client}
+                      wallets={wallets}
+                      accountAbstraction={{
+                        chain: polygon,
+                         
+                        sponsorGas: true
+                      }}
+                      theme={"light"}
+                      connectButton={{
+                        label: Sign_in_with_Wallet,
+                      }}
+                      connectModal={{
+                        size: "wide", 
+                        titleIcon: "https://wallet.novarwa.io/logo-nova.png",                       
+                        showThirdwebBranding: false,
 
-                        
-                        accountAbstraction={{   
-                          chain: params.chain === "arbitrum" ? arbitrum : polygon,
-                          //
-                          //chain: polygon,
-
-                          //chain: arbitrum,
-                          factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // polygon, arbitrum
-                          gasless: true,
-                        }}
-                        
-                      
-                        
-                        theme={"light"}
-                        connectModal={{
-                          size: "wide",                            
-                          //title: "Connect",
-
-                        }}
-
-                        appMetadata={
-                          {
-                            logoUrl: "https://gold.goodtether.com/logo.png",
-                            name: "Next App",
-                            url: "https://gold.goodtether.com",
-                            description: "This is a Next App.",
-
-                          }
-                        }
+                      }}
+                      //locale={"ko_KR"}
+                      //locale={"en_US"}
+                      locale={
+                        params.lang === "en" ? "en_US" :
+                        params.lang === "zh" ? "en_US" :
+                        params.lang === "ja" ? "ja_JP" :
+                        params.lang === "kr" ? "ko_KR" :
+                        "en_US"
+                      }
                       />
                     )}
 
@@ -1533,7 +1531,7 @@ export default function Index({ params }: any) {
                                       className="text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
 
-                                        window.open(`https://gold.goodtether.com/${params.lang}/sell-usdt/${item._id}`, '_blank');
+                                        window.open(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`, '_blank');
 
                                       }}
                                     >
@@ -1684,11 +1682,11 @@ export default function Index({ params }: any) {
                                       className="ml-5 text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
 
-                                        //window.open(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-usdt/${item._id}`, '_blank');
+                                        //window.open(`https://wallet.novarwa.io/${params.lang}/${params.chain}/sell-usdt/${item._id}`, '_blank');
 
                                         // copy to clipboard
 
-                                        navigator.clipboard.writeText(`https://gold.goodtether.com/${params.lang}/${params.chain}/sell-usdt/${item._id}`);
+                                        navigator.clipboard.writeText(`https://wallet.novarwa.io/${params.lang}/${params.chain}/sell-usdt/${item._id}`);
 
                                         toast.success('Link copied to clipboard');
 

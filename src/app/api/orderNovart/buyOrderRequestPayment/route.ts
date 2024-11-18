@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     seller: seller,
     buyer: buyer,
     tradeId: tradeId,
-    krwAmount: krwAmount,
+    fietAmount: fietAmount,
   } = result as UserProps;
 
 
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   const accountNumber = seller?.bankInfo?.accountNumber;
   const accountHolder = seller?.bankInfo?.accountHolder;
   const depositName = tradeId;
-  const amount = krwAmount;
+  const amount = fietAmount;
 
 
     // send sms

@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
     const {
       seller: seller,
       walletAddress: walletAddress,
-      usdtAmount: usdtAmount,
+      novartAmount: novartAmount,
       buyer: buyer,
     } = order as UserProps;
 
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
 
     //console.log("toAddressStore", toAddressStore);
 
-    const sendAmountToStore = usdtAmount;
+    const sendAmountToStore = novartAmount;
 
     //console.log("sendAmountToStore", sendAmountToStore);
 
@@ -473,7 +473,7 @@ export async function POST(request: NextRequest) {
     try {
 
 
-      const msgBody = `[NOVA] TID[${tradeId}] You received ${amount} USDT from ${nickname}! https://gold.goodtether.com/${lang}/${chain}/sell-usdt/${orderId}`;
+      const msgBody = `[NOVA] TID[${tradeId}] You received ${amount} USDT from ${nickname}! https://wallet.novarwa.io/${lang}/${chain}/sell-usdt/${orderId}`;
   
       message = await client.messages.create({
         ///body: "This is the ship that made the Kessel Run in fourteen parsecs?",
