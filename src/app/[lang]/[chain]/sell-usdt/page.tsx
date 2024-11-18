@@ -600,7 +600,7 @@ export default function Index({ params }: any) {
           lang: params.lang,
           chain: params.chain,
           walletAddress: address,
-          isSmartAccount: false,
+           isSmartAccount: true,
         }),
       })
       .then(response => response.json())
@@ -1229,7 +1229,7 @@ export default function Index({ params }: any) {
         chain: params.chain,
         orderId: orderId,
         paymentAmount: paymentAmount,
-        isSmartAccount: false,
+         isSmartAccount: true,
       })
     });
 
@@ -1312,7 +1312,7 @@ export default function Index({ params }: any) {
         chain: params.chain,
         orderId: orderId,
         paymentAmount: paymentAmount,
-        isSmartAccount: false,
+         isSmartAccount: true,
       })
     });
 

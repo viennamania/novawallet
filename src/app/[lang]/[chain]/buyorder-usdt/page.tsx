@@ -598,7 +598,7 @@ export default function Index({ params }: any) {
           lang: params.lang,
           chain: params.chain,
           walletAddress: address,
-          isSmartAccount: false,
+           isSmartAccount: true,
         }),
       })
       .then(response => response.json())

@@ -550,7 +550,7 @@ export default function Index({ params }: any) {
         chain: params.chain,
         walletAddress: address,
         //isSmartAccount: activeWallet === inAppConnectWallet ? false : true,
-        isSmartAccount: false,
+         isSmartAccount: true,
       }),
     })
     .then(response => response.json())
@@ -1403,7 +1403,7 @@ export default function Index({ params }: any) {
           orderId: orderId,
           paymentAmount: paymentAmount,
           ///isSmartAccount: activeWallet === inAppConnectWallet ? false : true,
-          isSmartAccount: false,
+           isSmartAccount: true,
         })
       });
 
@@ -1545,7 +1545,7 @@ export default function Index({ params }: any) {
           orderId: orderId,
           paymentAmount: paymentAmount,
           ///isSmartAccount: activeWallet === inAppConnectWallet ? false : true,
-          isSmartAccount: false,
+           isSmartAccount: true,
         })
       });
 
