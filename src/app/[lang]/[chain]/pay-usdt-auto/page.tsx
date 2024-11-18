@@ -1929,10 +1929,10 @@ export default function Index({ params }: any) {
                                   </p>
 
 
+                                  {/*
                                   {address && item.walletAddress === address && (
                                     <>
-                                    {/* chat with buyer */}
-
+       
                                     <button
                                       className="bg-blue-500 text-white px-2 py-1 rounded-md"
                                       onClick={() => {
@@ -1948,6 +1948,7 @@ export default function Index({ params }: any) {
                                     
                                     </>
                                   )}
+                                  */}
 
 
 

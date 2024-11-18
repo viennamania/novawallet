@@ -1854,7 +1854,7 @@ export default function Index({ params }: any) {
 
                                 </p>
 
-
+                                {/*
                                 {address && item.walletAddress !== address && item.buyer && item.buyer.walletAddress === address && (
                                   <button
                                     className="bg-green-500 text-white px-4 py-2 rounded-lg"
@@ -1872,6 +1872,7 @@ export default function Index({ params }: any) {
                                     {Chat_with_Seller + ' ' + item.nickname}
                                   </button>
                                 )}
+                                */}
 
 
                               </div>
