@@ -1836,7 +1836,7 @@ export default function Index({ params }: any) {
                         </div>
 
                         <div className="flex flex-row items-end justify-center  gap-2">
-                          <span className="text-4xl font-semibold text-white">
+                          <span className="text-4xl font-semibold text-gray-800">
                             {Number(escrowBalance).toFixed(2)}
                           </span>
                           <span className="text-lg">NOVART</span>
@@ -1929,7 +1929,7 @@ export default function Index({ params }: any) {
                   ) : (
                     <>
 
-                      {/*
+                      
                       {user && (
                         
                         <div className="flex flex-col gap-2 items-start">
@@ -1966,7 +1966,7 @@ export default function Index({ params }: any) {
                         </div>
                         
                       )}
-                      */}
+                      
                     
 
                     </>

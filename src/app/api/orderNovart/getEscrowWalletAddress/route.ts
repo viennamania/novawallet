@@ -49,7 +49,7 @@ import {
 
 
 //import { Engine } from "@thirdweb-dev/engine";
-
+/*
 if (!process.env.THIRDWEB_ENGINE_URL) {
   throw new Error("THIRDWEB_ENGINE_URL is not defined");
 }
@@ -57,6 +57,7 @@ if (!process.env.THIRDWEB_ENGINE_URL) {
 if (!process.env.THIRDWEB_ENGINE_ACCESS_TOKEN) {
   throw new Error("THIRDWEB_ENGINE_ACCESS_TOKEN is not defined");
 }
+*/
 
 /*
 const engine = new Engine({
@@ -115,6 +116,7 @@ export async function POST(request: NextRequest) {
 
     let escrowWalletPrivateKey = '';
 
+    /*
     if (!isSmartAccount) {
 
 
@@ -140,17 +142,6 @@ export async function POST(request: NextRequest) {
 
       const resultCreateWallet = await resp.json();
 
-      ///console.log("resultCreateWallet", resultCreateWallet);
-
-
-      /*
-      {
-        "result": {
-          "walletAddress": "0x....",
-          "status": "success"
-        }
-      }
-      */
 
       if (!resultCreateWallet) {
         return NextResponse.json({
@@ -162,7 +153,7 @@ export async function POST(request: NextRequest) {
       escrowWalletAddress = resultCreateWallet.result.walletAddress;
 
     } else {
-
+    */
 
     
       escrowWalletPrivateKey = ethers.Wallet.createRandom().privateKey;
@@ -204,7 +195,7 @@ export async function POST(request: NextRequest) {
 
         chain: chain === 'polygon' ? polygon : arbitrum,
 
-        factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // your own deployed account factory address
+        ////factoryAddress: "0x9Bb60d360932171292Ad2b80839080fb6F5aBD97", // your own deployed account factory address
         sponsorGas: true,
       });
 
@@ -224,7 +215,9 @@ export async function POST(request: NextRequest) {
  
       escrowWalletAddress = account.address;
 
+    /*
     }
+    */
 
 
 
