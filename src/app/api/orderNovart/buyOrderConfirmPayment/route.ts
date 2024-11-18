@@ -4,7 +4,7 @@ import {
   UserProps,
 	buyOrderConfirmPayment,
   buyOrderGetOrderById,
-} from '@lib/api/order';
+} from '@lib/api/orderNovart';
 
 
 import {

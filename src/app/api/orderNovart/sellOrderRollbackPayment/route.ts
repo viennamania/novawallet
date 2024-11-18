@@ -4,7 +4,7 @@ import {
   UserProps,
 	sellOrderRollbackPayment,
   getOrderById,
-} from '@lib/api/order';
+} from '@lib/api/orderNovart';
 
 import {
   getOneByWalletAddress

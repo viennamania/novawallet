@@ -4,7 +4,7 @@ import {
   UserProps,
 	confirmPayment,
   getOrderById,
-} from '@lib/api/order';
+} from '@lib/api/orderNovart';
 
 import {
   getOneByWalletAddress 
