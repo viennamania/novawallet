@@ -308,6 +308,8 @@ export default function Index({ params }: any) {
 
     Payment_has_been_rollbacked: "",
 
+
+
   } );
 
   useEffect(() => {
@@ -3374,6 +3376,8 @@ export default function Index({ params }: any) {
                                     </div>
 
 
+                                    {/* escrow cancel */}
+                                    {/*
                                     <div className="flex flex-row gap-1">
 
                                       <input
@@ -3419,6 +3423,7 @@ export default function Index({ params }: any) {
                                       </button>
 
                                     </div>
+                                    */}
 
 
 
@@ -3633,6 +3638,16 @@ export default function Index({ params }: any) {
                               </div>
 
                             )}
+
+
+
+
+
+
+
+
+
+
 
 
                             { (item.status === 'paymentConfirmed') && (
@@ -4018,8 +4033,8 @@ export default function Index({ params }: any) {
 
                                       {
                                         (1 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60 / 60) - 1) > 0
-                                        ? (1 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60 / 60) - 1) + ' hours'
-                                        : (60 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60) % 60) + ' minutes'
+                                        ? (1 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60 / 60) - 1) + ' ' + hours
+                                        : (60 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60) % 60) + ' ' + minutes
 
                                       }
 
@@ -4084,13 +4099,75 @@ export default function Index({ params }: any) {
                                     />
 
                                     <div>
-                                      {Waiting_for_seller_to_deposit} {item.fietAmount} KRW to {Seller}...
+                                      {Waiting_for_seller_to_deposit} {item.fietAmount}
+                                      {item?.fietCurrency}
+                                      to {Seller}...
                                     </div>
 
                                   </div>
 
                                 </div>
                             )}
+
+
+
+
+                                {item.status === 'accepted' && (
+                                  <div className="mt-5 flex flex-row gap-1">
+
+                                    {/* check box for agreement */}
+                                    <input
+                                      disabled={escrowing[index] || requestingPayment[index]}
+                                      type="checkbox"
+                                      checked={requestPaymentCheck[index]}
+                                      onChange={(e) => {
+                                        setRequestPaymentCheck(
+                                          requestPaymentCheck.map((item, idx) => {
+                                            if (idx === index) {
+                                              return e.target.checked;
+                                            }
+                                            return item;
+                                          })
+                                        );
+                                      }}
+                                    />
+
+                                    <button
+                                      disabled={escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index]}
+                                      
+                                      className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      onClick={() => {
+
+                                        requestPayment(
+                                          index,
+                                          item._id,
+                                          item.tradeId,
+                                          item.novartAmount
+                                        );
+                                      }}
+                                    >
+                                      <Image
+                                        src="/loading.png"
+                                        alt="loading"
+                                        width={16}
+                                        height={16}
+                                        className={escrowing[index] || requestingPayment[index] ? 'animate-spin' : 'hidden'}
+                                      />
+                                      <span>{Request_Payment}</span>
+                                    
+                                    </button>
+
+                                  </div>
+                                )}
+
+
+
+
+
+
+
+
+
                         </article>
 
 
