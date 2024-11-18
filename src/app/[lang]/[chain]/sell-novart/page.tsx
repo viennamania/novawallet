@@ -2151,8 +2151,16 @@ export default function Index({ params }: any) {
                         </div>
                       )}
 
+
+                      {!userCode && (
+                        <div className="text-sm text-blue-500">
+                          {Please_register_your_seller_information}
+                        </div>
+                      )}
+                     
+
                       {userCode && paymentMethods.length === 0 && (
-                        <div className="text-sm text-zinc-400">
+                        <div className="text-sm text-blue-500">
                           {Please_register_your_seller_information}
                         </div>
                       )}
