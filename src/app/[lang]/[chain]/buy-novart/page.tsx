@@ -234,6 +234,9 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet: "",
   
+    Waiting_for_buyer_to_send: "",
+
+    Reload: "",
 
   } );
 
@@ -319,6 +322,10 @@ export default function Index({ params }: any) {
     Order_has_been_failed,
 
     Sign_in_with_Wallet,
+
+    Waiting_for_buyer_to_send,
+
+    Reload,
 
 
   } = data;
@@ -1111,7 +1118,7 @@ export default function Index({ params }: any) {
                         })
                       }}
                     >
-                      Reload
+                      {Reload}
                     </button>
 
                     {/* select table view or card view */}
@@ -1208,10 +1215,10 @@ export default function Index({ params }: any) {
                                 />
                                 <div className="flex flex-col gap-2 items-start">
                                   <div className="text-lg font-semibold text-white">
-                                    {item.walletAddress === address ? 'Me' : item.nickname}
+                                    {item.walletAddress === address ? Me : item.nickname}
                                   </div>
                                   <div className="text-sm text-zinc-400">
-                                    {item.walletAddress === address ? 'Me' : item.tradeId ? item.tradeId : ''}
+                                    {item.walletAddress === address ? Me : item.tradeId ? item.tradeId : ''}
                                   </div>
                                 </div>
                               </div>
@@ -1832,7 +1839,7 @@ export default function Index({ params }: any) {
                                   <div className="flex items-center space-x-2">{Seller}:</div>
 
                                   <h2 className="text-lg font-semibold">
-                                    {item.walletAddress === address ? 'Me' : item.nickname}
+                                    {item.walletAddress === address ? Me : item.nickname}
                                   
                                   </h2>
 
@@ -2115,7 +2122,7 @@ export default function Index({ params }: any) {
                                         className="animate-spin"
                                       />
 
-                                      <div>Waiting for buyer to send {
+                                      <div>{Waiting_for_buyer_to_send} {
 
                                         item.fietCurrency === 'USD' ?
                                         Number(item.fietAmount).toLocaleString('en-US', {
@@ -2138,7 +2145,7 @@ export default function Index({ params }: any) {
                                           currency: 'USD',
                                         })
                                       
-                                      } to seller...</div>
+                                      }</div>
                                     
 
                                     </div>

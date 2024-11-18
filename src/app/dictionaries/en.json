@@ -435,6 +435,12 @@
 
     "Profile_Information": "Profile Information",
     "Bank_Information": "Bank Information",
-    "QR_Code_Payment_Information": "QR Code Payment Information"
+    "QR_Code_Payment_Information": "QR Code Payment Information",
+
+
+    "Waiting_for_buyer_to_send": "Waiting for buyer to send"
+
+
+
 
 }
