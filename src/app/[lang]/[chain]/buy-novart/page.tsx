@@ -71,12 +71,17 @@ interface SellOrder {
   price: number;
   available: number;
   limit: string;
+ 
+
   paymentMethods: string[];
 
   novartAmount: number;
   fietAmount: number;
   fietCurrency: string;
   rate: number;
+  payment: any;
+
+
 
 
 
@@ -1262,7 +1267,47 @@ export default function Index({ params }: any) {
 
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
-                                {item.seller?.bankInfo.bankName}
+                                
+                                {/*item.seller?.bankInfo.bankName*/}
+
+                                {item?.payment?.method === 'Bank' ? (
+                                    <div className="flex flex-col items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                    </div>
+                                  ) : item?.payment?.method === 'AliPay'
+                                  || item?.payment?.method === 'WechatPay'
+                                  || item?.payment?.method === 'UnionPay'
+                                  || item?.payment?.method === 'JdPay'
+                                  || item?.payment?.method === 'NaverPay'
+                                  || item?.payment?.method === 'KakaoPay' ? (
+
+                                    <div className="flex flex-col items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.method}</span>
+                                      <Image
+                                        src={item?.payment?.seller?.qrcodeImage ? item?.payment?.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                        alt="qrcode"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-md"
+                                      />
+                                    </div>
+
+                                  ) : (
+                                    <div className="flex flex-col gap-1">
+                                      <span>
+                                        X
+                                      </span>
+                                    </div>
+                                  )}
+
+
+
+
+
+
+
                               </div>
                             </td>
 
@@ -1705,6 +1750,7 @@ export default function Index({ params }: any) {
 
 
                                     {/* share button */}
+                                    {/*
                                     <button
                                       className="ml-5 text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
@@ -1726,6 +1772,7 @@ export default function Index({ params }: any) {
                                         height={20}
                                       />
                                     </button>
+                                    */}
 
 
 
@@ -1813,8 +1860,56 @@ export default function Index({ params }: any) {
 
                       
 
-                              <div className="mb-4 flex flex-col items-start text-sm ">
-                                {Payment}: {Bank_Transfer} ({item.seller?.bankInfo.bankName})
+                              <div className="mt-4 flex flex-col gap-2 items-start">
+                                <p className="mt-2 text-sm text-zinc-400">
+
+                                  {Payment}:
+                                </p>
+                                  
+                                  
+                                  {/*item.seller?.bankInfo.bankName} {item.seller?.bankInfo.accountNumber} {item.seller?.bankInfo.accountHolder*/}
+
+                                  {item?.payment?.method === 'Bank' ? (
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                    </div>
+                                  ) : item?.payment?.method === 'AliPay'
+                                  || item?.payment?.method === 'WechatPay'
+                                  || item?.payment?.method === 'UnionPay'
+                                  || item?.payment?.method === 'JdPay'
+                                  || item?.payment?.method === 'NaverPay'
+                                  || item?.payment?.method === 'KakaoPay' ? (
+
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.method}</span>
+                                      <Image
+                                        src={item?.payment?.seller?.qrcodeImage ? item?.payment?.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                        alt="qrcode"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-md"
+                                      />
+                                    </div>
+
+                                  ) : (
+                                    <div className="flex flex-col gap-1">
+                                      <span>
+                                        X
+                                      </span>
+                                    </div>
+                                  )}
+
+
+                                
+                                {/*
+                                <p className="text-sm text-zinc-400">
+                                  {Deposit_Name}: {
+                                    item.buyer?.depositName ? item.buyer?.depositName : item.tradeId
+                                  }
+                                </p>  
+                                */}
                               </div>
 
 

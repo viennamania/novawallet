@@ -1678,6 +1678,7 @@ export default function Index({ params }: any) {
 
 
                                     {/* share button */}
+                                    {/*
                                     <button
                                       className="ml-5 text-sm bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
                                       onClick={() => {
@@ -1699,6 +1700,7 @@ export default function Index({ params }: any) {
                                         height={20}
                                       />
                                     </button>
+                                    */}
 
 
 
