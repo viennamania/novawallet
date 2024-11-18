@@ -1542,7 +1542,7 @@ export default function Index({ params }: any) {
       const data = await response.json();
 
       
-      //console.log('getAllSellOrders data', data);
+      ////console.log('getAllSellOrders data', data);
 
 
 
@@ -3298,7 +3298,7 @@ export default function Index({ params }: any) {
                                     <button
                                       disabled={escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index]}
                                       
-                                      className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
                                       onClick={() => {
 
                                         requestPayment(
@@ -3654,6 +3654,7 @@ export default function Index({ params }: any) {
                             )}
 
 
+                            {/*
                             {item.acceptedAt && (
                               <p className="mb-2 text-sm text-zinc-400">
                                 Trade started at {new Date(item.acceptedAt).toLocaleDateString() + ' ' + new Date(item.acceptedAt).toLocaleTimeString()}
@@ -3679,6 +3680,7 @@ export default function Index({ params }: any) {
                             
                               </p>
                             )}
+                            */}
 
 
 

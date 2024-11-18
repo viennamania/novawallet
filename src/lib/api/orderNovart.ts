@@ -339,7 +339,11 @@ export async function getSellOrders(
       {
         //status: 'ordered',
   
-        status: { $ne: 'paymentConfirmed' },
+        
+        
+        /////status: { $ne: 'paymentConfirmed' },
+
+
   
         // exclude private sale
         //privateSale: { $ne: true },
@@ -595,7 +599,9 @@ export async function getSellOrdersForBuyer(
     const results = await collection.find<UserProps>(
       {
         'buyer.walletAddress': walletAddress,
-        status: { $ne: 'paymentConfirmed' },
+        
+        ///status: { $ne: 'paymentConfirmed' },
+
       },
       
       //{ projection: { _id: 0, emailVerified: 0 } }
@@ -613,7 +619,7 @@ export async function getSellOrdersForBuyer(
       {
         //status: 'ordered',
   
-        status: { $ne: 'paymentConfirmed' },
+        ////status: { $ne: 'paymentConfirmed' },
   
         // exclude private sale
         privateSale: { $ne: true },
