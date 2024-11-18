@@ -3897,6 +3897,7 @@ export default function Index({ params }: any) {
 
                             {/* accept order button for seller */}
 
+                            {/*
                             {(item.status === 'accepted' || item.status === 'paymentRequested' || item.status === 'paymentConfirmed' || item.status === 'cancelled') 
                               && (
                                 <div className="w-full mt-4 mb-2 flex flex-col gap-2 items-start ">
@@ -3913,10 +3914,9 @@ export default function Index({ params }: any) {
                                   {item.status !== 'paymentConfirmed' && item.status !== 'cancelled'
                                   && address && item.walletAddress === address && (
                                     <>
-                                    {/* chat with buyer */}
 
                                     <button
-                                      className="bg-blue-500 text-zinc-800 px-2 py-1 rounded-md"
+                                      className="bg-blue-500 text-white px-2 py-1 rounded-md"
                                       onClick={() => {
                                         
 
@@ -3938,6 +3938,7 @@ export default function Index({ params }: any) {
 
                                 </div>
                             )}
+                            */}
 
 
 
@@ -3946,7 +3947,7 @@ export default function Index({ params }: any) {
                             {/* share button */}
                            
 
-
+                            {/*
                             <div className=" mt-4 flex flex-row gap-2 items-center justify-center">
 
                               {item.privateSale && (
@@ -3986,6 +3987,7 @@ export default function Index({ params }: any) {
 
 
                             </div>
+                            */}
                           
 
 
