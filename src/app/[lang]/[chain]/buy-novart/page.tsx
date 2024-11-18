@@ -433,7 +433,7 @@ export default function Index({ params }: any) {
 
     setMakeingEscrowWallet(true);
 
-    fetch('/api/order/getEscrowWalletAddress', {
+    fetch('/api/orderNovart/getEscrowWalletAddress', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -574,7 +574,7 @@ export default function Index({ params }: any) {
     useEffect(() => {
 
         /*
-        fetch('/api/order/getAllSellOrdersForBuyer', {
+        fetch('/api/orderNovart/getAllSellOrdersForBuyer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -704,7 +704,7 @@ export default function Index({ params }: any) {
         );
 
 
-        fetch('/api/order/acceptSellOrder', {
+        fetch('/api/orderNovart/acceptSellOrder', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -734,7 +734,7 @@ export default function Index({ params }: any) {
 
 
 
-            fetch('/api/order/getAllSellOrdersForBuyer', {
+            fetch('/api/orderNovart/getAllSellOrdersForBuyer', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -797,7 +797,7 @@ export default function Index({ params }: any) {
 
       setCancellings(cancellings.map((item, i) => i === index ? true : item));
 
-      const response = await fetch('/api/order/cancelTradeByBuyer', {
+      const response = await fetch('/api/orderNovart/cancelTradeByBuyer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -815,7 +815,7 @@ export default function Index({ params }: any) {
       if (data.result) {
         toast.success(Order_has_been_cancelled);
 
-        await fetch('/api/order/getAllSellOrdersForBuyer', {
+        await fetch('/api/orderNovart/getAllSellOrdersForBuyer', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -1096,7 +1096,7 @@ export default function Index({ params }: any) {
                     <button
                       className="text-sm bg-zinc-800 px-2 py-1 rounded-md text-white hover:bg-zinc-700"
                       onClick={() => {
-                        fetch('/api/order/getAllSellOrdersForBuyer', {
+                        fetch('/api/orderNovart/getAllSellOrdersForBuyer', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/json',

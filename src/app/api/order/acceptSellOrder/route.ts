@@ -33,9 +33,13 @@ export async function POST(request: NextRequest) {
 
   });
 
-  ////console.log("result", result);
+  console.log("result", result);
 
+  if (!result) {
+    return NextResponse.error();
+  }
 
+  
 
   const {
     mobile: mobile,
