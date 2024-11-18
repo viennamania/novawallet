@@ -722,9 +722,14 @@ export async function acceptSellOrder(data: any) {
   // *********************************************
 
   const result = await collection.findOneAndUpdate(
+
     { _id: new ObjectId(data.orderId + ''), status: 'ordered' },
+
+
     { $set: {
+      
       status: 'accepted',
+
       acceptedAt: new Date().toISOString(),
       tradeId: tradeId,
       buyer: {

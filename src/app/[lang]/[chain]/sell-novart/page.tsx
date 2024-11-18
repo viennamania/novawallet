@@ -875,7 +875,7 @@ export default function Index({ params }: any) {
       const data = await response.json();
 
       
-      //console.log('data', data);
+      //console.log('getAllSellOrders data', data);
 
 
 
@@ -1542,7 +1542,7 @@ export default function Index({ params }: any) {
       const data = await response.json();
 
       
-      //console.log('data', data);
+      //console.log('getAllSellOrders data', data);
 
 
 
@@ -1790,7 +1790,7 @@ export default function Index({ params }: any) {
                               }}
                             />
                             
-                            <div className="text-lg font-semibold text-white ">
+                            <div className="text-lg font-semibold text-zinc-800 ">
                               {
                                 user && user.nickname ? user.nickname : Anonymous
                               }
@@ -2930,7 +2930,7 @@ export default function Index({ params }: any) {
                       {/*
                       <div className="flex flex-col gap-2 items-center">
                         <div className="text-sm">{Total}</div>
-                        <div className="text-xl font-semibold text-white">
+                        <div className="text-xl font-semibold text-zinc-800">
                           {sellOrders.length}
                         </div>
                       </div>
@@ -2978,7 +2978,7 @@ export default function Index({ params }: any) {
                   <div className="mt-4 flex flex-row items-center gap-2">
                     <button
                       disabled={loadingFetchSellOrders || requestingPayment.some((item) => item === true) || escrowing.some((item) => item === true) || confirmingPayment.some((item) => item === true)}
-                      className={`flex flex-row gap-1 text-sm text-white px-2 py-1 rounded-md ${loadingFetchSellOrders ? 'bg-gray-500' : 'bg-green-500'}`}
+                      className={`flex flex-row gap-1 text-sm text-zinc-800 px-2 py-1 rounded-md ${loadingFetchSellOrders ? 'bg-gray-500' : 'bg-green-500'}`}
                       onClick={fetchSellOrders}
                     >
                       <Image
@@ -3298,7 +3298,7 @@ export default function Index({ params }: any) {
                                     <button
                                       disabled={escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index]}
                                       
-                                      className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${escrowing[index] || requestingPayment[index] || !requestPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
                                       onClick={() => {
 
                                         requestPayment(
@@ -3349,7 +3349,7 @@ export default function Index({ params }: any) {
 
                                       <button
                                         disabled={confirmingPayment[index] || !confirmPaymentCheck[index]}
-                                        className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                        className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
                                         onClick={() => {
                                           confirmPayment(
                                             index,
@@ -3394,7 +3394,7 @@ export default function Index({ params }: any) {
 
                                       <button
                                         disabled={rollbackingPayment[index] || !rollbackPaymentCheck[index]}
-                                        className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
+                                        className={`flex flex-row gap-1 text-xs text-zinc-800 px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
                                         onClick={() => {
                                           rollbackPayment(
                                             index,
@@ -3801,7 +3801,7 @@ export default function Index({ params }: any) {
                        
 
                             
-                            <div className="mt-4 flex text-lg font-semibold mb-2">
+                            <div className="mt-4 flex text-lg font-semibold mb-2 text-white">
                               {
    
 
@@ -3816,7 +3816,7 @@ export default function Index({ params }: any) {
                                     {/*
                                     <div
                                       className="text-sm
-                                        bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 cursor-pointer"
+                                        bg-blue-500 text-zinc-800 px-3 py-2 rounded-md hover:bg-blue-600 cursor-pointer"
 
                                       onClick={() => {
                                         router.push(
@@ -3837,7 +3837,7 @@ export default function Index({ params }: any) {
                                            
                                     <button
                                         disabled={cancellings[index]}
-                                        className={`text-sm bg-red-500 text-white px-3 py-2 rounded-md ${cancellings[index] ? 'bg-gray-500' : ''}`}
+                                        className={`text-sm bg-red-500 text-zinc-800 px-3 py-2 rounded-md ${cancellings[index] ? 'bg-gray-500' : ''}`}
                                         onClick={() => {
                                           // api call
                                           // cancelSellOrder
@@ -3916,7 +3916,7 @@ export default function Index({ params }: any) {
                                     {/* chat with buyer */}
 
                                     <button
-                                      className="bg-blue-500 text-white px-2 py-1 rounded-md"
+                                      className="bg-blue-500 text-zinc-800 px-2 py-1 rounded-md"
                                       onClick={() => {
                                         
 
@@ -3961,7 +3961,7 @@ export default function Index({ params }: any) {
 
                               {item.walletAddress === address && item.privateSale && (
                                 <button
-                                    className=" flex flex-row text-sm bg-blue-500 text-white px-2 py-1 rounded-md"
+                                    className=" flex flex-row text-sm bg-blue-500 text-zinc-800 px-2 py-1 rounded-md"
                                     onClick={() => {
                                       
                                       ////router.push(`/sell-novart/${item._id}`);
@@ -3993,7 +3993,7 @@ export default function Index({ params }: any) {
 
                             {/* waiting for escrow */}
                             {item.status === 'accepted' && (
-                                <div className="mt-4 flex flex-row gap-2 items-center justify-start">
+                                <div className="mt-4 flex flex-row gap-2 items-center justify-start text-white">
                                   <Image
                                     src="/loading.png"
                                     alt="Escrow"
@@ -4032,7 +4032,7 @@ export default function Index({ params }: any) {
                             {/* waiting for payment */}
                             {item.status === 'paymentRequested' && (
 
-                                <div className="mt-4 flex flex-col gap-2 items-start justify-start">
+                                <div className="mt-4 flex flex-col gap-2 items-start justify-start text-white">
 
                                   <div className="flex flex-row items-center gap-2">
 
@@ -4212,7 +4212,7 @@ const TradeDetail = (
           
           <div className="mt-6 flex space-x-4">
             <button
-                className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                className="bg-green-500 text-zinc-800 px-4 py-2 rounded-lg"
                 onClick={() => {
                     console.log('Buy NOVART');
                     // go to chat
