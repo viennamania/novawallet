@@ -1362,7 +1362,10 @@ export default function Index({ params }: any) {
 
           <AppBarComponent />
 
-          <Header />
+          <Header
+            lang={params.lang}
+            chain={params.chain}
+          />
 
 
           <div className="flex flex-col items-start justify-center space-y-4">
@@ -3298,61 +3301,57 @@ const TradeDetail = (
   };
 
 
-  function Header() {
 
-    const router = useRouter();
-  
-  
-    return (
-      <header className="flex flex-col items-center mb-5 md:mb-10">
-  
-        {/* header menu */}
-        <div className="w-full flex flex-row justify-between items-center gap-2
-          bg-zinc-800 p-5 rounded-lg text-center
-          hover:shadow-lg
-          transition duration-300 ease-in-out
-          transform hover:-translate-y-1
-          
-        ">
-          <button
-            onClick={() => {
-              router.push(
-                "/"
-              );
-            }}
-          >
-            <div className="flex flex-row gap-2 items-center">
-              <Image
-                src="/logo-nova.png"
-                alt="Circle Logo"
-                width={35}
-                height={35}
-                className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
-              />
-              <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
-                NOVA Wallet
-              </span>
-            </div>
-          </button>
-  
-          {/* menu */}
-          
-        </div>
-        
-        {/*
-        <Image
-          src={thirdwebIcon}
-          alt=""
-          className="size-[150px] md:size-[150px]"
-          style={{
-            filter: "drop-shadow(0px 0px 24px #a726a9a8)",
-          }}
-        />
-        */}
-  
-  
-        
-      </header>
-    );
+
+
+
+function Header(
+  {
+    lang,
+    chain,
+  } : {
+    lang: string,
+    chain: string,
   }
-  
+) {
+
+  const router = useRouter();
+
+
+  return (
+    <header className="flex flex-col items-center mb-5 md:mb-10">
+
+      {/* header menu */}
+      <div className="w-full flex flex-row justify-between items-center gap-2
+        bg-zinc-800 p-5 rounded-lg text-center
+        hover:shadow-lg
+        transition duration-300 ease-in-out
+        transform hover:-translate-y-1
+        
+      ">
+        <button
+          onClick={() => {
+            router.push(
+              "/" + lang + "/" + chain
+            );
+          }}
+        >
+          <div className="flex flex-row gap-2 items-center">
+            <Image
+              src="/logo-nova.png"
+              alt="Circle Logo"
+              width={35}
+              height={35}
+              className="rounded-full w-10 h-10 xl:w-14 xl:h-14"
+            />
+            <span className="text-lg xl:text-3xl text-zinc-100 font-semibold">
+              NOVA Wallet
+            </span>
+          </div>
+        </button>
+
+      </div>
+      
+    </header>
+  );
+}
