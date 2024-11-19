@@ -298,6 +298,8 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet: "",
 
+    Buy_Order_Fiat: "",
+
   } );
 
   useEffect(() => {
@@ -434,6 +436,8 @@ export default function Index({ params }: any) {
     Order_has_been_failed,
 
     Sign_in_with_Wallet,
+
+    Buy_Order_Fiat,
 
   } = data;
 
@@ -1516,7 +1520,7 @@ export default function Index({ params }: any) {
                       onChange={(e) => setCheckInputKrwAmount(e.target.checked)}
                     />
                     <p className="text-sm text-zinc-400">
-                      원화로 주문하기
+                      {Buy_Order_Fiat}
                     </p>
                   </div>
 

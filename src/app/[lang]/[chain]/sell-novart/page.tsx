@@ -1989,22 +1989,6 @@ export default function Index({ params }: any) {
 
 
 
-
-                  {/* check box for sell order */}
-                  {/*
-                  <div className="flex flex-row items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={checkInputKrwAmount}
-                      onChange={(e) => setCheckInputKrwAmount(e.target.checked)}
-                    />
-                    <p className="text-sm text-zinc-400">
-                      원화로 주문하기
-                    </p>
-                  </div>
-                  */}
-
-
    
 
 

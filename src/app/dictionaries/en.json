@@ -444,7 +444,9 @@
 
     "Please_create_your_escrow_wallet": "Please create your escrow wallet. You must have an escrow wallet to sell.",
 
-    "Payment_has_been_rollbacked": "Payment has been rollbacked"
+    "Payment_has_been_rollbacked": "Payment has been rollbacked",
+
+    "Buy_Order_Fiat": "Buy Order Fiat"
 
 
 
