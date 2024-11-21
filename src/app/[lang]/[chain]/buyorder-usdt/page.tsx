@@ -2156,14 +2156,14 @@ export default function Index({ params }: any) {
 
                     <div className="flex flex-col gap-2 items-center">
                       <div className="text-sm">{Buy_Orders}</div>
-                      <div className="text-xl font-semibold text-white">
+                      <div className="text-xl font-semibold text-zinc-500">
                         {buyOrders.filter((item) => item.status === 'ordered').length}
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-2 items-center">
                       <div className="text-sm">{Trades}</div>
-                      <div className="text-xl font-semibold text-white">
+                      <div className="text-xl font-semibold text-zinc-500">
 
                         {
                           //buyOrders.filter((item) => item.status === 'accepted').length
@@ -2177,7 +2177,7 @@ export default function Index({ params }: any) {
                     {/* completed trades */}
                     <div className="flex flex-col gap-2 items-center">
                       <div className="text-sm">{Completed}</div>
-                      <div className="text-xl font-semibold text-white">
+                      <div className="text-xl font-semibold text-zinc-500">
                         {buyOrders.filter((item) => item.status === 'paymentConfirmed').length}
                       </div>
                     </div>
@@ -2185,7 +2185,7 @@ export default function Index({ params }: any) {
                     {/* cancelled trades */}
                     <div className="flex flex-col gap-2 items-center">
                       <div className="text-sm">{Cancelled}</div>
-                      <div className="text-xl font-semibold text-white">
+                      <div className="text-xl font-semibold text-zinc-500">
                         {buyOrders.filter((item) => item.status === 'cancelled').length}
                       </div>
                     </div>
@@ -2203,7 +2203,7 @@ export default function Index({ params }: any) {
                           onChange={(e) => setSearchMyOrders(e.target.checked)}
                           className="w-5 h-5"
                         />
-                        <label className="text-sm text-zinc-400">
+                        <label className="text-sm text-zinc-500">
                           {Search_my_trades}
                         </label>
                       </div>
