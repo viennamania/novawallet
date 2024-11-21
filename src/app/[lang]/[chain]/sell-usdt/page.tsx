@@ -852,7 +852,7 @@ export default function Index({ params }: any) {
     
     const [sellOrders, setSellOrders] = useState<SellOrder[]>([]);
 
-    const [searchMyOrders, setSearchMyOrders] = useState(true);
+    const [searchMyOrders, setSearchMyOrders] = useState(false);
 
 
     const [loadingFetchSellOrders, setLoadingFetchSellOrders] = useState(false);
