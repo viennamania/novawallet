@@ -1030,7 +1030,7 @@ export default function Index({ params }: any) {
           lang: params.lang,
           chain: params.chain,
           walletAddress: address,
-          novartAmount: orderUsdtAmount,
+          usdtAmount: orderUsdtAmount,
           fietAmount: fietAmount,
           fietCurrency: fietCurrency,
 

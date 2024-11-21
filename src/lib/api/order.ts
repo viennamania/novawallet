@@ -163,10 +163,10 @@ export async function insertSellOrder(data: any) {
 
   console.log('insertSellOrder data: ' + JSON.stringify(data));
   /*
-  {"walletAddress":"0xc6F48f56C5Da5c674746C298A460A2E1427d0998","novartAmount":10,"fietAmount":15,"fietCurrency":"USD","rate":1.5,"payment":{"method":"Bank"},"privateSale":false}
+  {"walletAddress":"0xc6F48f56C5Da5c674746C298A460A2E1427d0998","usdtAmount":10,"fietAmount":15,"fietCurrency":"USD","rate":1.5,"payment":{"method":"Bank"},"privateSale":false}
   */
 
-  if (!data.walletAddress || !data.novartAmount || !data.fietAmount || !data.fietCurrency || !data.rate || !data.payment) {
+  if (!data.walletAddress || !data.usdtAmount || !data.fietAmount || !data.fietCurrency || !data.rate || !data.payment) {
     return null;
   }
 
@@ -219,7 +219,7 @@ export async function insertSellOrder(data: any) {
       mobile: mobile,
       avatar: avatar,
       seller: seller,
-      novartAmount: data.novartAmount,
+      usdtAmount: data.usdtAmount,
       fietAmount: data.fietAmount,
       fietCurrency: data.fietCurrency,
       rate: data.rate,
