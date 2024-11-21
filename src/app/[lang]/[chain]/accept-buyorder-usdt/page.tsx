@@ -667,6 +667,8 @@ export default function Index({ params }: any) {
   
 
   
+  const [isSeller, setIsSeller] = useState(false);
+
 
   // get User by wallet address
 
@@ -696,6 +698,19 @@ export default function Index({ params }: any) {
 
 
         setUser(data.result);
+
+        if (data?.result?.seller
+          || data?.result?.sellerAliPay
+          || data?.result?.sellerWechatPay
+          || data?.result?.sellerUnionPay
+          || data?.result?.sellerJdPay
+          || data?.result?.sellerNaverPay
+          || data?.result?.sellerKakaoPay
+        ) {
+          setIsSeller(true);
+        }
+
+
 
         setEscrowWalletAddress(data.result.escrowWalletAddress);
 
@@ -2598,7 +2613,7 @@ export default function Index({ params }: any) {
 
 
 
-                                {user && user.seller &&
+                                {user && isSeller &&
                                 item.status === 'ordered' && item.walletAddress !== address && (
                                   
                                   <div className="flex flex-row items-center gap-2">
