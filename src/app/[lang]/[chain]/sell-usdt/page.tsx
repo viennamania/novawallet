@@ -82,7 +82,9 @@ interface SellOrder {
 
   usdtAmount: number;
   fietAmount: number;
+  fietCurrency: string;
   rate: number;
+  payment: any;
 
   walletAddress: string;
 
@@ -971,13 +973,13 @@ export default function Index({ params }: any) {
     useEffect(() => {
 
       if (fietCurrency === 'USD') {
-        setRate(2);
+        setRate(1);
       } else if (fietCurrency === 'KRW') {
-        setRate(2792);
+        setRate(1400);
       } else if (fietCurrency === 'JPY') {
-        setRate(309);
+        setRate(154);
       } else if (fietCurrency === 'CNY') {
-        setRate(14);
+        setRate(7);
       }
 
     } , [fietCurrency]);
@@ -1016,11 +1018,14 @@ export default function Index({ params }: any) {
       }
       
 
-      const response = await fetch('/api/setSellOrder', {
+
+
+      const response = await fetch('/api/order/setSellOrder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
+        
         body: JSON.stringify({
           lang: params.lang,
           chain: params.chain,
@@ -1050,6 +1055,7 @@ export default function Index({ params }: any) {
           rate: rate,
           privateSale: privateSale,
         })
+        
       });
 
       if (response.status !== 200) {
@@ -2171,15 +2177,31 @@ export default function Index({ params }: any) {
                           </div>
 
 
-                          <p className="mt-4 text-xl font-bold text-zinc-400">1 USDT = {
-                            // currency format
-                            
-                            Number(rate).toLocaleString('en-US', {
-                              style: 'currency',
-                              currency: 'USD'
-                            })
-
-                          }</p>
+                          <p className="mt-4 text-xl font-bold text-zinc-400">1 USDT = 
+                            {
+                              fietCurrency === 'USD' ? (
+                                Number(rate).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD'
+                                })
+                              ) : fietCurrency === 'JPY' ? (
+                                Number(rate).toLocaleString('ja-JP', {
+                                  style: 'currency',
+                                  currency: 'JPY'
+                                })
+                              ) : fietCurrency === 'CNY' ? (
+                                Number(rate).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'CNY'
+                                })
+                              ) : (
+                                Number(rate).toLocaleString('ko-KR', {
+                                  style: 'currency',
+                                  currency: 'KRW'
+                                })
+                              )
+                            }
+                          </p>
                           
                           <div className=" flex flex-row items-center gap-2">
                             <p className="text-xl text-blue-500 font-bold ">
@@ -2219,12 +2241,30 @@ export default function Index({ params }: any) {
                             </p>
 
                             <p className=" text-xl text-zinc-400 font-bold">
-                              = {
-                              Number(defaultKrWAmount).toLocaleString('ko-KR', {
-                                style: 'currency',
-                                currency: 'KRW'
-                              })
-                              }
+                              ={' '}
+                              {
+                              fietCurrency === 'USD' ? (
+                                Number(rate).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'USD'
+                                })
+                              ) : fietCurrency === 'JPY' ? (
+                                Number(rate).toLocaleString('ja-JP', {
+                                  style: 'currency',
+                                  currency: 'JPY'
+                                })
+                              ) : fietCurrency === 'CNY' ? (
+                                Number(rate).toLocaleString('en-US', {
+                                  style: 'currency',
+                                  currency: 'CNY'
+                                })
+                              ) : (
+                                Number(rate).toLocaleString('ko-KR', {
+                                  style: 'currency',
+                                  currency: 'KRW'
+                                })
+                              )
+                            }
                             </p>
                           </div>
 
@@ -2318,15 +2358,31 @@ export default function Index({ params }: any) {
 
                               {fietAmount > 0 && (
                                 <div className="text-lg font-semibold text-zinc-400">
-                                  {Rate}: {
+                                  {Rate}: {' '}
+                                  {
+                                    fietCurrency === 'USD' ? (
+                                      Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                      })
+                                    ) : fietCurrency === 'JPY' ? (
+                                      Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY'
+                                      })
+                                    ) : fietCurrency === 'CNY' ? (
+                                      Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY'
+                                      })
+                                    ) : (
+                                      Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW'
+                                      })
+                                    )
+                                  }
 
-                                    // currency format
-                                    Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('ko-KR', {
-                                      style: 'currency',
-                                      currency: 'KRW'
-                                    })
-
-                                  } 
                                 </div>
                               )}
                             </div>
@@ -2515,7 +2571,7 @@ export default function Index({ params }: any) {
                                   disabled={!isSeller || !paymentMethod || usdtAmount === 0 || agreementPlaceOrder === false}
                                   className={`text-lg text-white px-4 py-2 rounded-md ${!isSeller || !paymentMethod || usdtAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                   onClick={() => {
-                                      console.log('Sell NOVART');
+
                                       // open trade detail
                                       // open modal of trade detail
                                       ///openModal();
@@ -2585,11 +2641,30 @@ export default function Index({ params }: any) {
                               </div>
 
                               <p className="mt-4 text-xl font-bold text-zinc-400">1 USDT = {
-                                // currency format
-                                Number(rate).toLocaleString('ko-KR', {
-                                  style: 'currency',
-                                  currency: 'KRW'
-                                })
+
+                                fietCurrency === 'USD' ? (
+                                  Number(rate).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD'
+                                  })
+                                ) : fietCurrency === 'JPY' ? (
+                                  Number(rate).toLocaleString('ja-JP', {
+                                    style: 'currency',
+                                    currency: 'JPY'
+                                  })
+                                ) : fietCurrency === 'CNY' ? (
+                                  Number(rate).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'CNY'
+                                  })
+                                ) : (
+                                  Number(rate).toLocaleString('ko-KR', {
+                                    style: 'currency',
+                                    currency: 'KRW'
+                                  })
+                                )
+
+
                               }</p>
 
                               <div className=" flex flex-row items-center gap-2">
@@ -2629,7 +2704,11 @@ export default function Index({ params }: any) {
                                     } }
                                   />
 
-                                  <div className=" text-sm">KRW</div>
+                                  <div className=" text-sm">
+
+                                    {fietCurrency}
+
+                                  </div>
 
                                 </div>
   
@@ -2944,14 +3023,71 @@ export default function Index({ params }: any) {
                               <td className="p-2">
                                 <div className="flex flex-col gap-1">
                                   <span className="text-lg text-yellow-500 font-semibold">
+                                    
+                                    {/*
                                     {Number(item.fietAmount).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW',
                                     })}
+                                    */}
+
+                                    {item.fietCurrency === 'USD' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                      })
+                                    ) : item.fietCurrency === 'JPY' ? (
+                                      Number(item.fietAmount).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY'
+                                      })
+                                    ) : item.fietCurrency === 'CNY' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY'
+                                      })
+                                    ) : (
+                                      Number(item.fietAmount).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW'
+                                      })
+                                    )}
+
+
                                   </span>
                                   <span className="text-sm">{item.usdtAmount}{' '}USDT</span>
                                   <span className="text-xs">
+
+                                    {/*
                                     {Number(item.rate).toFixed(2)}
+                                    */}
+
+                                    {item.fietCurrency === 'USD' ? (
+                                      Number(item.rate).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                      })
+                                    ) : item.fietCurrency === 'JPY' ? (
+                                      Number(item.rate).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY'
+                                      })
+                                    ) : item.fietCurrency === 'CNY' ? (
+                                      Number(item.rate).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY'
+                                      })
+                                    ) : (
+                                      Number(item.rate).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW'
+                                      })
+                                    )}
+
+
+
+
+
                                   </span>
                                 </div>
                               </td>
@@ -2967,10 +3103,32 @@ export default function Index({ params }: any) {
 
                               <td className="text-lg text-yellow-500 font-semibold">
                                 {item.status === 'paymentConfirmed' && (
-                                  Number(item.fietAmount).toLocaleString('ko-KR', {
-                                    style: 'currency',
-                                    currency: 'KRW',
-                                  })
+                                  
+
+                                  (item.fietCurrency === 'USD' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD'
+                                    })
+                                  ) : item.fietCurrency === 'JPY' ? (
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY'
+                                    })
+                                  ) : item.fietCurrency === 'CNY' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY'
+                                    })
+                                  ) : (
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
+                                      style: 'currency',
+                                      currency: 'KRW'
+                                    })
+                                  ) )
+                                  
+
+                                
                                 )}
 
                                 {item.status === 'paymentRequested' && (
@@ -3469,13 +3627,30 @@ export default function Index({ params }: any) {
 
 
                               <p className="text-2xl text-zinc-400">
-                                {Price}: {
-                                  // currency
-                                
-                                  Number(item.fietAmount).toLocaleString('ko-KR', {
-                                    style: 'currency',
-                                    currency: 'KRW',
-                                  })
+                                {Price}:{' '}{
+
+
+                                  item.fietCurrency === 'USD' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD'
+                                    })
+                                  ) : item.fietCurrency === 'JPY' ? (
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY'
+                                    })
+                                  ) : item.fietCurrency === 'CNY' ? (
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY'
+                                    })
+                                  ) : (
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
+                                      style: 'currency',
+                                      currency: 'KRW'
+                                    })
+                                  )
 
                                 }
                               </p>
@@ -3485,9 +3660,29 @@ export default function Index({ params }: any) {
 
                                 <p className="text-lg font-semibold text-white">{item.usdtAmount} USDT</p>
 
-                                <p className="text-lg font-semibold text-white">{Rate}: {
+                                <p className="text-lg font-semibold text-white">{Rate}:{' '}{
 
-                                  Number(item.fietAmount / item.usdtAmount).toFixed(2)
+                                  item.fietCurrency === 'USD' ? (
+                                    Number(item.rate).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD'
+                                    })
+                                  ) : item.fietCurrency === 'JPY' ? (
+                                    Number(item.rate).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY'
+                                    })
+                                  ) : item.fietCurrency === 'CNY' ? (
+                                    Number(item.rate).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY'
+                                    })
+                                  ) : (
+                                    Number(item.rate).toLocaleString('ko-KR', {
+                                      style: 'currency',
+                                      currency: 'KRW'
+                                    })
+                                  )
 
                                 }</p>
 
@@ -3796,9 +3991,11 @@ export default function Index({ params }: any) {
                                       className="animate-spin"
                                     />
 
+                                    {/*
                                     <div>
                                       {Waiting_for_seller_to_deposit} {item.fietAmount} KRW to {Seller}...
                                     </div>
+                                    */}
 
                                   </div>
 
