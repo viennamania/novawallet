@@ -865,7 +865,7 @@ export default function Index({ params }: any) {
 
 
     // check input krw amount at sell order
-    const [checkInputKrwAmount, setCheckInputKrwAmount] = useState(true);
+    const [checkInputKrwAmount, setCheckInputKrwAmount] = useState(false);
 
 
 
@@ -1515,6 +1515,7 @@ export default function Index({ params }: any) {
 
 
                   {/* check box for sell order */}
+                  {/*
                   <div className="flex flex-row items-center gap-2">
                     <input
                       type="checkbox"
@@ -1525,6 +1526,7 @@ export default function Index({ params }: any) {
                       {Buy_Order_Fiat}
                     </p>
                   </div>
+                  */}
 
                   <div className=" w-full grid gap-4  justify-center">
 
