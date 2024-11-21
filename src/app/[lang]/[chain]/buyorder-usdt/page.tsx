@@ -914,6 +914,8 @@ export default function Index({ params }: any) {
         })
       });
 
+      ///console.log('setBuyOrder response', response);
+
       const data = await response.json();
 
       //console.log('data', data);
