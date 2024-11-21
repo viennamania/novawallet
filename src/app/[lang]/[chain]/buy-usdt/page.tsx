@@ -55,6 +55,8 @@ import { add } from "thirdweb/extensions/farcaster/keyGateway";
 import AppBarComponent from "@/components/Appbar/AppBar";
 import { getDictionary } from "../../../dictionaries";
 import Chat from "@/components/Chat";
+import { N } from "ethers";
+import { it } from "node:test";
 
 
 
@@ -69,11 +71,17 @@ interface SellOrder {
   price: number;
   available: number;
   limit: string;
+ 
+
   paymentMethods: string[];
 
   usdtAmount: number;
-  krwAmount: number;
+  fietAmount: number;
+  fietCurrency: string;
   rate: number;
+  payment: any;
+
+
 
 
 
@@ -108,7 +116,8 @@ const wallets = [
 
 
 const contractAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // USDT on Polygon
-const contractAddressArbitrum = "0x2f2a2543B76A4166549F7aab2e75Bef0aefC5B0f"; // USDT on Arbitrum
+const contractAddressArbitrum = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"; // USDT on Arbitrum
+
 
 
 
@@ -231,6 +240,9 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet: "",
   
+    Waiting_for_buyer_to_send: "",
+
+    Reload: "",
 
   } );
 
@@ -317,6 +329,10 @@ export default function Index({ params }: any) {
 
     Sign_in_with_Wallet,
 
+    Waiting_for_buyer_to_send,
+
+    Reload,
+
 
   } = data;
 
@@ -381,7 +397,7 @@ export default function Index({ params }: any) {
   
       //console.log(result);
   
-      setBalance( Number(result) / 10 ** 6 );
+      setBalance( Number(result) / 10 ** 18 );
 
 
       await fetch('/api/user/getBalanceByWalletAddress', {
@@ -608,6 +624,9 @@ export default function Index({ params }: any) {
               ),
             });
 
+            if (!response.ok) {
+                return;
+            }
 
 
 
@@ -615,16 +634,16 @@ export default function Index({ params }: any) {
             setSellOrders(data.result.orders);
         }
 
-        fetchSellOrders();
+        address && fetchSellOrders();
 
-        /*
+        
         const interval = setInterval(() => {
             fetchSellOrders();
         }, 10000);
 
 
         return () => clearInterval(interval);
-        */
+      
 
 
 
@@ -920,6 +939,7 @@ export default function Index({ params }: any) {
                     </div>
 
                     {!address && (
+
                       <ConnectButton
                       client={client}
                       wallets={wallets}
@@ -948,6 +968,7 @@ export default function Index({ params }: any) {
                         "en_US"
                       }
                       />
+                      
                     )}
 
                     {/*address && (
@@ -1106,7 +1127,7 @@ export default function Index({ params }: any) {
                         })
                       }}
                     >
-                      Reload
+                      {Reload}
                     </button>
 
                     {/* select table view or card view */}
@@ -1203,10 +1224,10 @@ export default function Index({ params }: any) {
                                 />
                                 <div className="flex flex-col gap-2 items-start">
                                   <div className="text-lg font-semibold text-white">
-                                    {item.walletAddress === address ? 'Me' : item.nickname}
+                                    {item.walletAddress === address ? Me : item.nickname}
                                   </div>
                                   <div className="text-sm text-zinc-400">
-                                    {item.walletAddress === address ? 'Me' : item.tradeId ? item.tradeId : ''}
+                                    {item.walletAddress === address ? Me : item.tradeId ? item.tradeId : ''}
                                   </div>
                                 </div>
                               </div>
@@ -1215,15 +1236,30 @@ export default function Index({ params }: any) {
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
                                 {
-                                  // currency
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
+                                  item.fietCurrency === 'USD' ?
+                                  Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                  }) : item.fietCurrency === 'JPY' ?
+                                  Number(item.fietAmount).toLocaleString('ja-JP', {
+                                    style: 'currency',
+                                    currency: 'JPY',
+                                  }) : item.fietCurrency === 'CNY' ?
+                                  Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'CNY',
+                                  }) : item.fietCurrency === 'KRW' ?
+                                  Number(item.fietAmount).toLocaleString('ko-KR', {
                                     style: 'currency',
                                     currency: 'KRW',
+                                  }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
                                   })
                                 }
                               </div>
                               <div className="text-sm font-semibold text-white">
-                              {Rate}{' '}{Number(item.krwAmount / item.usdtAmount).toFixed(2)}
+                              {Rate}{' '}{Number(item.fietAmount / item.usdtAmount).toFixed(2)}
                               </div>
                             </td>
 
@@ -1235,7 +1271,47 @@ export default function Index({ params }: any) {
 
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
-                                {item.seller?.bankInfo.bankName}
+                                
+                                {/*item.seller?.bankInfo.bankName*/}
+
+                                {item?.payment?.method === 'Bank' ? (
+                                    <div className="flex flex-col items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                    </div>
+                                  ) : item?.payment?.method === 'AliPay'
+                                  || item?.payment?.method === 'WechatPay'
+                                  || item?.payment?.method === 'UnionPay'
+                                  || item?.payment?.method === 'JdPay'
+                                  || item?.payment?.method === 'NaverPay'
+                                  || item?.payment?.method === 'KakaoPay' ? (
+
+                                    <div className="flex flex-col items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.method}</span>
+                                      <Image
+                                        src={item?.payment?.seller?.qrcodeImage ? item?.payment?.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                        alt="qrcode"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-md"
+                                      />
+                                    </div>
+
+                                  ) : (
+                                    <div className="flex flex-col gap-1">
+                                      <span>
+                                        X
+                                      </span>
+                                    </div>
+                                  )}
+
+
+
+
+
+
+
                               </div>
                             </td>
 
@@ -1748,12 +1824,26 @@ export default function Index({ params }: any) {
                                 <p className="text-2xl text-gray-800 font-semibold">
                                   {Price}: {
                                     // currency
-                                  
-                                    Number(item.krwAmount).toLocaleString('ko-KR', {
+                                    item.fietCurrency === 'USD' ?
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
+                                    }) : item.fietCurrency === 'JPY' ?
+                                    Number(item.fietAmount).toLocaleString('ja-JP', {
+                                      style: 'currency',
+                                      currency: 'JPY',
+                                    }) : item.fietCurrency === 'CNY' ?
+                                    Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'CNY',
+                                    }) : item.fietCurrency === 'KRW' ?
+                                    Number(item.fietAmount).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW',
+                                    }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                      style: 'currency',
+                                      currency: 'USD',
                                     })
-
                                   }
                                 </p>
 
@@ -1764,7 +1854,7 @@ export default function Index({ params }: any) {
                                   </p>
                                   <p className="text-lg font-semibold text-gray-800">{Rate}: {
 
-                                    Number(item.krwAmount / item.usdtAmount).toFixed(2)
+                                    Number(item.fietAmount / item.usdtAmount).toFixed(2)
 
                                     }</p>
                                 </div>
@@ -1774,8 +1864,56 @@ export default function Index({ params }: any) {
 
                       
 
-                              <div className="mb-4 flex flex-col items-start text-sm ">
-                                {Payment}: {Bank_Transfer} ({item.seller?.bankInfo.bankName})
+                              <div className="mt-4 flex flex-col gap-2 items-start">
+                                <p className="mt-2 text-sm text-zinc-400">
+
+                                  {Payment}:
+                                </p>
+                                  
+                                  
+                                  {/*item.seller?.bankInfo.bankName} {item.seller?.bankInfo.accountNumber} {item.seller?.bankInfo.accountHolder*/}
+
+                                  {item?.payment?.method === 'Bank' ? (
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.seller?.bankInfo.bankName}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountNumber}</span>
+                                      <span>{item?.payment?.seller?.bankInfo.accountHolder}</span>
+                                    </div>
+                                  ) : item?.payment?.method === 'AliPay'
+                                  || item?.payment?.method === 'WechatPay'
+                                  || item?.payment?.method === 'UnionPay'
+                                  || item?.payment?.method === 'JdPay'
+                                  || item?.payment?.method === 'NaverPay'
+                                  || item?.payment?.method === 'KakaoPay' ? (
+
+                                    <div className="flex flex-row items-center gap-2 text-zinc-400">
+                                      <span>{item?.payment?.method}</span>
+                                      <Image
+                                        src={item?.payment?.seller?.qrcodeImage ? item?.payment?.seller?.qrcodeImage : '/icon-qrcode.png'}
+                                        alt="qrcode"
+                                        width={128}
+                                        height={128}
+                                        className="rounded-md"
+                                      />
+                                    </div>
+
+                                  ) : (
+                                    <div className="flex flex-col gap-1">
+                                      <span>
+                                        X
+                                      </span>
+                                    </div>
+                                  )}
+
+
+                                
+                                {/*
+                                <p className="text-sm text-zinc-400">
+                                  {Deposit_Name}: {
+                                    item.buyer?.depositName ? item.buyer?.depositName : item.tradeId
+                                  }
+                                </p>  
+                                */}
                               </div>
 
 
@@ -1800,7 +1938,7 @@ export default function Index({ params }: any) {
                                   <div className="flex items-center space-x-2">{Seller}:</div>
 
                                   <h2 className="text-lg font-semibold">
-                                    {item.walletAddress === address ? 'Me' : item.nickname}
+                                    {item.walletAddress === address ? Me : item.nickname}
                                   
                                   </h2>
 
@@ -1822,7 +1960,7 @@ export default function Index({ params }: any) {
 
                                 </p>
 
-
+                                {/*
                                 {address && item.walletAddress !== address && item.buyer && item.buyer.walletAddress === address && (
                                   <button
                                     className="bg-green-500 text-white px-4 py-2 rounded-lg"
@@ -1840,6 +1978,7 @@ export default function Index({ params }: any) {
                                     {Chat_with_Seller + ' ' + item.nickname}
                                   </button>
                                 )}
+                                */}
 
 
                               </div>
@@ -1937,6 +2076,7 @@ export default function Index({ params }: any) {
                                         {Waiting_for_seller_to_deposit} {item.usdtAmount} USDT {to_escrow}...
                                       </span>
 
+                                      {/*
                                       <span className="text-sm text-zinc-400">
 
                                         {If_the_seller_does_not_deposit_the_USDT_to_escrow},
@@ -1950,6 +2090,9 @@ export default function Index({ params }: any) {
                                         } 
 
                                       </span>
+                                      */}
+
+
                                     </div>
                                   </div>
 
@@ -2082,11 +2225,30 @@ export default function Index({ params }: any) {
                                         className="animate-spin"
                                       />
 
-                                      <div>Waiting for buyer to send {
-                                      item.krwAmount.toLocaleString('ko-KR', {
-                                        style: 'currency',
-                                        currency: 'KRW',
-                                      })} to seller...</div>
+                                      <div>{Waiting_for_buyer_to_send} {
+
+                                        item.fietCurrency === 'USD' ?
+                                        Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD',
+                                        }) : item.fietCurrency === 'JPY' ?
+                                        Number(item.fietAmount).toLocaleString('ja-JP', {
+                                          style: 'currency',
+                                          currency: 'JPY',
+                                        }) : item.fietCurrency === 'CNY' ?
+                                        Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'CNY',
+                                        }) : item.fietCurrency === 'KRW' ?
+                                        Number(item.fietAmount).toLocaleString('ko-KR', {
+                                          style: 'currency',
+                                          currency: 'KRW',
+                                        }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                          style: 'currency',
+                                          currency: 'USD',
+                                        })
+                                      
+                                      }</div>
                                     
 
                                     </div>
