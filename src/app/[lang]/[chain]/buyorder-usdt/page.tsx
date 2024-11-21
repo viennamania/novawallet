@@ -826,7 +826,7 @@ export default function Index({ params }: any) {
 
     const [defaultKrWAmount, setDefaultKrwAmount] = useState(0);
 
-    const [fietAmount, setKrwAmount] = useState(0);
+    const [fietAmount, setFietAmount] = useState(0);
 
     console.log('usdtAmount', usdtAmount);
 
@@ -839,7 +839,7 @@ export default function Index({ params }: any) {
 
         setDefaultKrwAmount(0);
 
-        setKrwAmount(0);
+        setFietAmount(0);
 
         return;
       }
@@ -848,7 +848,7 @@ export default function Index({ params }: any) {
       setDefaultKrwAmount( Math.round(usdtAmount * rate) );
 
 
-      setKrwAmount( Math.round(usdtAmount * rate) );
+      setFietAmount( Math.round(usdtAmount * rate) );
 
     } , [usdtAmount, rate]);
 
@@ -1660,7 +1660,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  fietAmount > 0 && setKrwAmount(fietAmount - 1);
+                                  fietAmount > 0 && setFietAmount(fietAmount - 1);
                                 }}
                               >
                                 -1
@@ -1670,7 +1670,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  fietAmount > 10 && setKrwAmount(fietAmount - 10);
+                                  fietAmount > 10 && setFietAmount(fietAmount - 10);
                                 }}
                               >
                                 -10
@@ -1680,7 +1680,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  fietAmount > 100 && setKrwAmount(fietAmount - 100);
+                                  fietAmount > 100 && setFietAmount(fietAmount - 100);
                                 }}
                               >
                                 -100
@@ -1690,7 +1690,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  fietAmount > 1000 && setKrwAmount(fietAmount - 1000);
+                                  fietAmount > 1000 && setFietAmount(fietAmount - 1000);
                                 }}
                               >
                                 -1000
@@ -1711,13 +1711,13 @@ export default function Index({ params }: any) {
                                     e.target.value = e.target.value.replace(/[^0-9.]/g, '');
 
                                     if (e.target.value === '') {
-                                      setKrwAmount(0);
+                                      setFietAmount(0);
                                       return;
                                     }
 
-                                    parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
 
-                                    parseFloat(e.target.value) > 1000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) > 1000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
 
                                   } }
                                 />
@@ -1743,7 +1743,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(fietAmount + 1);
+                                  setFietAmount(fietAmount + 1);
                                 }}
                               >
                                 +1
@@ -1752,7 +1752,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(fietAmount + 10);
+                                  setFietAmount(fietAmount + 10);
                                 }}
                               >
                                 +10
@@ -1762,7 +1762,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(fietAmount + 100);
+                                  setFietAmount(fietAmount + 100);
                                 }}
                               >
                                 +100
@@ -1772,7 +1772,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(fietAmount + 1000);
+                                  setFietAmount(fietAmount + 1000);
                                 }}
                               >
                                 +1000
@@ -2004,15 +2004,15 @@ export default function Index({ params }: any) {
 
                                       /*
                                       if (e.target.value === '') {
-                                        setKrwAmount(0);
+                                        setFietAmount(0);
                                         return;
                                       }
                                       */
 
   
-                                      parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
   
-                                      parseFloat(e.target.value) > 100000000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) > 100000000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
   
                                       //setUsdtAmount(Number((fietAmount / rate).toFixed(2)));
                                     
