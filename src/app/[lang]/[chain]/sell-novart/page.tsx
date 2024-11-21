@@ -1091,7 +1091,6 @@ export default function Index({ params }: any) {
 
       setSellOrdering(false);
 
-      
 
     };
 
@@ -1761,63 +1760,6 @@ export default function Index({ params }: any) {
 
                     )}
 
-                    {/*address && (
-
-                      <div className="flex flex-col gap-2 items-center
-                        border border-zinc-400 rounded-md p-2">
-                        <div className="flex flex-row items-center gap-2">
-                          <button
-                            className="text-sm text-zinc-400 underline"
-                            onClick={() => {
-                              navigator.clipboard.writeText(address);
-                              toast.success('Copied wallet address');
-                            } }
-                          >
-                            {address.substring(0, 6)}...{address.substring(address.length - 4)}
-                          </button>
-
-                          <div className="flex flex-row items-center gap-2">
-                      
-                            <Image
-                              src={user?.avatar || "/profile-default.png"}
-                              alt="Avatar"
-                              width={20}
-                              height={20}
-                              priority={true} // Added priority property
-                              className="rounded-full"
-                              style={{
-                                  objectFit: 'cover',
-                                  width: '20px',
-                                  height: '20px',
-                              }}
-                            />
-                            
-                            <div className="text-lg font-semibold text-zinc-800 ">
-                              {
-                                user && user.nickname ? user.nickname : Anonymous
-                              }
-                            </div>
-
-                            {address && !user && (
-                              <button
-                                onClick={() => {
-                                  router.push('/' + params.lang + '/' + params.chain + '/profiles?wallet=' + wallet);
-                                }}
-                                className="text-sm text-zinc-400 underline"
-                              >
-                                Go to profile
-                              </button>
-                            )}
-
-                          </div>
-
-
-                        </div>
-                      
-
-                      </div>
-
-                    )*/}
 
                   </div>
 
@@ -1853,63 +1795,6 @@ export default function Index({ params }: any) {
                             {Number(escrowBalance).toFixed(2)}
                           </span>
                           <span className="text-lg">NOVART</span>
-                          {/* transfer button */}
-                          
-                          {/*
-                          <button
-                            onClick={() => {
-
-                              
-
-                              if (!address) {
-                                toast.error('Please connect your wallet');
-                                return;
-                              }
-                            
-                              if (escrowBalance === 0) {
-                                toast.error('Escrow balance is empty');
-                                return;
-                              }
-
-                              const transfer = async () => {
-
-                                const response = await fetch('/api/orderNovart/transferEscrowBalanceToMyWallet', {
-                                  method: 'POST',
-                                  headers: {
-                                    'Content-Type': 'application/json',
-                                  },
-                                  body: JSON.stringify({
-                                    lang: params.lang,
-                                    chain: params.chain,
-                                    walletAddress: address,
-                                  }),
-                                });
-
-                                const data = await response.json();
-
-                                //console.log('data', data);
-
-                                if (data.result) {
-                                  //toast.success('Transfer escrow balance to my wallet');
-                                  toast.success('Transfer escrow balance to my wallet');
-                                } else {
-                                  toast.error('Transfer escrow balance has been failed');
-                                }
-                              
-                              }
-
-                              transfer();
-
-
-                            }}
-                            className="text-sm text-zinc-400 underline"
-                          >
-                            Transfer
-                          </button>
-                          */}
-                          
-                          
-
                         </div>
 
 
@@ -1989,209 +1874,206 @@ export default function Index({ params }: any) {
 
 
 
-   
-
-
                   <div className=" w-full grid gap-4  justify-center">
 
                     <div className="flex flex-row items-center gap-5">
-                    {/* select payment currency
-                    option is USD, JPY, CNY, KRW */}
+                      {/* select payment currency
+                        option is USD, JPY, CNY, KRW */}
 
-                    <div className="flex flex-row items-center gap-2">
-                      <p className="text-sm text-zinc-400">
-                        {Payment_Currency}
-                      </p>
-                      <select
-                        className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
-                        value={fietCurrency}
-                        onChange={(e) => {
-                          //console.log(e.target.value);
-                          setFietCurrency(e.target.value);
-                        }}
-                      >
+                      <div className="flex flex-row items-center gap-2">
+                        <p className="text-sm text-zinc-400">
+                          {Payment_Currency}
+                        </p>
+                        <select
+                          className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
+                          value={fietCurrency}
+                          onChange={(e) => {
+                            //console.log(e.target.value);
+                            setFietCurrency(e.target.value);
+                          }}
+                        >
+                          
+                          <option
+                            value="USD"
+                            selected={fietCurrency === 'USD'}
+                          >
+                            USD
+                          </option>
+                          <option
+                            value="JPY"
+                            selected={fietCurrency === 'JPY'}
+                          >
+                            JPY
+                          </option>
+                          <option
+                            value="CNY"
+                            selected={fietCurrency === 'CNY'}
+                          >
+                            CNY
+                          </option>
+                          <option
+                            value="KRW"
+                            selected={fietCurrency === 'KRW'}
+                          >
+                            KRW
+                          </option>
+                        </select>
+                      </div>
+
+                      {/* select payment method */}
+                      {/* Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay */}
+                      <div className="flex flex-col xl:flex-row items-start justify-center gap-2">
+
+                        <p className="text-sm text-zinc-400">
+                          {Payment_Method}
+                        </p>
+
+                        {/* radio button for payment method */}
+
                         
-                        <option
-                          value="USD"
-                          selected={fietCurrency === 'USD'}
-                        >
-                          USD
-                        </option>
-                        <option
-                          value="JPY"
-                          selected={fietCurrency === 'JPY'}
-                        >
-                          JPY
-                        </option>
-                        <option
-                          value="CNY"
-                          selected={fietCurrency === 'CNY'}
-                        >
-                          CNY
-                        </option>
-                        <option
-                          value="KRW"
-                          selected={fietCurrency === 'KRW'}
-                        >
-                          KRW
-                        </option>
-                      </select>
-                    </div>
 
-                    {/* select payment method */}
-                    {/* Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay */}
-                    <div className="flex flex-col xl:flex-row items-start justify-center gap-2">
+                        {userCode && paymentMethods.length > 0 && (
+                          <div className="flex flex-row items-center gap-2">
 
-                      <p className="text-sm text-zinc-400">
-                        {Payment_Method}
-                      </p>
+                            <div className="flex flex-col items-start gap-2">
+                              
+                              {paymentMethods.map((item, index) => (
+                                <div key={index} className="flex flex-row items-center gap-2">
+                                  <input
+                                    type="radio"
+                                    id={item?.method}
+                                    name="paymentMethod"
+                                    value={item?.method}
+                                    checked={paymentMethod === item?.method}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
+                                  />
+                                  <label htmlFor={item} className="text-sm text-zinc-400">
+                                    {item?.method}
+                                    </label>
+                                </div>
+                              ))}
 
-                      {/* radio button for payment method */}
+                            </div>
 
+                            <span className="text-sm text-zinc-400">
+                              {paymentMethod === 'Bank' ?
+
+                                <div className="flex flex-col gap-2 items-start border border-zinc-400 rounded-md p-2">
+                                    {
+                                  paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.bankName 
+                                  + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountNumber
+                                  + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountHolder
+                                  }
+                                </div>
+                                
+                                : paymentMethod === 'AliPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'WechatPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'UnionPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'JdPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'NaverPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'KakaoPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : ''
+                                
+                              }
+                            </span>
+
+                          </div>
+                        )}
+
+
+                        {!userCode && (
+                          <div className="flex flex-col gap-2 items-start">
+                            <div className="text-sm text-blue-500">
+                              {Please_register_your_seller_information}
+                            </div>
+                            <button
+                              onClick={() => {
+                                router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                              }}
+                              className="text-sm text-blue-500 underline"
+                            >
+                              {Apply_for_Listing_New_Seller}
+                            </button>
+                          </div>
+                        )}
                       
 
-                      {userCode && paymentMethods.length > 0 && (
-                        <div className="flex flex-row items-center gap-2">
-
-                          <div className="flex flex-col items-start gap-2">
-                            
-                            {paymentMethods.map((item, index) => (
-                              <div key={index} className="flex flex-row items-center gap-2">
-                                <input
-                                  type="radio"
-                                  id={item?.method}
-                                  name="paymentMethod"
-                                  value={item?.method}
-                                  checked={paymentMethod === item?.method}
-                                  onChange={(e) => setPaymentMethod(e.target.value)}
-                                />
-                                <label htmlFor={item} className="text-sm text-zinc-400">
-                                  {item?.method}
-                                  </label>
-                              </div>
-                            ))}
-
+                        {userCode && paymentMethods.length === 0 && (
+                          <div className="flex flex-col gap-2 items-start">
+                            <div className="text-sm text-blue-500">
+                              {Please_register_your_seller_information}
+                            </div>
+                            <button
+                              onClick={() => {
+                                router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                              }}
+                              className="text-sm text-blue-500 underline"
+                            >
+                              {Apply_for_Listing_New_Seller}
+                            </button>
                           </div>
-
-                          <span className="text-sm text-zinc-400">
-                            {paymentMethod === 'Bank' ?
-
-                              <div className="flex flex-col gap-2 items-start border border-zinc-400 rounded-md p-2">
-                                  {
-                                paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.bankName 
-                                + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountNumber
-                                + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountHolder
-                                }
-                              </div>
-                              
-                              : paymentMethod === 'AliPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : paymentMethod === 'WechatPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : paymentMethod === 'UnionPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : paymentMethod === 'JdPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : paymentMethod === 'NaverPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : paymentMethod === 'KakaoPay' ?
-                                <Image
-                                  src={
-                                    paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
-                                  }
-                                  alt={paymentMethod}
-                                  width={100}
-                                  height={100}
-                                  className="rounded-md w-20 h-20 object-cover"
-                                />
-                              : ''
-                              
-                            }
-                          </span>
-
-                        </div>
-                      )}
-
-
-                      {!userCode && (
-                        <div className="flex flex-col gap-2 items-start">
-                          <div className="text-sm text-blue-500">
-                            {Please_register_your_seller_information}
-                          </div>
-                          <button
-                            onClick={() => {
-                              router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
-                            }}
-                            className="text-sm text-blue-500 underline"
-                          >
-                            {Apply_for_Listing_New_Seller}
-                          </button>
-                        </div>
-                      )}
-                     
-
-                      {userCode && paymentMethods.length === 0 && (
-                        <div className="flex flex-col gap-2 items-start">
-                          <div className="text-sm text-blue-500">
-                            {Please_register_your_seller_information}
-                          </div>
-                          <button
-                            onClick={() => {
-                              router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
-                            }}
-                            className="text-sm text-blue-500 underline"
-                          >
-                            {Apply_for_Listing_New_Seller}
-                          </button>
-                        </div>
-                      )}
+                        )}
 
 
 
 
 
 
-                    </div>
+                      </div>
                     
                     </div>
 
@@ -2606,6 +2488,7 @@ export default function Index({ params }: any) {
                           </span>
                         </div>
                         */}
+
 
 
 

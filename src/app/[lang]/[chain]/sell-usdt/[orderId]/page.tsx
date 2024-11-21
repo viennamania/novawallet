@@ -1960,40 +1960,7 @@ export default function Index({ params }: any) {
                             
 
 
-                              <p className="mt-4 text-sm text-zinc-400">{Payment}: {Bank_Transfer} ({item.seller?.bankInfo.bankName})</p>                         
-
-
-                           
-
-
-                              {/* share button */}
-                              {/*
-
-                                <div className='flex flex-row items-center justify-end gap-2'>
-                                  <button
-                                      className="flex text-sm bg-blue-500 text-white px-2 py-1 rounded-md"
-                                      onClick={() => {
-                                        
-                                        //router.push(`/sell-usdt/${item._id}`);
-
-                                        // copy link to clipboard
-                                        navigator.clipboard.writeText(`https://wallet.novarwa.io/${params.lang}/sell-usdt/${item._id}`);
-                                        toast.success('Link has been copied');
-
-                                      }}
-                                  >
-                                    <Image
-                                      src="/icon-share.png"
-                                      alt="Share"
-                                      width={16}
-                                      height={16}
-                                      className='mr-2'
-                                    />
-                                    Share
-                                  </button>
-                                </div>
-                                */}
-                              
+                              <p className="mt-4 text-sm text-zinc-400">{Payment}: {Bank_Transfer} ({item.seller?.bankInfo.bankName})</p> 
 
 
 

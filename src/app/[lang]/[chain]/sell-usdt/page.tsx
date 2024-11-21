@@ -81,7 +81,7 @@ interface SellOrder {
   paymentMethods: string[];
 
   usdtAmount: number;
-  krwAmount: number;
+  fietAmount: number;
   rate: number;
 
   walletAddress: string;
@@ -293,6 +293,27 @@ export default function Index({ params }: any) {
 
     Buy_Order_Fiat: "",
 
+
+
+    Payment_Currency: "",
+
+    Payment_Method: "",
+
+   
+
+    Please_register_your_seller_information: "",
+
+
+
+    Apply_for_Listing_New_Seller: "",
+
+    Create_Escrow_Wallet: "",
+
+    Please_create_your_escrow_wallet: "",
+
+    Payment_has_been_rollbacked: "",
+
+
   } );
 
   useEffect(() => {
@@ -423,6 +444,25 @@ export default function Index({ params }: any) {
     Sign_in_with_Wallet,
 
     Buy_Order_Fiat,
+
+
+    Payment_Currency,
+
+    Payment_Method,
+
+   
+
+    Please_register_your_seller_information,
+
+
+
+    Apply_for_Listing_New_Seller,
+
+    Create_Escrow_Wallet,
+
+    Please_create_your_escrow_wallet,
+
+    Payment_has_been_rollbacked,
 
   } = data;
 
@@ -699,6 +739,22 @@ export default function Index({ params }: any) {
 
     const [seller, setSeller] = useState(null) as any;
   
+
+    const [isSeller, setIsSeller] = useState(false);
+
+
+
+  
+    // get all payment method from user
+    const [paymentMethods, setPaymentMethods] = useState([] as any[]);
+    // [{"method":"Bank","seller": object},
+    // ,{"method":"AliPay","seller": object},
+    // ,{"method":"WechatPay","seller": object},
+    // ,{"method":"UnionPay","seller": object},
+    // ,{"method":"JdPay","seller": object},
+    // ,{"method":"NaverPay","seller": object},
+    // ,{"method":"KakaoPay","seller": object}]
+
   
     useEffect(() => {
         const fetchData = async () => {
@@ -711,10 +767,16 @@ export default function Index({ params }: any) {
                     walletAddress: address,
                 }),
             });
+
+            if (response.status !== 200) {
+                return;
+            }
   
             const data = await response.json();
   
-            //console.log("data", data);
+            console.log("data", data);
+
+
   
             if (data.result) {
                 setNickname(data.result.nickname);
@@ -723,19 +785,62 @@ export default function Index({ params }: any) {
 
                 setUser(data.result);
   
-                setSeller(data.result.seller);
+                
+                
+                setSeller(data.result?.seller);
 
-                setEscrowWalletAddress(data.result.escrowWalletAddress);
+
+                if (data?.result?.seller
+                  || data?.result?.sellerAliPay
+                  || data?.result?.sellerWechatPay
+                  || data?.result?.sellerUnionPay
+                  || data?.result?.sellerJdPay
+                  || data?.result?.sellerNaverPay
+                  || data?.result?.sellerKakaoPay
+                ) {
+                  setIsSeller(true);
+                }
+
+
+
+
+                setEscrowWalletAddress(data.result?.escrowWalletAddress);
+
+
+
+                /*
+                setPaymentMethods(
+                  [
+                    data.result?.seller && {"method":"Bank","seller": data.result?.seller},
+                    data.result?.sellerAliPay && {"method":"AliPay","seller": data.result?.sellerAliPay},
+                    data.result?.sellerWechatPay && {"method":"WechatPay","seller": data.result?.sellerWechatPay},
+                    data.result?.sellerUnionPay && {"method":"UnionPay","seller": data.result?.sellerUnionPay},
+                    data.result?.sellerJdPay && {"method":"JdPay","seller": data.result?.sellerJdPay},
+                    data.result?.sellerNaverPay && {"method":"NaverPay","seller": data.result?.sellerNaverPay},
+                    data.result?.sellerKakaoPay && {"method":"KakaoPay","seller": data.result?.sellerKakaoPay},
+
+                  ]
+                );
+                */
+
+                // clear paymentMethods
+                setPaymentMethods([]);
+
+                data?.result?.seller && setPaymentMethods( (prev) => [...prev, {"method":"Bank","seller": data.result?.seller}] );
+                data?.result?.sellerAliPay && setPaymentMethods( (prev) => [...prev, {"method":"AliPay","seller": data.result?.sellerAliPay}] );
+                data?.result?.sellerWechatPay && setPaymentMethods( (prev) => [...prev, {"method":"WechatPay","seller": data.result?.sellerWechatPay}] );
+                data?.result?.sellerUnionPay && setPaymentMethods( (prev) => [...prev, {"method":"UnionPay","seller": data.result?.sellerUnionPay}] );
+                data?.result?.sellerJdPay && setPaymentMethods( (prev) => [...prev, {"method":"JdPay","seller": data.result?.sellerJdPay}] );
+                data?.result?.sellerNaverPay && setPaymentMethods( (prev) => [...prev, {"method":"NaverPay","seller": data.result?.sellerNaverPay}] );
+                data?.result?.sellerKakaoPay && setPaymentMethods( (prev) => [...prev, {"method":"KakaoPay","seller": data.result?.sellerKakaoPay}] );
 
   
             }
         };
   
-        fetchData();
+        address && fetchData();
   
     }, [address]);
-
-
 
 
 
@@ -810,7 +915,12 @@ export default function Index({ params }: any) {
 
     const [defaultKrWAmount, setDefaultKrwAmount] = useState(0);
 
-    const [krwAmount, setKrwAmount] = useState(0);
+    ///const [fietAmount, setFietAmount] = useState(0);
+
+
+    const [fietAmount, setFietAmount] = useState(0);
+
+
 
     //console.log('usdtAmount', usdtAmount);
 
@@ -823,7 +933,7 @@ export default function Index({ params }: any) {
 
         setDefaultKrwAmount(0);
 
-        setKrwAmount(0);
+        setFietAmount(0);
 
         return;
       }
@@ -832,7 +942,7 @@ export default function Index({ params }: any) {
       setDefaultKrwAmount( Math.round(usdtAmount * rate) );
 
 
-      setKrwAmount( Math.round(usdtAmount * rate) );
+      setFietAmount( Math.round(usdtAmount * rate) );
 
     } , [usdtAmount, rate]);
 
@@ -849,7 +959,36 @@ export default function Index({ params }: any) {
 
 
     // check input krw amount at sell order
-    const [checkInputKrwAmount, setCheckInputKrwAmount] = useState(true);
+    const [checkInputKrwAmount, setCheckInputKrwAmount] = useState(false);
+
+
+
+
+    // fiet currency
+
+    const [fietCurrency, setFietCurrency] = useState('USD');
+
+    useEffect(() => {
+
+      if (fietCurrency === 'USD') {
+        setRate(2);
+      } else if (fietCurrency === 'KRW') {
+        setRate(2792);
+      } else if (fietCurrency === 'JPY') {
+        setRate(309);
+      } else if (fietCurrency === 'CNY') {
+        setRate(14);
+      }
+
+    } , [fietCurrency]);
+
+
+
+    // payment method
+    // Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay
+
+    const [paymentMethod, setPaymentMethod] = useState('');
+
 
 
 
@@ -873,11 +1012,11 @@ export default function Index({ params }: any) {
       let orderUsdtAmount = usdtAmount;
 
       if (checkInputKrwAmount) {
-        orderUsdtAmount = parseFloat(Number(krwAmount / rate).toFixed(2));
+        orderUsdtAmount = parseFloat(Number(fietAmount / rate).toFixed(2));
       }
       
 
-      const response = await fetch('/api/order/setSellOrder', {
+      const response = await fetch('/api/setSellOrder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -886,12 +1025,38 @@ export default function Index({ params }: any) {
           lang: params.lang,
           chain: params.chain,
           walletAddress: address,
-          usdtAmount: orderUsdtAmount,
-          krwAmount: krwAmount,
+          novartAmount: orderUsdtAmount,
+          fietAmount: fietAmount,
+          fietCurrency: fietCurrency,
+
+          payment:
+            {
+              method: paymentMethod,
+
+              seller:
+
+              paymentMethod === 'Bank' ? user?.seller
+              : paymentMethod === 'AliPay' ? user?.sellerAliPay
+              : paymentMethod === 'WechatPay' ? user?.sellerWechatPay
+              : paymentMethod === 'UnionPay' ? user?.sellerUnionPay
+              : paymentMethod === 'JdPay' ? user?.sellerJdPay
+              : paymentMethod === 'NaverPay' ? user?.sellerNaverPay
+              : paymentMethod === 'KakaoPay' ? user?.sellerKakaoPay
+              : user?.seller
+
+            }
+            ,
+
           rate: rate,
           privateSale: privateSale,
         })
       });
+
+      if (response.status !== 200) {
+        toast.error(Order_has_been_failed);
+        setSellOrdering(false);
+        return;
+      }
 
       const data = await response.json();
 
@@ -938,9 +1103,11 @@ export default function Index({ params }: any) {
 
       setSellOrdering(false);
 
-      
 
     };
+
+
+
 
 
     // cancel sell order state
@@ -1193,10 +1360,10 @@ export default function Index({ params }: any) {
   const [paymentAmounts, setPaymentAmounts] = useState([] as number[]);
   useEffect(() => {
 
-    // default payment amount is from sellOrders krwAmount
+    // default payment amount is from sellOrders fietAmount
       
     setPaymentAmounts(
-      sellOrders.map((item) => item.krwAmount)
+      sellOrders.map((item) => item.fietAmount)
       );
 
   } , [sellOrders]);
@@ -1600,64 +1767,6 @@ export default function Index({ params }: any) {
                       />
                     )}
 
-                    {/*address && (
-
-                      <div className="flex flex-col gap-2 items-center
-                        border border-zinc-400 rounded-md p-2">
-                        <div className="flex flex-row items-center gap-2">
-                          <button
-                            className="text-sm text-zinc-400 underline"
-                            onClick={() => {
-                              navigator.clipboard.writeText(address);
-                              toast.success('Copied wallet address');
-                            } }
-                          >
-                            {address.substring(0, 6)}...{address.substring(address.length - 4)}
-                          </button>
-
-                          <div className="flex flex-row items-center gap-2">
-                      
-                            <Image
-                              src={user?.avatar || "/profile-default.png"}
-                              alt="Avatar"
-                              width={20}
-                              height={20}
-                              priority={true} // Added priority property
-                              className="rounded-full"
-                              style={{
-                                  objectFit: 'cover',
-                                  width: '20px',
-                                  height: '20px',
-                              }}
-                            />
-                            
-                            <div className="text-lg font-semibold text-white ">
-                              {
-                                user && user.nickname ? user.nickname : Anonymous
-                              }
-                            </div>
-
-                            {address && !user && (
-                              <button
-                                onClick={() => {
-                                  router.push('/' + params.lang + '/' + params.chain + '/profiles?wallet=' + wallet);
-                                }}
-                                className="text-sm text-zinc-400 underline"
-                              >
-                                Go to profile
-                              </button>
-                            )}
-
-                          </div>
-
-
-                        </div>
-                      
-
-                      </div>
-
-                    )*/}
-
                   </div>
 
                   {/* escrow usdt balance */}
@@ -1688,7 +1797,7 @@ export default function Index({ params }: any) {
                         </div>
 
                         <div className="flex flex-row items-end justify-center  gap-2">
-                          <span className="text-4xl font-semibold text-white">
+                          <span className="text-4xl font-semibold text-gray-800">
                             {Number(escrowBalance).toFixed(2)}
                           </span>
                           <span className="text-lg">USDT</span>
@@ -1781,46 +1890,6 @@ export default function Index({ params }: any) {
                   ) : (
                     <>
 
-                      {/*
-                      {user && (
-                        
-                        <div className="flex flex-col gap-2 items-start">
-                          
-                          <button
-                            onClick={() => {
-                              makeEscrowWallet();
-                            }}
-
-                            className={`
-                              ${makeingEscrowWallet ? 'bg-zinc-600' : 'bg-green-500'}
-                              px-2 py-1 rounded-md  
-                            `}
-                          >
-                            <div className="flex flex-row items-center gap-2">
-                              {makeingEscrowWallet ? (
-                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-zinc-100"></div>
-                              ) : (
-                                <div className="text-sm">
-                                  에스크로 지갑 생성하기
-                                </div>
-                              )}
-                            </div>
-                          </button>
-
-                          <div className="flex flex-row items-center gap-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <p className="text-sm text-zinc-400">
-                              에스크로 지갑이 있어야 판매 가능합니다.
-                            </p>
-                          </div>
-                          
-                          
-                        </div>
-                        
-                      )}
-                      */}
-                    
-
                     </>
                   )}
 
@@ -1828,6 +1897,7 @@ export default function Index({ params }: any) {
 
 
                   {/* check box for sell order */}
+                  {/*
                   <div className="flex flex-row items-center gap-2">
                     <input
                       type="checkbox"
@@ -1838,10 +1908,216 @@ export default function Index({ params }: any) {
                     {Buy_Order_Fiat}
                     </p>
                   </div>
+                  */}
 
                   <div className=" w-full grid gap-4  justify-center">
 
                     
+
+                  <div className="flex flex-row items-center gap-5">
+                      {/* select payment currency
+                        option is USD, JPY, CNY, KRW */}
+
+                      <div className="flex flex-row items-center gap-2">
+                        <p className="text-sm text-zinc-400">
+                          {Payment_Currency}
+                        </p>
+                        <select
+                          className="w-28 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
+                          value={fietCurrency}
+                          onChange={(e) => {
+                            //console.log(e.target.value);
+                            setFietCurrency(e.target.value);
+                          }}
+                        >
+                          
+                          <option
+                            value="USD"
+                            selected={fietCurrency === 'USD'}
+                          >
+                            USD
+                          </option>
+                          <option
+                            value="JPY"
+                            selected={fietCurrency === 'JPY'}
+                          >
+                            JPY
+                          </option>
+                          <option
+                            value="CNY"
+                            selected={fietCurrency === 'CNY'}
+                          >
+                            CNY
+                          </option>
+                          <option
+                            value="KRW"
+                            selected={fietCurrency === 'KRW'}
+                          >
+                            KRW
+                          </option>
+                        </select>
+                      </div>
+
+                      {/* select payment method */}
+                      {/* Bank, AliPay, WechatPay, UnionPay, JdPay, NaverPay, KakaoPay */}
+                      <div className="flex flex-col xl:flex-row items-start justify-center gap-2">
+
+                        <p className="text-sm text-zinc-400">
+                          {Payment_Method}
+                        </p>
+
+                        {/* radio button for payment method */}
+
+                        
+
+                        {userCode && paymentMethods.length > 0 && (
+                          <div className="flex flex-row items-center gap-2">
+
+                            <div className="flex flex-col items-start gap-2">
+                              
+                              {paymentMethods.map((item, index) => (
+                                <div key={index} className="flex flex-row items-center gap-2">
+                                  <input
+                                    type="radio"
+                                    id={item?.method}
+                                    name="paymentMethod"
+                                    value={item?.method}
+                                    checked={paymentMethod === item?.method}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
+                                  />
+                                  <label htmlFor={item} className="text-sm text-zinc-400">
+                                    {item?.method}
+                                    </label>
+                                </div>
+                              ))}
+
+                            </div>
+
+                            <span className="text-sm text-zinc-400">
+                              {paymentMethod === 'Bank' ?
+
+                                <div className="flex flex-col gap-2 items-start border border-zinc-400 rounded-md p-2">
+                                    {
+                                  paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.bankName 
+                                  + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountNumber
+                                  + ' ' + paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.bankInfo?.accountHolder
+                                  }
+                                </div>
+                                
+                                : paymentMethod === 'AliPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'WechatPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'UnionPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'JdPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'NaverPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : paymentMethod === 'KakaoPay' ?
+                                  <Image
+                                    src={
+                                      paymentMethods.filter((item) => item.method === paymentMethod)[0]?.seller?.qrcodeImage
+                                    }
+                                    alt={paymentMethod}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md w-20 h-20 object-cover"
+                                  />
+                                : ''
+                                
+                              }
+                            </span>
+
+                          </div>
+                        )}
+
+
+                        {!userCode && (
+                          <div className="flex flex-col gap-2 items-start">
+                            <div className="text-sm text-blue-500">
+                              {Please_register_your_seller_information}
+                            </div>
+                            <button
+                              onClick={() => {
+                                router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                              }}
+                              className="text-sm text-blue-500 underline"
+                            >
+                              {Apply_for_Listing_New_Seller}
+                            </button>
+                          </div>
+                        )}
+                      
+
+                        {userCode && paymentMethods.length === 0 && (
+                          <div className="flex flex-col gap-2 items-start">
+                            <div className="text-sm text-blue-500">
+                              {Please_register_your_seller_information}
+                            </div>
+                            <button
+                              onClick={() => {
+                                router.push('/' + params.lang + '/' + params.chain + '/seller-apply')
+                              }}
+                              className="text-sm text-blue-500 underline"
+                            >
+                              {Apply_for_Listing_New_Seller}
+                            </button>
+                          </div>
+                        )}
+
+
+
+
+
+
+                      </div>
+                    
+                    </div>
+
+
+
+
 
                     {/* sell order is different border color
                     */}
@@ -1870,6 +2146,7 @@ export default function Index({ params }: any) {
                             </div>
 
                             {/* check box for private sale */}
+                            
                             <div className="flex flex-row items-center gap-2">
 
                               <Image
@@ -1889,16 +2166,19 @@ export default function Index({ params }: any) {
                                 onChange={(e) => setprivateSale(e.target.checked)}
                               />
                             </div>
+                            
 
                           </div>
 
 
                           <p className="mt-4 text-xl font-bold text-zinc-400">1 USDT = {
                             // currency format
+                            
                             Number(rate).toLocaleString('ko-KR', {
                               style: 'currency',
                               currency: 'KRW'
                             })
+
                           }</p>
                           
                           <div className=" flex flex-row items-center gap-2">
@@ -1973,7 +2253,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 0 && setKrwAmount(krwAmount - 1);
+                                  fietAmount > 0 && setFietAmount(fietAmount - 1);
                                 }}
                               >
                                 -1
@@ -1983,7 +2263,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 10 && setKrwAmount(krwAmount - 10);
+                                  fietAmount > 10 && setFietAmount(fietAmount - 10);
                                 }}
                               >
                                 -10
@@ -1993,7 +2273,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 100 && setKrwAmount(krwAmount - 100);
+                                  fietAmount > 100 && setFietAmount(fietAmount - 100);
                                 }}
                               >
                                 -100
@@ -2003,7 +2283,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-red-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  krwAmount > 1000 && setKrwAmount(krwAmount - 1000);
+                                  fietAmount > 1000 && setFietAmount(fietAmount - 1000);
                                 }}
                               >
                                 -1000
@@ -2018,30 +2298,30 @@ export default function Index({ params }: any) {
                                   disabled
                                   type="number"
                                   className=" w-36  px-3 py-2 text-black bg-white text-xl font-bold border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
-                                  value={krwAmount}
+                                  value={fietAmount}
                                   onChange={(e) => {
                                     // check number
                                     e.target.value = e.target.value.replace(/[^0-9.]/g, '');
 
                                     if (e.target.value === '') {
-                                      setKrwAmount(0);
+                                      setFietAmount(0);
                                       return;
                                     }
 
-                                    parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
 
-                                    parseFloat(e.target.value) > 1000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                    parseFloat(e.target.value) > 1000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
 
                                   } }
                                 />
                               </div>
 
-                              {krwAmount > 0 && (
+                              {fietAmount > 0 && (
                                 <div className="text-lg font-semibold text-zinc-400">
                                   {Rate}: {
 
                                     // currency format
-                                    Number((krwAmount / usdtAmount).toFixed(2)).toLocaleString('ko-KR', {
+                                    Number((fietAmount / usdtAmount).toFixed(2)).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW'
                                     })
@@ -2056,7 +2336,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-400 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 1);
+                                  setFietAmount(fietAmount + 1);
                                 }}
                               >
                                 +1
@@ -2065,7 +2345,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-600 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 10);
+                                  setFietAmount(fietAmount + 10);
                                 }}
                               >
                                 +10
@@ -2075,7 +2355,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-800 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 100);
+                                  setFietAmount(fietAmount + 100);
                                 }}
                               >
                                 +100
@@ -2085,7 +2365,7 @@ export default function Index({ params }: any) {
                                 disabled={usdtAmount === 0}
                                 className="bg-green-900 text-white px-2 py-2 rounded-md"
                                 onClick={() => {
-                                  setKrwAmount(krwAmount + 1000);
+                                  setFietAmount(fietAmount + 1000);
                                 }}
                               >
                                 +1000
@@ -2194,8 +2474,9 @@ export default function Index({ params }: any) {
 
 
 
+
                         <div className="mt-4 flex flex-col gap-2">
-                  
+                          
                           {sellOrdering ? (
 
                             <div className="flex flex-row items-center gap-2">
@@ -2220,11 +2501,21 @@ export default function Index({ params }: any) {
 
 
                           ) : (
+
+                            <>
+
+                              {!isSeller && (
+                                <span className="text-sm text-zinc-400">
+                                  {Please_register_your_seller_information}
+                                </span>
+                              )} 
+                              
+
                               <button
-                                  disabled={usdtAmount === 0 || agreementPlaceOrder === false}
-                                  className={`text-lg text-white px-4 py-2 rounded-md ${usdtAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
+                                  disabled={!isSeller || !paymentMethod || usdtAmount === 0 || agreementPlaceOrder === false}
+                                  className={`text-lg text-white px-4 py-2 rounded-md ${!isSeller || !paymentMethod || usdtAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                   onClick={() => {
-                                      console.log('Sell USDT');
+                                      console.log('Sell NOVART');
                                       // open trade detail
                                       // open modal of trade detail
                                       ///openModal();
@@ -2234,6 +2525,9 @@ export default function Index({ params }: any) {
                               >
                                 {Place_Order}
                               </button>
+
+                            </>
+
                           )}
 
                         </div>
@@ -2306,7 +2600,7 @@ export default function Index({ params }: any) {
                                     type="number"
                                     className=" w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 "
                                     placeholder={Price}
-                                    value={krwAmount}
+                                    value={fietAmount}
                                     onChange={(e) => {
                                       // check number
                                       e.target.value = e.target.value.replace(/[^0-9.]/g, '');
@@ -2319,17 +2613,17 @@ export default function Index({ params }: any) {
 
                                       /*
                                       if (e.target.value === '') {
-                                        setKrwAmount(0);
+                                        setFietAmount(0);
                                         return;
                                       }
                                       */
 
   
-                                      parseFloat(e.target.value) < 0 ? setKrwAmount(0) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) < 0 ? setFietAmount(0) : setFietAmount(parseFloat(e.target.value));
   
-                                      parseFloat(e.target.value) > 100000000 ? setKrwAmount(1000) : setKrwAmount(parseFloat(e.target.value));
+                                      parseFloat(e.target.value) > 100000000 ? setFietAmount(1000) : setFietAmount(parseFloat(e.target.value));
   
-                                      //setUsdtAmount(Number((krwAmount / rate).toFixed(2)));
+                                      //setUsdtAmount(Number((fietAmount / rate).toFixed(2)));
                                     
                                     
                                     } }
@@ -2341,9 +2635,9 @@ export default function Index({ params }: any) {
   
                                 <p className=" text-xl text-zinc-400 font-bold">
                                   = {
-                                  krwAmount === 0 ? '0' :
+                                  fietAmount === 0 ? '0' :
                                   
-                                  (krwAmount / rate).toFixed(2) === 'NaN' ? '0' : (krwAmount / rate).toFixed(2)
+                                  (fietAmount / rate).toFixed(2) === 'NaN' ? '0' : (fietAmount / rate).toFixed(2)
 
                                   }{' '}USDT
                                 </p>
@@ -2374,7 +2668,7 @@ export default function Index({ params }: any) {
                           <div className="mt-4 flex flex-col gap-2">
                             <div className="flex flex-row items-center gap-2">
                               <input
-                                disabled={!address || krwAmount === 0 || sellOrdering}
+                                disabled={!address || fietAmount === 0 || sellOrdering}
                                 type="checkbox"
                                 checked={agreementPlaceOrder}
                                 onChange={(e) => setAgreementPlaceOrder(e.target.checked)}
@@ -2410,8 +2704,8 @@ export default function Index({ params }: any) {
                                 </div>
                               ) : (
                                   <button
-                                      disabled={krwAmount === 0 || agreementPlaceOrder === false}
-                                      className={`text-lg text-white px-4 py-2 rounded-md ${krwAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
+                                      disabled={fietAmount === 0 || agreementPlaceOrder === false}
+                                      className={`text-lg text-white px-4 py-2 rounded-md ${fietAmount === 0 || agreementPlaceOrder === false ? 'bg-gray-500' : 'bg-green-500'}`}
                                       onClick={() => {
                                           console.log('Sell USDT');
                                           // open trade detail
@@ -2650,7 +2944,7 @@ export default function Index({ params }: any) {
                               <td className="p-2">
                                 <div className="flex flex-col gap-1">
                                   <span className="text-lg text-yellow-500 font-semibold">
-                                    {Number(item.krwAmount).toLocaleString('ko-KR', {
+                                    {Number(item.fietAmount).toLocaleString('ko-KR', {
                                       style: 'currency',
                                       currency: 'KRW',
                                     })}
@@ -2673,7 +2967,7 @@ export default function Index({ params }: any) {
 
                               <td className="text-lg text-yellow-500 font-semibold">
                                 {item.status === 'paymentConfirmed' && (
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
+                                  Number(item.fietAmount).toLocaleString('ko-KR', {
                                     style: 'currency',
                                     currency: 'KRW',
                                   })
@@ -3178,7 +3472,7 @@ export default function Index({ params }: any) {
                                 {Price}: {
                                   // currency
                                 
-                                  Number(item.krwAmount).toLocaleString('ko-KR', {
+                                  Number(item.fietAmount).toLocaleString('ko-KR', {
                                     style: 'currency',
                                     currency: 'KRW',
                                   })
@@ -3193,7 +3487,7 @@ export default function Index({ params }: any) {
 
                                 <p className="text-lg font-semibold text-white">{Rate}: {
 
-                                  Number(item.krwAmount / item.usdtAmount).toFixed(2)
+                                  Number(item.fietAmount / item.usdtAmount).toFixed(2)
 
                                 }</p>
 
@@ -3503,7 +3797,7 @@ export default function Index({ params }: any) {
                                     />
 
                                     <div>
-                                      {Waiting_for_seller_to_deposit} {item.krwAmount} KRW to {Seller}...
+                                      {Waiting_for_seller_to_deposit} {item.fietAmount} KRW to {Seller}...
                                     </div>
 
                                   </div>
