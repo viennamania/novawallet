@@ -918,6 +918,12 @@ export default function Index({ params }: any) {
               >
                 Tiếng Việt(VN)
               </option>
+              <option
+                value="th"
+                selected={params.lang === "th"}
+              >
+                ไทย(TH)
+              </option>
             </select>
 
           </div>
@@ -1026,6 +1032,7 @@ export default function Index({ params }: any) {
                 params.lang === "ja" ? "ja_JP" :
                 params.lang === "kr" ? "ko_KR" :
                 params.lang === "vi" ? "vi_VN" :
+                params.lang === "th" ? "en_US" :
                 "en_US"
               }
             />
