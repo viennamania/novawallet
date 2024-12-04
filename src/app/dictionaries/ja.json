@@ -247,5 +247,7 @@
     "Payment_has_been_rollbacked": "支払いがロールバックされました",
     "Buy_Order_Fiat": "フィアット購入注文",
 
-    "Buyer_has_accepted_the_trade": "買い手が取引を受け入れました。支払いを要求してください。"
+    "Buyer_has_accepted_the_trade": "買い手が取引を受け入れました。支払いを要求してください。",
+
+    "Sell_preparation_complete": "販売準備完了：支払いを確認した後、支払い確認ボタンを押して取引を完了してください。"
 }

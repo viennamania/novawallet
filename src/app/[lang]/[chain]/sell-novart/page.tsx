@@ -310,6 +310,8 @@ export default function Index({ params }: any) {
 
     Buyer_has_accepted_the_trade: "",
 
+    Sell_preparation_complete: "",
+
   } );
 
   useEffect(() => {
@@ -454,6 +456,8 @@ export default function Index({ params }: any) {
     Payment_has_been_rollbacked,
 
     Buyer_has_accepted_the_trade,
+
+    Sell_preparation_complete,
 
   } = data;
 
@@ -3960,10 +3964,9 @@ export default function Index({ params }: any) {
                                     </button>
                                   </div>
 
+                                  {/*
                                   <div className="flex flex-row gap-2 items-center justify-start">
 
-                                    {/* rotate loading icon */}
-                                  
                                     <Image
                                       src="/loading.png"
                                       alt="Escrow"
@@ -3979,6 +3982,8 @@ export default function Index({ params }: any) {
                                     </div>
 
                                   </div>
+                                  */}
+
 
                                 </div>
                             )}
@@ -4039,9 +4044,24 @@ export default function Index({ params }: any) {
 
                                 {item.status === 'paymentRequested' && (
 
-                                <div className="mt-5 flex flex-col gap-1 mb-1">
+                                <div className="mt-5 flex flex-col gap-2">
 
-                                  <span className="text-sm font-semibold text-yellow-500">{Escrow_Completed}</span>
+                                  <div className="flex flex-row items-center gap-3">
+
+                                    <Image
+                                      src="/loading.png"
+                                      alt="Escrow"
+                                      width={32}
+                                      height={32}
+                                      className="animate-spin"
+                                    />
+                                    <span className="text-sm font-semibold text-yellow-500">
+                                      {/*Escrow_Completed*/}
+                                      {/* 판매 준비 완료 : 결제 확인 후 결제 확인 버튼을 눌러 거래를 완성해 주세요. */}
+                                      {/* Sell preparation complete: After confirming the payment, press the payment confirmation button to complete the transaction. */}
+                                      {Sell_preparation_complete}
+                                    </span>
+                                  </div>
 
                                   <div className="flex flex-row gap-1">
 

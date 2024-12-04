@@ -246,5 +246,7 @@
     "Payment_has_been_rollbacked": "Thanh toán đã được hoàn nguyên",
     "Buy_Order_Fiat": "Đơn Hàng Mua Fiat",
 
-    "Buyer_has_accepted_the_trade": "Người mua đã chấp nhận giao dịch. Vui lòng yêu cầu thanh toán."
+    "Buyer_has_accepted_the_trade": "Người mua đã chấp nhận giao dịch. Vui lòng yêu cầu thanh toán.",
+
+    "Sell_preparation_complete": "Đã hoàn tất chuẩn bị bán: Sau khi xác nhận thanh toán, nhấn nút xác nhận thanh toán để hoàn tất giao dịch."
 }
