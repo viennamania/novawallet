@@ -4044,124 +4044,124 @@ export default function Index({ params }: any) {
 
                                 {item.status === 'paymentRequested' && (
 
-                                <div className="mt-5 flex flex-col gap-2">
+                                  <div className="mt-5 flex flex-col gap-2">
 
-                                  <div className="flex flex-row items-center gap-3">
-
-                                    <Image
-                                      src="/loading.png"
-                                      alt="Escrow"
-                                      width={32}
-                                      height={32}
-                                      className="animate-spin"
-                                    />
-                                    <span className="text-sm font-semibold text-yellow-500">
-                                      {/*Escrow_Completed*/}
-                                      {/* 판매 준비 완료 : 결제 확인 후 결제 확인 버튼을 눌러 거래를 완성해 주세요. */}
-                                      {/* Sell preparation complete: After confirming the payment, press the payment confirmation button to complete the transaction. */}
-                                      {Sell_preparation_complete}
-                                    </span>
-                                  </div>
-
-                                  <div className="flex flex-row gap-1">
-
-                                    <input
-                                      disabled={confirmingPayment[index]}
-                                      type="checkbox"
-                                      checked={confirmPaymentCheck[index]}
-                                      onChange={(e) => {
-                                        setConfirmPaymentCheck(
-                                          confirmPaymentCheck.map((item, idx) => {
-                                            if (idx === index) {
-                                              return e.target.checked;
-                                            }
-                                            return item;
-                                          })
-                                        );
-                                      }}
-                                    />
-
-                                    <button
-                                      disabled={confirmingPayment[index] || !confirmPaymentCheck[index]}
-                                      className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-2 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
-                                      onClick={() => {
-                                        confirmPayment(
-                                          index,
-                                          item._id,
-                                          paymentAmounts[index]
-                                        );
-                                      }}
-
-                                    >
+                                    <div className="flex flex-row items-center gap-3">
 
                                       <Image
                                         src="/loading.png"
-                                        alt="loading"
-                                        width={16}
-                                        height={16}
-                                        className={confirmingPayment[index] ? 'animate-spin' : 'hidden'}
+                                        alt="Escrow"
+                                        width={32}
+                                        height={32}
+                                        className="animate-spin"
                                       />
-                                      <span>{Confirm_Payment}</span>
+                                      <span className="text-sm font-semibold text-yellow-500">
+                                        {/*Escrow_Completed*/}
+                                        {/* 판매 준비 완료 : 결제 확인 후 결제 확인 버튼을 눌러 거래를 완성해 주세요. */}
+                                        {/* Sell preparation complete: After confirming the payment, press the payment confirmation button to complete the transaction. */}
+                                        {Sell_preparation_complete}
+                                      </span>
+                                    </div>
 
-                                    </button>
+                                    {item.walletAddress === address && (
+                                      <div className="flex flex-row gap-1">
 
-                                  </div>
-
-
-                                  {/* escrow cancel */}
-                                  {/*
-                                  <div className="flex flex-row gap-1">
-
-                                    <input
-                                      disabled={rollbackingPayment[index]}
-                                      type="checkbox"
-                                      checked={rollbackPaymentCheck[index]}
-                                      onChange={(e) => {
-                                        setRollbackPaymentCheck(
-                                          rollbackPaymentCheck.map((item, idx) => {
-                                            if (idx === index) {
-                                              return e.target.checked;
-                                            }
-                                            return item;
-                                          })
-                                        );
-                                      }}
-                                    />
-
-                                    <button
-                                      disabled={rollbackingPayment[index] || !rollbackPaymentCheck[index]}
-                                      className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
-                                      onClick={() => {
-                                        rollbackPayment(
-                                          index,
-                                          item._id,
-                                          paymentAmounts[index]
-                                        );
-                                      }}
-
-                                    >
-                                        
-                                        <Image
-                                          src="/loading.png"
-                                          alt="loading"
-                                          width={16}
-                                          height={16}
-                                          className={rollbackingPayment[index] ? 'animate-spin' : 'hidden'}
+                                        <input
+                                          disabled={confirmingPayment[index]}
+                                          type="checkbox"
+                                          checked={confirmPaymentCheck[index]}
+                                          onChange={(e) => {
+                                            setConfirmPaymentCheck(
+                                              confirmPaymentCheck.map((item, idx) => {
+                                                if (idx === index) {
+                                                  return e.target.checked;
+                                                }
+                                                return item;
+                                              })
+                                            );
+                                          }}
                                         />
-                                        <span>
-                                          에스크로 취소
-                                        </span>
 
-                                    </button>
+                                        <button
+                                          disabled={confirmingPayment[index] || !confirmPaymentCheck[index]}
+                                          className={`w-full flex flex-row gap-1 text-sm text-white px-2 py-2 rounded-md ${confirmingPayment[index] || !confirmPaymentCheck[index] ? 'bg-gray-500' : 'bg-green-500'}`}
+                                          onClick={() => {
+                                            confirmPayment(
+                                              index,
+                                              item._id,
+                                              paymentAmounts[index]
+                                            );
+                                          }}
+
+                                        >
+
+                                          <Image
+                                            src="/loading.png"
+                                            alt="loading"
+                                            width={16}
+                                            height={16}
+                                            className={confirmingPayment[index] ? 'animate-spin' : 'hidden'}
+                                          />
+                                          <span>{Confirm_Payment}</span>
+
+                                        </button>
+
+                                      </div>
+                                    )}
+
+
+                                    {/* escrow cancel */}
+                                    {/*
+                                    <div className="flex flex-row gap-1">
+
+                                      <input
+                                        disabled={rollbackingPayment[index]}
+                                        type="checkbox"
+                                        checked={rollbackPaymentCheck[index]}
+                                        onChange={(e) => {
+                                          setRollbackPaymentCheck(
+                                            rollbackPaymentCheck.map((item, idx) => {
+                                              if (idx === index) {
+                                                return e.target.checked;
+                                              }
+                                              return item;
+                                            })
+                                          );
+                                        }}
+                                      />
+
+                                      <button
+                                        disabled={rollbackingPayment[index] || !rollbackPaymentCheck[index]}
+                                        className={`flex flex-row gap-1 text-xs text-white px-2 py-1 rounded-md ${rollbackingPayment[index] || !rollbackPaymentCheck[index] ? 'bg-gray-500' : 'bg-red-500'}`}
+                                        onClick={() => {
+                                          rollbackPayment(
+                                            index,
+                                            item._id,
+                                            paymentAmounts[index]
+                                          );
+                                        }}
+
+                                      >
+                                          
+                                          <Image
+                                            src="/loading.png"
+                                            alt="loading"
+                                            width={16}
+                                            height={16}
+                                            className={rollbackingPayment[index] ? 'animate-spin' : 'hidden'}
+                                          />
+                                          <span>
+                                            에스크로 취소
+                                          </span>
+
+                                      </button>
+
+                                    </div>
+                                    */}
+
+
 
                                   </div>
-                                  */}
-
-
-
-                                </div>
-
-
 
                                 )}
 
