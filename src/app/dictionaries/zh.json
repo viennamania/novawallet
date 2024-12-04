@@ -271,7 +271,9 @@
 
     "Payment_has_been_rollbacked": "付款已回滚",
 
-    "Buy_Order_Fiat": "购买订单(法币)"
+    "Buy_Order_Fiat": "购买订单(法币)",
+
+    "Buyer_has_accepted_the_trade": "买家已接受交易。请请求付款。"
 
 
 

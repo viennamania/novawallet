@@ -446,9 +446,10 @@
 
     "Payment_has_been_rollbacked": "Payment has been rollbacked",
 
-    "Buy_Order_Fiat": "Buy Order Fiat"
+    "Buy_Order_Fiat": "Buy Order Fiat",
 
 
+    "Buyer_has_accepted_the_trade": "Buyer has accepted the trade. Please request payment."
 
 
 }

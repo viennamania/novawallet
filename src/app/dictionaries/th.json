@@ -244,5 +244,7 @@
     "Create_Escrow_Wallet": "สร้างกระเป๋าเงินเอสโครว์",
     "Please_create_your_escrow_wallet": "กรุณาสร้างกระเป๋าเงินเอสโครว์ของคุณ คุณต้องมีกระเป๋าเงินเอสโครว์เพื่อขายสินค้า",
     "Payment_has_been_rollbacked": "การชำระเงินถูกยกเลิกแล้ว",
-    "Buy_Order_Fiat": "คำสั่งซื้อ Fiat"
+    "Buy_Order_Fiat": "คำสั่งซื้อ Fiat",
+
+    "Buyer_has_accepted_the_trade": "ผู้ซื้อได้ยอมรับการซื้อขาย โปรดขอการชำระเงิน"
 }

@@ -308,7 +308,7 @@ export default function Index({ params }: any) {
 
     Payment_has_been_rollbacked: "",
 
-
+    Buyer_has_accepted_the_trade: "",
 
   } );
 
@@ -452,6 +452,8 @@ export default function Index({ params }: any) {
     Please_create_your_escrow_wallet,
 
     Payment_has_been_rollbacked,
+
+    Buyer_has_accepted_the_trade,
 
   } = data;
 
@@ -2887,7 +2889,7 @@ export default function Index({ params }: any) {
                             {Deposit_Name} / {Buyer}
                           </th>
 
-                          <th className="text-left">{Price} / {Sell_Amount} / {Rate}</th>
+                          <th className="text-left">{Sell_Amount} / {Price} / {Rate}</th>
 
 
                           <th className="text-left">{Payment}</th>
@@ -2962,7 +2964,10 @@ export default function Index({ params }: any) {
 
                               <td className="p-2">
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-lg text-yellow-500 font-semibold">
+
+                                  <span className="text-lg text-yellow-500 font-semibold">{item.novartAmount}{' '}NOVART</span>
+
+                                  <span className="text-lg text-zinc-800 font-semibold">
                                     
                                     {item.fietCurrency === 'USD' ? (
                                       Number(item.fietAmount).toLocaleString('en-US', {
@@ -2986,9 +2991,8 @@ export default function Index({ params }: any) {
                                       })
                                     )}
 
-
                                   </span>
-                                  <span className="text-sm">{item.novartAmount}{' '}NOVART</span>
+
                                   <span className="text-xs">
                                     {Number(item.rate).toFixed(2)}
                                   </span>
@@ -3568,50 +3572,54 @@ export default function Index({ params }: any) {
 
                             <div className="mt-4 flex flex-col items-start gap-2">
 
+                              <div className="flex flex-row items-center gap-2">
+                                <span className="text-lg text-zinc-400">
+                                  {Sell_Amount}:{' '}
+                                </span>
+                                <p className="text-2xl font-semibold text-yellow-500">
+                                  {item.novartAmount} NOVART
+                                </p>
+                              </div>
 
-                              <p className="text-2xl text-zinc-400">
-                                {Price}: 
-                                {
-                                  item.fietCurrency === 'KRW' ? (
-                                    Number(item.fietAmount).toLocaleString('ko-KR', {
-                                      style: 'currency',
-                                      currency: 'KRW',
-                                    })
-                                  ) : item.fietCurrency === 'USD' ? (
-                                    Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'USD',
-                                    })
-                                  ) : item.fietCurrency === 'JPY' ? (
-                                    Number(item.fietAmount).toLocaleString('ja-JP', {
-                                      style: 'currency',
-                                      currency: 'JPY',
-                                    })
-                                  ) : item.fietCurrency === 'CNY' ? (
-                                    Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'CNY',
-                                    })
-                                  ) : (
-                                    Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'USD',
-                                    })
-                                  )
-                                }
-                                
-                              </p>
+                              <div className="flex flex-row items-center justify-start gap-2">
 
+                                <p className="text-xl text-zinc-400">
+                                  {Price}:{' '}
+                                  {
+                                    item.fietCurrency === 'KRW' ? (
+                                      Number(item.fietAmount).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW',
+                                      })
+                                    ) : item.fietCurrency === 'USD' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                      })
+                                    ) : item.fietCurrency === 'JPY' ? (
+                                      Number(item.fietAmount).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY',
+                                      })
+                                    ) : item.fietCurrency === 'CNY' ? (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY',
+                                      })
+                                    ) : (
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                      })
+                                    )
+                                  }
+                                  
+                                </p>
 
-                              <div className="flex flex-row items-start gap-2">
-
-                                <p className="text-lg font-semibold text-white">{item.novartAmount} NOVART</p>
-
-                                <p className="text-lg font-semibold text-white">{Rate}: {
-
+                                <p className="text-sm font-semibold text-white">{Rate}: {
                                   Number(item.fietAmount / item.novartAmount).toFixed(2)
-
                                 }</p>
+
 
                               </div>
 
@@ -3778,7 +3786,7 @@ export default function Index({ params }: any) {
 
                             {/* accept order button for seller */}
 
-                            {/*
+                            
                             {(item.status === 'accepted' || item.status === 'paymentRequested' || item.status === 'paymentConfirmed' || item.status === 'cancelled') 
                               && (
                                 <div className="w-full mt-4 mb-2 flex flex-col gap-2 items-start ">
@@ -3792,6 +3800,7 @@ export default function Index({ params }: any) {
                                   </p>
 
 
+                                  {/*}
                                   {item.status !== 'paymentConfirmed' && item.status !== 'cancelled'
                                   && address && item.walletAddress === address && (
                                     <>
@@ -3814,12 +3823,13 @@ export default function Index({ params }: any) {
                                     
                                     </>
                                   )}
+                                  */}
 
 
 
                                 </div>
                             )}
-                            */}
+                            
 
 
 
@@ -3886,27 +3896,24 @@ export default function Index({ params }: any) {
                                   />
 
                                   <div className="flex flex-col gap-2 items-start">
-                                    <span>
-                                      {Waiting_for_seller_to_deposit}
-                                      {item.novartAmount} NOVART
-                                      {to_escrow}....
+                                    <span className="text-sm text-yellow-500">
+                                      {Buyer_has_accepted_the_trade}
                                     </span>
 
                                     <span className="text-sm text-zinc-400">
-
                                       {If_the_seller_does_not_deposit_the_NOVART_to_escrow}
-
-                                      {this_trade_will_be_cancelled_in}
-
+                                    </span>
+                                    <span className="text-sm text-zinc-400">
+                                      {this_trade_will_be_cancelled_in}{' '}
                                       {
                                         (1 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60 / 60) - 1) > 0
                                         ? (1 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60 / 60) - 1) + ' ' + hours
                                         : (60 - Math.floor((new Date().getTime() - new Date(item.acceptedAt).getTime()) / 1000 / 60) % 60) + ' ' + minutes
 
                                       }
-
                                     </span>
                                   </div>
+
                                 </div>
                             )}
 
