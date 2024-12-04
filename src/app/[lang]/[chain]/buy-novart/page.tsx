@@ -243,6 +243,8 @@ export default function Index({ params }: any) {
 
     Reload: "",
 
+    Sell_Amount: "",
+
   } );
 
   useEffect(() => {
@@ -332,6 +334,7 @@ export default function Index({ params }: any) {
 
     Reload,
 
+    Sell_Amount,
 
   } = data;
 
@@ -635,14 +638,14 @@ export default function Index({ params }: any) {
 
         address && fetchSellOrders();
 
-        /*
+        
         const interval = setInterval(() => {
             fetchSellOrders();
         }, 10000);
 
 
         return () => clearInterval(interval);
-        */
+      
 
 
 
@@ -1164,8 +1167,8 @@ export default function Index({ params }: any) {
                         <tr>
                           <th className="p-2">{Order_Opened}</th>
                           <th className="p-2">{Seller}</th>
+                          <th className="p-2">{Sell_Amount}</th>
                           <th className="p-2">{Price}</th>
-                          <th className="p-2">{Amount}</th>
                           <th className="p-2">{Payment}</th>
                           <th className="p-2">{Status}</th>
                           <th className="p-2">{Trades}</th>
@@ -1234,6 +1237,12 @@ export default function Index({ params }: any) {
 
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
+                                {item.novartAmount} NOVART
+                              </div>
+                            </td>
+
+                            <td className="p-2">
+                              <div className="text-sm font-semibold text-white">
                                 {
                                   item.fietCurrency === 'USD' ?
                                   Number(item.fietAmount).toLocaleString('en-US', {
@@ -1262,11 +1271,7 @@ export default function Index({ params }: any) {
                               </div>
                             </td>
 
-                            <td className="p-2">
-                              <div className="text-sm font-semibold text-white">
-                                {item.novartAmount} NOVART
-                              </div>
-                            </td>
+
 
                             <td className="p-2">
                               <div className="text-sm font-semibold text-white">
@@ -1367,7 +1372,7 @@ export default function Index({ params }: any) {
                                   </div>
                                 )}
 
-                                {item.status === 'completed' && (
+                                {item.status === 'paymentConfirmed' && (
                                   <div className="text-sm text-green-500">
                                     {Completed_at}
                                   </div>
@@ -1782,6 +1787,20 @@ export default function Index({ params }: any) {
                                 </div>
                             )}
 
+                            {item.status === 'paymentConfirmed' && (
+                              <div className="absolute inset-0 flex justify-center items-center z-10
+                                bg-black bg-opacity-50
+                              ">
+                                <Image
+                                  src="/icon-completed.png"
+                                  alt="Completed"
+                                  width={100}
+                                  height={100}
+                                  className="opacity-20"
+                                />
+                              </div>
+                            )}
+
 
                               {/*
                               
@@ -1820,42 +1839,49 @@ export default function Index({ params }: any) {
 
 
 
-                                <p className="text-2xl text-gray-800 font-semibold">
-                                  {Price}: {
-                                    // currency
-                                    item.fietCurrency === 'USD' ?
-                                    Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'USD',
-                                    }) : item.fietCurrency === 'JPY' ?
-                                    Number(item.fietAmount).toLocaleString('ja-JP', {
-                                      style: 'currency',
-                                      currency: 'JPY',
-                                    }) : item.fietCurrency === 'CNY' ?
-                                    Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'CNY',
-                                    }) : item.fietCurrency === 'KRW' ?
-                                    Number(item.fietAmount).toLocaleString('ko-KR', {
-                                      style: 'currency',
-                                      currency: 'KRW',
-                                    }) : Number(item.fietAmount).toLocaleString('en-US', {
-                                      style: 'currency',
-                                      currency: 'USD',
-                                    })
-                                  }
-                                </p>
+                                <div className="flex flex-row items-center gap-2">
+
+                                  <span className="text-lg font-semibold text-zinc-400">
+                                    {Sell_Amount}:{' '}
+                                  </span>
+                                  <p className="text-2xl font-semibold text-green-500">
+                                    {item.novartAmount}{' '}NOVART
+                                  </p>
+                                </div>
 
                                 <div className="mt-2 flex flex-row items-start gap-2">
 
-                                  <p className="text-xl font-semibold text-green-500">
-                                    {item.novartAmount}{' '}NOVART
+                                  <p className="text-xl text-gray-800 font-semibold">
+                                    {Price}: {
+                                      // currency
+                                      item.fietCurrency === 'USD' ?
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                      }) : item.fietCurrency === 'JPY' ?
+                                      Number(item.fietAmount).toLocaleString('ja-JP', {
+                                        style: 'currency',
+                                        currency: 'JPY',
+                                      }) : item.fietCurrency === 'CNY' ?
+                                      Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'CNY',
+                                      }) : item.fietCurrency === 'KRW' ?
+                                      Number(item.fietAmount).toLocaleString('ko-KR', {
+                                        style: 'currency',
+                                        currency: 'KRW',
+                                      }) : Number(item.fietAmount).toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                      })
+                                    }
                                   </p>
+
                                   <p className="text-lg font-semibold text-gray-800">{Rate}: {
 
                                     Number(item.fietAmount / item.novartAmount).toFixed(2)
 
-                                    }</p>
+                                  }</p>
                                 </div>
 
 
