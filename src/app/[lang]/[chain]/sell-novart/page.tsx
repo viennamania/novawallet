@@ -965,14 +965,14 @@ export default function Index({ params }: any) {
     useEffect(() => {
 
       if (fietCurrency === 'USD') {
-        setRate(3);
+        setRate(4);
       } else if (fietCurrency === 'KRW') {
         //setRate(2792);
-        setRate(4276);
+        setRate(5747);
       } else if (fietCurrency === 'JPY') {
-        setRate(450);
+        setRate(615);
       } else if (fietCurrency === 'CNY') {
-        setRate(22);
+        setRate(29);
       }
 
     } , [fietCurrency]);
